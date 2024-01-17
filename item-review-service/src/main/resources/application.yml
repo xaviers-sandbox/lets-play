@@ -1,0 +1,38 @@
+spring:
+  application:
+    name: item-review-service
+  profiles:
+    active: local
+
+server:
+  port: 2222  
+  
+---
+spring:
+  config:
+    activate:
+      on-profile: local      
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: local
+
+logging:
+  level: 
+    "[com.item.review]" : DEBUG         
+
+
+---
+spring:
+  config:
+    activate:
+      on-profile: test       
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: local
+logging:
+  level: 
+    "[com.item.review]" : DEBUG     

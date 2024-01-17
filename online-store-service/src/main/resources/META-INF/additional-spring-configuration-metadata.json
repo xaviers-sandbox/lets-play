@@ -1,0 +1,22 @@
+{"properties": [
+  {
+    "name": "webClient.item-inventories-url",
+    "type": "java.lang.String",
+    "description": "A description for 'webClient.item-inventories-url'"
+  },
+  {
+    "name": "webClient.itemReviewsUrl",
+    "type": "java.lang.String",
+    "description": "A description for 'webClient.itemReviewsUrl'"
+  },
+  {
+    "name": "webClient.test.item-reviews-url",
+    "type": "java.lang.String",
+    "description": "A description for 'webClient.test.item-reviews-url'"
+  },
+  {
+    "name": "webClient.test.itemInventoriesUrl",
+    "type": "java.lang.String",
+    "description": "A description for 'webClient.test.itemInventoriesUrl'"
+  }
+]}

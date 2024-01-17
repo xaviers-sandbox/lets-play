@@ -1,0 +1,48 @@
+spring:
+  application:
+    name: online-store-service
+  profiles:
+    active: local
+
+server:
+  port: 3333  
+  
+---
+spring:
+  config:
+    activate:
+      on-profile: local      
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: local
+
+logging:
+  level: 
+    "[com.online.store]" : DEBUG         
+
+webClient:
+  itemInventoriesUrl: http://localhost:1111/v1/item-inventories
+  itemReviewsUrl: http://localhost:2222/v1/item-reviews
+
+---
+spring:
+  config:
+    activate:
+      on-profile: test       
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: local
+logging:
+  level: 
+    "[com.online.store]" : DEBUG     
+    "[com.github.tomakehurst.wiremock]" : ERROR
+
+webClient:
+  itemInventoriesUrl: http://localhost:1111/v1/item-inventories
+  itemReviewsUrl: http://localhost:2222/v1/item-reviews
+
+
