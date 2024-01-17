@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.item.inventory.model.request.ItemInventoryDTORequest;
+import com.item.inventory.model.response.ResponseDTO;
 import com.item.inventory.service.ItemInventoryService;
 
 import jakarta.validation.Valid;
@@ -29,23 +30,23 @@ public class ItemInventoryController {
 	}
 
 	@PostMapping
-	public Mono<ResponseEntity<?>> addNewItemInventory(
+	public Mono<ResponseEntity<ResponseDTO>> addNewItemInventory(
 			@RequestBody @Valid ItemInventoryDTORequest newItemInventoryDTOrequest) {
 		return itemInventoryService.addNewItemInventory(newItemInventoryDTOrequest);
 	}
 
 	@GetMapping("/{id}")
-	public Mono<ResponseEntity<?>> getItemInventoryById(@PathVariable String id) {
+	public Mono<ResponseEntity<ResponseDTO>> getItemInventoryById(@PathVariable String id) {
 		return itemInventoryService.getItemInventoryById(id);
 	}
 
 	@GetMapping
-	public Mono<ResponseEntity<?>> getAllItemInventories() {
+	public Mono<ResponseEntity<ResponseDTO>> getAllItemInventories() {
 		return itemInventoryService.getAllItemInventories();
 	}
 
 	@PutMapping("/{id}")
-	public Mono<ResponseEntity<?>> updateItemInventoryById(@PathVariable String id,
+	public Mono<ResponseEntity<ResponseDTO>> updateItemInventoryById(@PathVariable String id,
 			@RequestBody @Valid ItemInventoryDTORequest updatedItemInventoryDTOrequest) {
 		return itemInventoryService.updateItemInventoryById(id, updatedItemInventoryDTOrequest);
 	}
@@ -63,7 +64,7 @@ public class ItemInventoryController {
 	}
 
 	@PostMapping("/init-test-data/{size}")
-	public Mono<ResponseEntity<?>> initTestDataBySize(@PathVariable String size) {
+	public Mono<ResponseEntity<ResponseDTO>> initTestDataBySize(@PathVariable String size) {
 		return itemInventoryService.initTestDataBySize(size);
 	}
 }

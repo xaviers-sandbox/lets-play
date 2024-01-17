@@ -1,5 +1,5 @@
 package com.item.inventory.exception;
 
-public class ItemInventoryException {
+public class Dummy {
 
 }

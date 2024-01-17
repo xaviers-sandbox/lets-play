@@ -19,7 +19,7 @@ import com.item.inventory.model.request.ItemInventoryDTORequest;
 import com.item.inventory.model.response.ItemInventoryDTOResponse;
 import com.item.inventory.repository.ItemInventoryRepository;
 import com.item.inventory.util.ItemInventoryTestUtil;
-import com.item.inventory.util.ItemInventoryUtil;
+import com.sandbox.util.SandboxUtils;
 
 import lombok.extern.slf4j.Slf4j;
 import net.datafaker.Faker;
@@ -105,7 +105,7 @@ public class ItemInventoryControllerINT {
 									.getQuantity());
 
 				})
-				.value(ItemInventoryUtil::prettyPrintObjectToJson);
+				.value(SandboxUtils::prettyPrintObjectToJson);
 
 		webTestClient.get()
 				.uri(ITEM_INVENTORIES_URL)
@@ -138,7 +138,7 @@ public class ItemInventoryControllerINT {
 					assertNotNull(itemInventoryDTOResponse);
 					assertEquals(TEST_LIST_SIZE, itemInventoryDTOResponse.getResultSetSize());
 				})
-				.value(ItemInventoryUtil::prettyPrintObjectToJson);
+				.value(SandboxUtils::prettyPrintObjectToJson);
 	}
 
 	@Test
@@ -160,7 +160,7 @@ public class ItemInventoryControllerINT {
 							itemInventoryDTOResponse.getItemInventoryDTOList().stream().findFirst().get().getId());
 
 				})
-				.value(ItemInventoryUtil::prettyPrintObjectToJson);
+				.value(SandboxUtils::prettyPrintObjectToJson);
 	}
 
 	@Test
@@ -196,7 +196,7 @@ public class ItemInventoryControllerINT {
 									.get()
 									.getQuantity());
 				})
-				.value(ItemInventoryUtil::prettyPrintObjectToJson);
+				.value(SandboxUtils::prettyPrintObjectToJson);
 	}
 
 	@Test
@@ -223,7 +223,7 @@ public class ItemInventoryControllerINT {
 					assertNotNull(itemInventoryDTOResponse);
 					assertEquals(TEST_LIST_SIZE - 1, itemInventoryDTOResponse.getResultSetSize());
 				})
-				.value(ItemInventoryUtil::prettyPrintObjectToJson);
+				.value(SandboxUtils::prettyPrintObjectToJson);
 	}
 
 	@Test
@@ -263,6 +263,6 @@ public class ItemInventoryControllerINT {
 					assertNotNull(itemInventoryDTOResponse);
 					assertEquals(0, itemInventoryDTOResponse.getResultSetSize());
 				})
-				.value(ItemInventoryUtil::prettyPrintObjectToJson);
+				.value(SandboxUtils::prettyPrintObjectToJson);
 	}
 }

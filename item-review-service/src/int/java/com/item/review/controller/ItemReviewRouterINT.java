@@ -19,7 +19,7 @@ import com.item.review.model.request.ItemReviewDTORequest;
 import com.item.review.model.response.ItemReviewDTOResponse;
 import com.item.review.repository.ItemReviewRepository;
 import com.item.review.util.ItemReviewTestUtil;
-import com.item.review.util.ItemReviewUtil;
+import com.sandbox.util.SandboxUtils;
 
 import lombok.extern.slf4j.Slf4j;
 import net.datafaker.Faker;
@@ -108,7 +108,7 @@ public class ItemReviewRouterINT {
 							itemReviewDTOResponse.getItemReviewDTOList().stream().findFirst().get().getRating());
 
 				})
-				.value(ItemReviewUtil::prettyPrintObjectToJson);
+				.value(SandboxUtils::prettyPrintObjectToJson);
 
 		webTestClient.get()
 				.uri(ITEM_REVIEWS_URL)
@@ -141,7 +141,7 @@ public class ItemReviewRouterINT {
 					assertNotNull(itemReviewDTOResponse);
 					assertEquals(TEST_LIST_SIZE, itemReviewDTOResponse.getResultSetSize());
 				})
-				.value(ItemReviewUtil::prettyPrintObjectToJson);
+				.value(SandboxUtils::prettyPrintObjectToJson);
 	}
 
 	@Test
@@ -163,7 +163,7 @@ public class ItemReviewRouterINT {
 							itemReviewDTOResponse.getItemReviewDTOList().stream().findFirst().get().getId());
 
 				})
-				.value(ItemReviewUtil::prettyPrintObjectToJson);
+				.value(SandboxUtils::prettyPrintObjectToJson);
 	}
 
 	@Test
@@ -190,7 +190,7 @@ public class ItemReviewRouterINT {
 					});
 
 				})
-				.value(ItemReviewUtil::prettyPrintObjectToJson);
+				.value(SandboxUtils::prettyPrintObjectToJson);
 	}
 
 	@Test
@@ -232,7 +232,7 @@ public class ItemReviewRouterINT {
 					assertEquals(updatedItemInventoryDTORequest.getRating(),
 							itemReviewDTOResponse.getItemReviewDTOList().stream().findFirst().get().getRating());
 				})
-				.value(ItemReviewUtil::prettyPrintObjectToJson);
+				.value(SandboxUtils::prettyPrintObjectToJson);
 	}
 
 	@Test
@@ -246,7 +246,7 @@ public class ItemReviewRouterINT {
 				.expectStatus()
 				.is2xxSuccessful()
 				.expectBody(ItemReviewDTOResponse.class)
-				.value(ItemReviewUtil::prettyPrintObjectToJson);
+				.value(SandboxUtils::prettyPrintObjectToJson);
 
 		webTestClient.get()
 				.uri(ITEM_REVIEWS_URL)
@@ -260,7 +260,7 @@ public class ItemReviewRouterINT {
 					assertNotNull(itemReviewDTOResponse);
 					assertEquals(TEST_LIST_SIZE - 1, itemReviewDTOResponse.getResultSetSize());
 				})
-				.value(ItemReviewUtil::prettyPrintObjectToJson);
+				.value(SandboxUtils::prettyPrintObjectToJson);
 	}
 
 	@Test
@@ -300,6 +300,6 @@ public class ItemReviewRouterINT {
 					assertNotNull(itemReviewDTOResponse);
 					assertEquals(0, itemReviewDTOResponse.getResultSetSize());
 				})
-				.value(ItemReviewUtil::prettyPrintObjectToJson);
+				.value(SandboxUtils::prettyPrintObjectToJson);
 	}
 }

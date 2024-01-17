@@ -15,6 +15,7 @@ import com.item.inventory.model.ItemInventoryDTO;
 import com.item.inventory.model.request.ItemInventoryDTORequest;
 import com.item.inventory.model.response.ErrorDTOResponse;
 import com.item.inventory.model.response.ItemInventoryDTOResponse;
+import com.item.inventory.model.response.ResponseDTO;
 import com.item.inventory.repository.ItemInventoryRepository;
 import com.item.inventory.service.ItemInventoryService;
 import com.item.inventory.util.ItemInventoryUtil;
@@ -36,7 +37,7 @@ public class ItemInventoryServiceImpl implements ItemInventoryService {
 		this.itemInventoryValidator = itemInventoryValidator;
 	}
 
-	public Mono<ResponseEntity<?>> addNewItemInventory(ItemInventoryDTORequest newItemInventoryDTOrequest) {
+	public Mono<ResponseEntity<ResponseDTO>> addNewItemInventory(ItemInventoryDTORequest newItemInventoryDTOrequest) {
 
 		ItemInventoryEntity itemInventoryEntity = ItemInventoryMapper
 				.mapItemInventoryDTOrequestToItemInventoryEntity(newItemInventoryDTOrequest);
@@ -46,14 +47,14 @@ public class ItemInventoryServiceImpl implements ItemInventoryService {
 		return processItemInventoryEntityMono(itemInventoryEntityMono, HttpStatus.CREATED);
 	}
 
-	public Mono<ResponseEntity<?>> getItemInventoryById(String id) {
+	public Mono<ResponseEntity<ResponseDTO>> getItemInventoryById(String id) {
 		Mono<ItemInventoryEntity> itemInventoryEntityMono = itemInventoryRepo.findById(id);
 
 		return processItemInventoryEntityMono(itemInventoryEntityMono, HttpStatus.OK)
 				.switchIfEmpty(Mono.just(ItemInventoryMapper.generateItemNotFoundResponse()));
 	}
 
-	public Mono<ResponseEntity<?>> getAllItemInventories() {
+	public Mono<ResponseEntity<ResponseDTO>> getAllItemInventories() {
 		Flux<ItemInventoryEntity> itemInventoryEntityFlux = itemInventoryRepo.findAllByOrderByNameAsc();
 
 		return itemInventoryEntityFlux.collectList().flatMap(itemInventoryEntityList -> {
@@ -64,7 +65,7 @@ public class ItemInventoryServiceImpl implements ItemInventoryService {
 			ItemInventoryDTOResponse itemInventoryDTOResponse = ItemInventoryMapper
 					.buildItemInventoryDTOResponse(itemInventoryDTOList);
 
-			ResponseEntity<?> responseEntity = ItemInventoryMapper
+			ResponseEntity<ResponseDTO> responseEntity = ItemInventoryMapper
 					.buildResponseEntityWithDTOResponse(itemInventoryDTOResponse, HttpStatus.OK);
 
 			return Mono.just(responseEntity);
@@ -72,7 +73,7 @@ public class ItemInventoryServiceImpl implements ItemInventoryService {
 
 	}
 
-	public Mono<ResponseEntity<?>> updateItemInventoryById(String id,
+	public Mono<ResponseEntity<ResponseDTO>> updateItemInventoryById(String id,
 			ItemInventoryDTORequest updatedItemInventoryDTOrequest) {
 		Mono<ItemInventoryEntity> itemInventoryEntityMono = itemInventoryRepo.findById(id);
 
@@ -98,11 +99,11 @@ public class ItemInventoryServiceImpl implements ItemInventoryService {
 	}
 
 	// this uses streams. update the others to streams
-	public Mono<ResponseEntity<?>> processItemInventoryEntityMono(Mono<ItemInventoryEntity> itemInventoryEntityMono,
-			HttpStatus httpStatus) {
+	public Mono<ResponseEntity<ResponseDTO>> processItemInventoryEntityMono(
+			Mono<ItemInventoryEntity> itemInventoryEntityMono, HttpStatus httpStatus) {
 
 		return itemInventoryEntityMono.flatMap(returnedItemInventoryEntity -> {
-			ResponseEntity<?> responseEntity = Stream
+			ResponseEntity<ResponseDTO> responseEntity = Stream
 					.of(ItemInventoryMapper.mapItemInventoryEntityToItemInventoryDTO(returnedItemInventoryEntity))
 					.map(itemInventoryDTO -> {
 						List<ItemInventoryDTO> itemInventoryDTOList = new ArrayList<>(Arrays.asList(itemInventoryDTO));
@@ -118,7 +119,7 @@ public class ItemInventoryServiceImpl implements ItemInventoryService {
 	}
 
 	@Override
-	public Mono<ResponseEntity<?>> initTestDataBySize(String testDataSize) {
+	public Mono<ResponseEntity<ResponseDTO>> initTestDataBySize(String testDataSize) {
 		int initTestDataSize = itemInventoryValidator.checkInitTestDataSize(testDataSize);
 
 		return 0 < initTestDataSize ? buildTestDataBySize(initTestDataSize)
@@ -126,7 +127,7 @@ public class ItemInventoryServiceImpl implements ItemInventoryService {
 	}
 
 	@Override
-	public Mono<ResponseEntity<?>> buildTestDataBySize(int testDataSize) {
+	public Mono<ResponseEntity<ResponseDTO>> buildTestDataBySize(int testDataSize) {
 
 		List<ItemInventoryEntity> itemInventoryEntityListMock = ItemInventoryUtil
 				.generateItemInventoryEntityList(testDataSize);
@@ -141,7 +142,7 @@ public class ItemInventoryServiceImpl implements ItemInventoryService {
 			ItemInventoryDTOResponse itemInventoryDTOResponse = ItemInventoryMapper
 					.buildItemInventoryDTOResponse(itemInventoryDTOList);
 
-			ResponseEntity<?> responseEntity = ItemInventoryMapper
+			ResponseEntity<ResponseDTO> responseEntity = ItemInventoryMapper
 					.buildResponseEntityWithDTOResponse(itemInventoryDTOResponse, HttpStatus.OK);
 
 			return Mono.just(responseEntity);
@@ -149,14 +150,14 @@ public class ItemInventoryServiceImpl implements ItemInventoryService {
 	}
 
 	@Override
-	public Mono<ResponseEntity<?>> buildBadRequestResponseEntity(String errorMessage) {
+	public Mono<ResponseEntity<ResponseDTO>> buildBadRequestResponseEntity(String errorMessage) {
 		log.debug("buildBadRequestResponseEntity errorMessages={}", errorMessage);
 
 		ErrorDTOResponse errorDTOResponse = ItemInventoryMapper.buildErrorDTOResponse(errorMessage,
 				HttpStatus.BAD_REQUEST);
 
-		ResponseEntity<?> responseEntity = ItemInventoryMapper.buildResponseEntityWithDTOResponse(errorDTOResponse,
-				HttpStatus.BAD_REQUEST);
+		ResponseEntity<ResponseDTO> responseEntity = ItemInventoryMapper
+				.buildResponseEntityWithDTOResponse(errorDTOResponse, HttpStatus.BAD_REQUEST);
 
 		return Mono.just(responseEntity);
 	}

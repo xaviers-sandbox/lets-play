@@ -26,7 +26,7 @@ import com.item.inventory.model.response.ErrorDTOResponse;
 import com.item.inventory.model.response.ItemInventoryDTOResponse;
 import com.item.inventory.service.ItemInventoryService;
 import com.item.inventory.util.ItemInventoryTestUtil;
-import com.item.inventory.util.ItemInventoryUtil;
+import com.sandbox.util.SandboxUtils;
 
 import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Mono;
@@ -96,7 +96,7 @@ public class ItemInventoryControllerTest {
 							itemInventoryDTOResponseMock.getItemInventoryDTOList().stream().findFirst().get().getName(),
 							itemInventoryDTOResponse.getItemInventoryDTOList().stream().findFirst().get().getName());
 				})
-				.value(ItemInventoryUtil::prettyPrintObjectToJson);
+				.value(SandboxUtils::prettyPrintObjectToJson);
 	}
 
 	@Test
@@ -128,7 +128,7 @@ public class ItemInventoryControllerTest {
 					assertEquals(itemInventoryDTOResponseMock.getItemInventoryDTOList().get(4).getName(),
 							itemInventoryDTOResponse.getItemInventoryDTOList().get(4).getName());
 				})
-				.value(ItemInventoryUtil::prettyPrintObjectToJson);
+				.value(SandboxUtils::prettyPrintObjectToJson);
 	}
 
 	@Test
@@ -164,7 +164,7 @@ public class ItemInventoryControllerTest {
 							itemInventoryDTOResponseMock.getItemInventoryDTOList().stream().findFirst().get().getId(),
 							itemInventoryDTOResponse.getItemInventoryDTOList().stream().findFirst().get().getId());
 				})
-				.value(ItemInventoryUtil::prettyPrintObjectToJson);
+				.value(SandboxUtils::prettyPrintObjectToJson);
 	}
 
 	@Test
@@ -205,7 +205,7 @@ public class ItemInventoryControllerTest {
 							itemInventoryDTOResponseMock.getItemInventoryDTOList().stream().findFirst().get().getId(),
 							itemInventoryDTOResponse.getItemInventoryDTOList().stream().findFirst().get().getId());
 				})
-				.value(ItemInventoryUtil::prettyPrintObjectToJson);
+				.value(SandboxUtils::prettyPrintObjectToJson);
 	}
 
 	@Test
@@ -248,7 +248,7 @@ public class ItemInventoryControllerTest {
 					assertEquals("Name Cannot Be Empty or Null", errorDTOResponse.getErrorMessage());
 					assertEquals("BAD_REQUEST", errorDTOResponse.getStatus());
 				})
-				.value(ItemInventoryUtil::prettyPrintObjectToJson);
+				.value(SandboxUtils::prettyPrintObjectToJson);
 	}
 
 	@Test
@@ -276,7 +276,7 @@ public class ItemInventoryControllerTest {
 					assertEquals("Name Cannot Be Empty or Null", errorDTOResponse.getErrorMessage());
 					assertEquals("BAD_REQUEST", errorDTOResponse.getStatus());
 				})
-				.value(ItemInventoryUtil::prettyPrintObjectToJson);
+				.value(SandboxUtils::prettyPrintObjectToJson);
 
 		itemInventoryDTORequestMock = ItemInventoryTestUtil.buildMockItemInventoryDTORequest();
 
@@ -298,7 +298,7 @@ public class ItemInventoryControllerTest {
 					assertEquals("Quantity Cannot Be Empty or Null", errorDTOResponse.getErrorMessage());
 					assertEquals("BAD_REQUEST", errorDTOResponse.getStatus());
 				})
-				.value(ItemInventoryUtil::prettyPrintObjectToJson);
+				.value(SandboxUtils::prettyPrintObjectToJson);
 
 		itemInventoryDTORequestMock = ItemInventoryTestUtil.buildMockItemInventoryDTORequest();
 
@@ -321,7 +321,7 @@ public class ItemInventoryControllerTest {
 					assertEquals("Price Cannot Be Empty or Null", errorDTOResponse.getErrorMessage());
 					assertEquals("BAD_REQUEST", errorDTOResponse.getStatus());
 				})
-				.value(ItemInventoryUtil::prettyPrintObjectToJson);
+				.value(SandboxUtils::prettyPrintObjectToJson);
 	}
 
 	@Test
@@ -350,7 +350,7 @@ public class ItemInventoryControllerTest {
 					assertEquals("Price Cannot Be Negative", errorResponseDTO.getErrorMessage());
 					assertEquals(HttpStatus.BAD_REQUEST.name(), errorResponseDTO.getStatus());
 				})
-				.value(ItemInventoryUtil::prettyPrintObjectToJson);
+				.value(SandboxUtils::prettyPrintObjectToJson);
 
 		itemInventoryDTORequest = ItemInventoryTestUtil.buildMockItemInventoryDTORequest();
 
@@ -373,7 +373,7 @@ public class ItemInventoryControllerTest {
 					assertEquals("Quantity Cannot Be Negative", errorResponseDTO.getErrorMessage());
 					assertEquals(HttpStatus.BAD_REQUEST.name(), errorResponseDTO.getStatus());
 				})
-				.value(ItemInventoryUtil::prettyPrintObjectToJson);
+				.value(SandboxUtils::prettyPrintObjectToJson);
 	}
 
 	@Test

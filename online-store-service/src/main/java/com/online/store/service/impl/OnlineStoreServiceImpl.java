@@ -13,7 +13,7 @@ import com.online.store.client.ItemReviewWebClient;
 import com.online.store.mapper.OnlineStoreMapper;
 import com.online.store.service.OnlineStoreService;
 import com.online.store.service.model.OnlineStoreDTOResponse;
-import com.online.store.util.OnlineStoreUtil;
+import com.sandbox.util.SandboxUtils;
 
 import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Mono;
@@ -125,7 +125,7 @@ public class OnlineStoreServiceImpl implements OnlineStoreService {
 		log.debug("processItemReviewDTOResponseMono itemReviewDTOResponseMono={}", itemReviewDTOResponseMono);
 
 		return itemReviewDTOResponseMono.flatMap(itemReviewDTOResponse -> {
-			OnlineStoreUtil.prettyPrintObjectToJson(itemReviewDTOResponse);
+			SandboxUtils.prettyPrintObjectToJson(itemReviewDTOResponse);
 
 			OnlineStoreDTOResponse onlineStoreDTOResponse = OnlineStoreMapper
 					.buildOnlineStoreDTOResponseWithItemReviewDTOResponse(itemReviewDTOResponse);
@@ -141,7 +141,7 @@ public class OnlineStoreServiceImpl implements OnlineStoreService {
 		log.debug("processItemInventoryDTOResponseMono");
 
 		return itemInventoryDTOResponseMono.flatMap(itemInventoryDTOResponse -> {
-			OnlineStoreUtil.prettyPrintObjectToJson(itemInventoryDTOResponse);
+			SandboxUtils.prettyPrintObjectToJson(itemInventoryDTOResponse);
 
 			OnlineStoreDTOResponse onlineStoreDTOResponse = OnlineStoreMapper
 					.buildOnlineStoreDTOResponsWithItemInventoryDTOResponse(itemInventoryDTOResponse);

@@ -14,7 +14,7 @@ import org.springframework.test.context.ActiveProfiles;
 
 import com.item.inventory.entity.ItemInventoryEntity;
 import com.item.inventory.util.ItemInventoryTestUtil;
-import com.item.inventory.util.ItemInventoryUtil;
+import com.sandbox.util.SandboxUtils;
 
 import lombok.extern.slf4j.Slf4j;
 import net.datafaker.Faker;
@@ -83,7 +83,7 @@ public class ItemInventoryRepoINT {
 		log.debug("\n\nfindAllByOrderByNameAsc Test INT Test");
 		Flux<ItemInventoryEntity> itemInventoryEntityFlux = itemInventoryRepo.findAllByOrderByNameAsc();
 
-		itemInventoryEntityFlux.subscribe(ItemInventoryUtil::prettyPrintObjectToJson);
+		itemInventoryEntityFlux.subscribe(SandboxUtils::prettyPrintObjectToJson);
 
 		StepVerifier.create(itemInventoryEntityFlux).expectNextCount(TEST_LIST_SIZE).verifyComplete();
 	}
@@ -94,7 +94,7 @@ public class ItemInventoryRepoINT {
 		log.debug("\n\nfindByIdTest INT Test id=" + TEST_ITEM_ID);
 		Mono<ItemInventoryEntity> itemInventoryEntityMono = itemInventoryRepo.findById(TEST_ITEM_ID);
 
-		itemInventoryEntityMono.subscribe(ItemInventoryUtil::prettyPrintObjectToJson);
+		itemInventoryEntityMono.subscribe(SandboxUtils::prettyPrintObjectToJson);
 
 		StepVerifier.create(itemInventoryEntityMono).assertNext(i -> {
 			assertEquals(testItemName, i.getName());
@@ -115,7 +115,7 @@ public class ItemInventoryRepoINT {
 
 		Mono<ItemInventoryEntity> savedItemInventoryMono = itemInventoryRepo.save(itemInventoryEntityMock);
 
-		savedItemInventoryMono.subscribe(ItemInventoryUtil::prettyPrintObjectToJson);
+		savedItemInventoryMono.subscribe(SandboxUtils::prettyPrintObjectToJson);
 
 		StepVerifier.create(savedItemInventoryMono).assertNext(i -> { //
 			assertEquals(itemName, i.getName());
@@ -132,7 +132,7 @@ public class ItemInventoryRepoINT {
 
 		Mono<ItemInventoryEntity> updatedItemInventoryMono = itemInventoryRepo.save(retrievedItemInventoryEntity);
 
-		updatedItemInventoryMono.subscribe(ItemInventoryUtil::prettyPrintObjectToJson);
+		updatedItemInventoryMono.subscribe(SandboxUtils::prettyPrintObjectToJson);
 
 		StepVerifier.create(updatedItemInventoryMono).assertNext(i -> { //
 			assertEquals(100.00, i.getPrice());
@@ -159,7 +159,7 @@ public class ItemInventoryRepoINT {
 		Flux<ItemInventoryEntity> itemInventoryEntityFlux = itemInventoryRepo
 				.findByNameIgnoreCase(testItemName.toLowerCase());
 
-		itemInventoryEntityFlux.subscribe(ItemInventoryUtil::prettyPrintObjectToJson);
+		itemInventoryEntityFlux.subscribe(SandboxUtils::prettyPrintObjectToJson);
 
 		StepVerifier.create(itemInventoryEntityFlux).assertNext(i -> {
 			assertEquals(testItemName, i.getName());
@@ -170,12 +170,13 @@ public class ItemInventoryRepoINT {
 	// @RepeatedTest(3)
 	void findByIdIgnoreCaseAndNameIgnoreCase() {
 		log.debug("\n\nfindByIdIgnoreCaseAndNameIgnoreCase INT Test testItemId={} testItemName={}",
-				TEST_ITEM_ID.toUpperCase(), testItemName.toLowerCase());
+				TEST_ITEM_ID.toUpperCase(),
+				testItemName.toLowerCase());
 
 		Mono<ItemInventoryEntity> itemInventoryEntityMono = itemInventoryRepo
 				.findByIdIgnoreCaseAndNameIgnoreCase(TEST_ITEM_ID.toUpperCase(), testItemName.toLowerCase());
 
-		itemInventoryEntityMono.subscribe(ItemInventoryUtil::prettyPrintObjectToJson);
+		itemInventoryEntityMono.subscribe(SandboxUtils::prettyPrintObjectToJson);
 
 		StepVerifier.create(itemInventoryEntityMono).assertNext(i -> {
 			assertEquals(testItemName, i.getName());
@@ -196,7 +197,7 @@ public class ItemInventoryRepoINT {
 
 		Long resultSetSize = itemInventoryEntityFlux.count().block();
 
-		itemInventoryEntityFlux.subscribe(ItemInventoryUtil::prettyPrintObjectToJson);
+		itemInventoryEntityFlux.subscribe(SandboxUtils::prettyPrintObjectToJson);
 
 		assertTrue(1 <= resultSetSize);
 
@@ -232,7 +233,7 @@ public class ItemInventoryRepoINT {
 
 		Long resultSetSize = itemInventoryEntityFlux.count().block();
 
-		itemInventoryEntityFlux.subscribe(ItemInventoryUtil::prettyPrintObjectToJson);
+		itemInventoryEntityFlux.subscribe(SandboxUtils::prettyPrintObjectToJson);
 
 		assertTrue(1 <= resultSetSize);
 

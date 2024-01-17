@@ -66,12 +66,13 @@ public class ItemInventoryMapper {
 				.build();
 	}
 
-	public static ResponseEntity<?> buildResponseEntityWithDTOResponse(ResponseDTO responseDTO, HttpStatus httpStatus) {
+	public static ResponseEntity<ResponseDTO> buildResponseEntityWithDTOResponse(ResponseDTO responseDTO,
+			HttpStatus httpStatus) {
 
 		return ResponseEntity.status(httpStatus).body(responseDTO);
 	}
 
-	public static ResponseEntity<?> generateItemNotFoundResponse() {
+	public static ResponseEntity<ResponseDTO> generateItemNotFoundResponse() {
 
 		return buildResponseEntityWithDTOResponse(buildItemInventoryDTOResponse(new ArrayList<>()),
 				HttpStatus.NOT_FOUND);

@@ -58,7 +58,7 @@
 		<dependency>
 			<groupId>net.datafaker</groupId>
 			<artifactId>datafaker</artifactId>
-			<scope>test</scope>
+			<!--<scope>test</scope>-->
 			<version>2.1.0</version>
 		</dependency>
 		<dependency>
@@ -71,6 +71,11 @@
 			<groupId>io.projectreactor</groupId>
 			<artifactId>reactor-test</artifactId>
 			<scope>test</scope>
+		</dependency>
+				<dependency>
+			<groupId>com.sandbox.util</groupId>
+			<artifactId>sandbox-utils</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 

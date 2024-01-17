@@ -25,8 +25,8 @@ import com.item.review.model.request.ItemReviewDTORequest;
 import com.item.review.model.response.ItemReviewDTOResponse;
 import com.item.review.service.ItemReviewService;
 import com.item.review.util.ItemReviewTestUtil;
-import com.item.review.util.ItemReviewUtil;
 import com.item.review.validation.ItemReviewValidator;
+import com.sandbox.util.SandboxUtils;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -95,7 +95,7 @@ public class ItemReviewRouterUnitTest {
 					assertEquals(itemReviewDTOResponseMock.getItemReviewDTOList().stream().findFirst().get().getId(),
 							itemReviewDTOResponse.getItemReviewDTOList().stream().findFirst().get().getId());
 				})
-				.value(ItemReviewUtil::prettyPrintObjectToJson);
+				.value(SandboxUtils::prettyPrintObjectToJson);
 	}
 
 	@Test
@@ -126,7 +126,7 @@ public class ItemReviewRouterUnitTest {
 					assertEquals(itemReviewDTOResponseMock.getItemReviewDTOList().get(4).getId(),
 							itemReviewDTOResponse.getItemReviewDTOList().get(4).getId());
 				})
-				.value(ItemReviewUtil::prettyPrintObjectToJson);
+				.value(SandboxUtils::prettyPrintObjectToJson);
 	}
 
 	@Test
@@ -160,7 +160,7 @@ public class ItemReviewRouterUnitTest {
 					assertEquals(itemReviewDTOResponseMock.getItemReviewDTOList().stream().findFirst().get().getId(),
 							itemReviewDTOResponse.getItemReviewDTOList().stream().findFirst().get().getId());
 				})
-				.value(ItemReviewUtil::prettyPrintObjectToJson);
+				.value(SandboxUtils::prettyPrintObjectToJson);
 	}
 
 	@Test
@@ -198,7 +198,7 @@ public class ItemReviewRouterUnitTest {
 					assertEquals(itemReviewDTOResponseMock.getItemReviewDTOList().stream().findFirst().get().getId(),
 							itemReviewDTOResponse.getItemReviewDTOList().stream().findFirst().get().getId());
 				})
-				.value(ItemReviewUtil::prettyPrintObjectToJson);
+				.value(SandboxUtils::prettyPrintObjectToJson);
 	}
 
 	@Test

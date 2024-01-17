@@ -60,6 +60,7 @@ public class ItemInventoryTestUtil {
 					.build();
 		} else {
 			List<ItemInventoryDTO> itemInventoryDTOList = generateItemInventoryDTOList(resulSetSize);
+
 			return ItemInventoryDTOResponse.builder()
 					.resultSetSize(resulSetSize)
 					.itemInventoryDTOList(itemInventoryDTOList)
@@ -68,21 +69,19 @@ public class ItemInventoryTestUtil {
 	}
 
 	public static List<ItemInventoryDTO> generateItemInventoryDTOList(int resulSetSize) {
-		List<ItemInventoryDTO> itemInventoryDTOList = Flux.range(1, resulSetSize)
+
+		return Flux.range(1, resulSetSize)
 				.map(i -> ItemInventoryTestUtil.buildMockItemInventoryDTO())
 				.collectList()
 				.block();
-
-		return itemInventoryDTOList;
 	}
 
 	public static List<ItemInventoryEntity> generateItemInventoryEntityList(int resulSetSize) {
-		List<ItemInventoryEntity> itemInventoryEntityList = Flux.range(1, resulSetSize)
+
+		return Flux.range(1, resulSetSize)
 				.map(i -> ItemInventoryTestUtil.buildMockItemInventoryEntity())
 				.collectList()
 				.block();
-
-		return itemInventoryEntityList;
 	}
 
 	public static boolean isBetweenTwoNums(int quantity, int numGT, int numLT) {

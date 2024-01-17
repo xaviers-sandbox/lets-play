@@ -82,12 +82,8 @@ public class ItemReviewTestUtil {
 	}
 
 	public static List<ItemReviewDTO> generateItemReviewDTOList(int resulSetSize) {
-		List<ItemReviewDTO> itemInventoryDTOList = Flux.range(1, resulSetSize)
-				.map(i -> ItemReviewTestUtil.buildMockItemReviewDTO())
-				.collectList()
-				.block();
 
-		return itemInventoryDTOList;
+		return Flux.range(1, resulSetSize).map(i -> ItemReviewTestUtil.buildMockItemReviewDTO()).collectList().block();
 	}
 
 //	public static boolean isBetweenTwoNums(int quantity, int numGT, int numLT) {

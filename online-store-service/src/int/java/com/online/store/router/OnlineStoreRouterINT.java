@@ -18,7 +18,7 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
 import com.online.store.service.model.OnlineStoreDTOResponse;
-import com.online.store.util.OnlineStoreUtil;
+import com.sandbox.util.SandboxUtils;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -75,6 +75,6 @@ public class OnlineStoreRouterINT {
 									.getFeedback());
 
 				})
-				.value(OnlineStoreUtil::prettyPrintObjectToJson);
+				.value(SandboxUtils::prettyPrintObjectToJson);
 	}
 }
