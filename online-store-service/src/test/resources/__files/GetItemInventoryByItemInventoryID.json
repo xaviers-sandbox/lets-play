@@ -1,0 +1,11 @@
+{
+    "resultSetSize": 1,
+    "itemInventoryDTOList": [
+        {
+            "id": "1234abcd",
+            "name": "aws cloud developerrrrrrr",
+            "price": 123,
+            "quantity": 22
+        }
+    ]
+}

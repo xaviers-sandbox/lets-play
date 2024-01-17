@@ -1,0 +1,11 @@
+{
+    "resultSetSize": 1,
+    "itemReviewDTOList": [
+        {
+            "feedback": "enterprise api developerrrr",
+            "id": "65a4adc0a9c0f9689199c671",
+            "itemReviewId": "1234abcd",
+            "rating": 3.41
+        }
+    ]
+}
