@@ -20,7 +20,8 @@ spring:
 
 logging:
   level: 
-    "[com.online.store]" : DEBUG         
+    "[com.online.store]" : DEBUG     
+    "[com.sandbox.util]" : DEBUG    
 
 webClient:
   itemInventoriesUrl: http://localhost:1111/v1/item-inventories
@@ -40,6 +41,7 @@ logging:
   level: 
     "[com.online.store]" : DEBUG     
     "[com.github.tomakehurst.wiremock]" : ERROR
+    "[com.sandbox.util]" : DEBUG
 
 webClient:
   itemInventoriesUrl: http://localhost:1111/v1/item-inventories

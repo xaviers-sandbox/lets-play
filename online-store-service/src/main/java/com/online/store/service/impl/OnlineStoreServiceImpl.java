@@ -122,10 +122,10 @@ public class OnlineStoreServiceImpl implements OnlineStoreService {
 	@Override
 	public Mono<ServerResponse> processItemReviewDTOResponseMono(Mono<ItemReviewDTOResponse> itemReviewDTOResponseMono,
 			HttpStatus httpStatus) {
-		log.debug("processItemReviewDTOResponseMono itemReviewDTOResponseMono={}", itemReviewDTOResponseMono);
 
 		return itemReviewDTOResponseMono.flatMap(itemReviewDTOResponse -> {
-			SandboxUtils.prettyPrintObjectToJson(itemReviewDTOResponse);
+			log.debug("processItemReviewDTOResponseMono itemReviewDTOResponseMono={}",
+					SandboxUtils.getPrettyPrintJsonFromObject(itemReviewDTOResponse));
 
 			OnlineStoreDTOResponse onlineStoreDTOResponse = OnlineStoreMapper
 					.buildOnlineStoreDTOResponseWithItemReviewDTOResponse(itemReviewDTOResponse);
@@ -138,10 +138,9 @@ public class OnlineStoreServiceImpl implements OnlineStoreService {
 	public Mono<ServerResponse> processItemInventoryDTOResponseMono(
 			Mono<ItemInventoryDTOResponse> itemInventoryDTOResponseMono, HttpStatus httpStatus) {
 
-		log.debug("processItemInventoryDTOResponseMono");
-
 		return itemInventoryDTOResponseMono.flatMap(itemInventoryDTOResponse -> {
-			SandboxUtils.prettyPrintObjectToJson(itemInventoryDTOResponse);
+			log.debug("processItemInventoryDTOResponseMono itemInventoryDTOResponse={}",
+					SandboxUtils.getPrettyPrintJsonFromObject(itemInventoryDTOResponse));
 
 			OnlineStoreDTOResponse onlineStoreDTOResponse = OnlineStoreMapper
 					.buildOnlineStoreDTOResponsWithItemInventoryDTOResponse(itemInventoryDTOResponse);

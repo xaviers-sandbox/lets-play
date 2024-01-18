@@ -34,11 +34,19 @@ public class ItemInventoyWebClient {
 				.uri(url, itemInventoryId)
 				.retrieve()
 				.onStatus(httpStatus -> httpStatus.is4xxClientError(), clientResponse -> {
+					log.error(
+							"getItemInventoryByItemInventoryId - Returned 4xxClientError - statusCode={} itemInventoryId={} ",
+							clientResponse.statusCode(),
+							itemInventoryId);
 
 					return onlineStoreClientErrorHandler.processItemIventory4xxClientError(clientResponse,
 							itemInventoryId);
 				})
 				.onStatus(httpStatus -> httpStatus.is5xxServerError(), clientResponse -> {
+					log.error(
+							"getItemInventoryByItemInventoryId - Returned 5xxServerError - statusCode={} itemInventoryId={} ",
+							clientResponse.statusCode(),
+							itemInventoryId);
 
 					return onlineStoreClientErrorHandler.processItemInventory5xxServerError(clientResponse);
 				})
@@ -46,16 +54,20 @@ public class ItemInventoyWebClient {
 	}
 
 	public Mono<ItemInventoryDTOResponse> getAllItemInventories() {
-		log.debug("\n\ngetAllItemInventories");
+		log.debug("getAllItemInventories");
 
 		return webClient.get()
 				.uri(itemInventoriesUrl)
 				.retrieve()
 				.onStatus(httpStatus -> httpStatus.is4xxClientError(), clientResponse -> {
+					log.error("getAllItemInventories - Returned 4xxClientError - statusCode={}",
+							clientResponse.statusCode());
 
 					return onlineStoreClientErrorHandler.processItemIventory4xxClientError(clientResponse);
 				})
 				.onStatus(httpStatus -> httpStatus.is5xxServerError(), clientResponse -> {
+					log.error("getAllItemInventories - Returned 5xxServerError - statusCode={}",
+							clientResponse.statusCode());
 
 					return onlineStoreClientErrorHandler.processItemInventory5xxServerError(clientResponse);
 				})
