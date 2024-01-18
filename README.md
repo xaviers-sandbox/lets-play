@@ -1,5 +1,6 @@
 # Distributed Event Driven Microservices Architecture Design Sandbox
 The ecosystem consists of loosely coupled non-blocking Springboot 3 applications that interact with each other, databases, and queues written in Java 21.
+
 Currently, there are 2 applications that operate at the database level and interact with NoSQL MongoDB databases: item-inventory-service and item-review-service. These 2 applications allow the standard crud operations. item-inventory-services using the traditional controller while item-review-services uses functional endpoints. They are both heavily written using functional programming.
 
 A third application, online-order-service, operates at the HTTP level and interfaces with the two previously mentioned applications to expose data through crud endpoints. It is also heavily written using functional programming and implements functional endpoints.
