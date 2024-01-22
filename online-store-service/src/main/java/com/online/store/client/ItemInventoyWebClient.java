@@ -50,7 +50,9 @@ public class ItemInventoyWebClient {
 
 					return onlineStoreClientErrorHandler.processItemInventory5xxServerError(clientResponse);
 				})
-				.bodyToMono(ItemInventoryDTOResponse.class);
+				.bodyToMono(ItemInventoryDTOResponse.class)
+				// .retryWhen(Retry.backoff(3, Duration.ofSeconds(3L)));
+				.retry(3);
 	}
 
 	public Mono<ItemInventoryDTOResponse> getAllItemInventories() {
@@ -71,6 +73,8 @@ public class ItemInventoyWebClient {
 
 					return onlineStoreClientErrorHandler.processItemInventory5xxServerError(clientResponse);
 				})
-				.bodyToMono(ItemInventoryDTOResponse.class);
+				.bodyToMono(ItemInventoryDTOResponse.class)
+				// .retryWhen(Retry.backoff(3, Duration.ofSeconds(3L)));
+				.retry(3);
 	}
 }

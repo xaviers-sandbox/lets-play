@@ -1,15 +1,21 @@
 package com.online.store.mapper;
 
+import java.time.Duration;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.web.reactive.function.server.ServerResponse;
 
 import com.item.inventory.model.response.ItemInventoryDTOResponse;
 import com.item.review.model.response.ItemReviewDTOResponse;
+import com.online.store.exception.ExternalClient500Exception;
 import com.online.store.service.model.OnlineStoreDTOResponse;
 import com.online.store.service.model.ResponseDTO;
 
 import lombok.extern.slf4j.Slf4j;
+import reactor.core.Exceptions;
 import reactor.core.publisher.Mono;
+import reactor.util.retry.Retry;
+import reactor.util.retry.RetryBackoffSpec;
 
 @Slf4j
 public class OnlineStoreMapper {
@@ -42,7 +48,13 @@ public class OnlineStoreMapper {
 	}
 
 	public static Mono<ServerResponse> buildDefaultEmptyServerResponseMono() {
-		log.debug("900000");
 		return ServerResponse.status(HttpStatus.NOT_FOUND).bodyValue(new OnlineStoreDTOResponse());
+	}
+
+	public static RetryBackoffSpec buildRetryBackoffSpec() {
+		return Retry.fixedDelay(3, Duration.ofSeconds(1))
+				.filter(ex -> ex instanceof ExternalClient500Exception)
+				.onRetryExhaustedThrow(
+						((retryBackoffSepc, retrySignal) -> Exceptions.propagate(retrySignal.failure())));
 	}
 }

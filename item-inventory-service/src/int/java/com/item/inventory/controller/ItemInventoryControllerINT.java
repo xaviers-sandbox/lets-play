@@ -56,11 +56,18 @@ public class ItemInventoryControllerINT {
 		itemInventoryRepo.deleteAll().block();
 
 		// block the thread to ensure this takes place before the test runs
-		itemInventoryRepo.saveAll(itemInventoryEntityList).blockLast();
+		// itemInventoryRepo.saveAll(itemInventoryEntityList).blockLast();
 	}
 
 	@AfterEach
 	void deleteData() {
+		// block the thread to ensure this takes place before the test runs
+		itemInventoryRepo.deleteAll().block();
+	}
+
+	@Test
+	// @RepeatedTest(3)
+	public void deleteDataTest() {
 		// block the thread to ensure this takes place before the test runs
 		itemInventoryRepo.deleteAll().block();
 	}

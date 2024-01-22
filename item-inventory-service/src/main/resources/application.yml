@@ -16,11 +16,17 @@ spring:
     mongodb:
       host: localhost
       port: 27017
-      database: local
-
+      database: local   
+    redis:
+      #host: 10.11.12.13
+      host: localhost
+      port: 6379
 logging:
   level: 
-    "[com.item.inventory]" : DEBUG         
+    "[com.item.inventory]" : DEBUG   
+    "[com.sandbox.util]" : DEBUG  
+    #"[org.springframework.data.mongodb.core.MongoTemplate]": DEBUG
+    #"[org.springframework.data.mongodb.core.ReactiveMongoTemplate]": DEBUG
   
 ---
 spring:
@@ -32,6 +38,12 @@ spring:
       host: localhost
       port: 27017
       database: local
+    redis:
+      #host: 10.11.12.13
+      host: localhost
+      port: 6379
 logging:
   level: 
     "[com.item.inventory]" : DEBUG     
+    "[com.redis.sandbox]" : DEBUG   
+    "[com.sandbox.util]" : DEBUG    

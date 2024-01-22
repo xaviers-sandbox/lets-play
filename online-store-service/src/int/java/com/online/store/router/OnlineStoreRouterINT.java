@@ -105,6 +105,8 @@ public class OnlineStoreRouterINT {
 
 				})
 				.value(SandboxUtils::prettyPrintObjectToJson);
+
+		// WireMock.verify(4, getRequestedFor(urlPathEqualTo("/v1/item-inventories")));
 	}
 
 	@Test
@@ -138,6 +140,8 @@ public class OnlineStoreRouterINT {
 
 				})
 				.value(SandboxUtils::prettyPrintObjectToJson);
+
+		// WireMock.verify(4, getRequestedFor(urlPathEqualTo("/v1/item-reviews")));
 	}
 
 	@Test
@@ -163,6 +167,8 @@ public class OnlineStoreRouterINT {
 
 				})
 				.value(SandboxUtils::prettyPrintObjectToJson);
+
+		// WireMock.verify(4, getRequestedFor(urlPathEqualTo("/v1/item-inventories")));
 	}
 
 	@Test
@@ -196,5 +202,7 @@ public class OnlineStoreRouterINT {
 
 				})
 				.value(SandboxUtils::prettyPrintObjectToJson);
+
+		// WireMock.verify(4, getRequestedFor(urlPathEqualTo("/v1/item-reviews")));
 	}
 }
