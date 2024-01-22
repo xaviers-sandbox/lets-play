@@ -3,7 +3,7 @@ The ecosystem consists of loosely coupled non-blocking Springboot 3 applications
 
 Currently, there are two lightnening fast applications that operate at the database layer and interact with NoSQL MongoDB databases and a redis server: item-inventory-service and item-review-service. These two applications allow the standard CRUD operations. item-inventory-services using the traditional controller while item-review-services uses functional endpoints. They are both heavily written using functional programming.
 
-A third application, online-order-service, operates at the HTTP level and interfaces with the two previously mentioned applications to expose data through CRUD endpoints. It is also heavily written using functional programming and implements functional endpoints.
+A third application, online-order-service, operates at the HTTP layer and interfaces with the two previously mentioned applications to expose data through CRUD endpoints. It is also heavily written using functional programming and implements functional endpoints.
 
 Lastly, there are two applications that provide shared models and common utilities to the ecosystem: sandbox-domain-model and sandbox-utilities
 
