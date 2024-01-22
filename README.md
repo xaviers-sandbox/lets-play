@@ -5,6 +5,8 @@ Currently, there are two lightnening fast applications that operate at the datab
 
 A third application, online-order-service, operates at the HTTP layer and interfaces with the two previously mentioned applications to expose data through CRUD endpoints. It is also heavily written using functional programming and implements functional endpoints.
 
+App management and orchestration is taken care of by the playground-naming-server, playground-config-server, and playground-api-gateway apps. playground-naming-server serves as the app registry. playground-config-server provides centralized app configurations. playground-api-gateway tackles the task of loadbalancing and being a fascade to other apis.
+
 Lastly, there are two applications that provide shared models and common utilities to the ecosystem: sandbox-domain-model and sandbox-utilities
 
 ### Technologies, Frameworks, and Libraries Used:
@@ -17,6 +19,10 @@ Lastly, there are two applications that provide shared models and common utiliti
 - Reactor
 - WebFlux
 - WebClient
+- OpenFeign
+- Eureka
+- Api Gateway
+- Config Server
 - Hibernate
 - Lombok
 - Jackson
