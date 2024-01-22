@@ -25,7 +25,15 @@ eureka:
   client:
     serviceUrl:
       defaultZone: http://localhost:8761/eureka     
-    enabled: true
+    enabled: true 
+    
+resilience4j:
+  retry:
+    instances:
+      testing-circuit-breaker:
+        maxAttempts: 3   
+        waitDuration: 1s
+        enableExponentialBackoff: true
 ---
 spring:
   config:

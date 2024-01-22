@@ -13,8 +13,7 @@ public class FeignResponseDecoderConfig {
 	@Bean
 	Decoder feignDecoder() {
 		ObjectFactory<HttpMessageConverters> messageConverters = () -> {
-			HttpMessageConverters converters = new HttpMessageConverters();
-			return converters;
+			return new HttpMessageConverters();
 		};
 
 		return new SpringDecoder(messageConverters);

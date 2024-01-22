@@ -14,8 +14,8 @@ import reactor.core.publisher.Flux;
 import reactor.test.StepVerifier;
 
 @AutoConfigureWebTestClient
-@WebFluxTest(controllers = MonoAndFluxController.class)
-public class MonoAndFluxControllerTest {
+@WebFluxTest(controllers = Object.class)
+public class ReferenceUnitTests {
 	@Autowired
 	private WebTestClient webTestClient;
 

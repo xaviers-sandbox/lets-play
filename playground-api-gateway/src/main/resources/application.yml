@@ -13,15 +13,15 @@ spring:
         - id: item-inventory-service
           uri: lb://item-inventory-service
           predicates:
-            - Path=/inv/item-inventory-service/**
+            - Path=/item-inventory-service/**
         - id: item-review-service
           uri: lb://item-review-service
           predicates:
-            - Path=/inv/item-review-service/**
+            - Path=/item-review-service/**
         - id: online-store-service
           uri: lb://online-store-service
           predicates:
-            - Path=/inv/online-store-service/**
+            - Path=/online-store-service/**
 
 server:
   port: 8765 
@@ -38,4 +38,9 @@ management:
   endpoints:
     web:
       exposure:
-        include: "health,info"        
+        include: "health,info"   
+        
+        
+logging:
+  level: 
+    "[com.playground]" : DEBUG                   

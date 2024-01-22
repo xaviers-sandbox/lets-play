@@ -16,8 +16,9 @@ import com.item.inventory.model.request.ItemInventoryDTORequest;
 import com.item.inventory.model.response.ResponseDTO;
 import com.item.inventory.proxy.ItemInventoryFeignProxy;
 import com.item.inventory.service.ItemInventoryService;
-import com.item.review.model.response.ItemReviewDTOResponse;
+import com.item.review.model.response.ErrorDTOResponse;
 
+import io.github.resilience4j.retry.annotation.Retry;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Mono;
@@ -76,9 +77,24 @@ public class ItemInventoryController {
 	}
 
 	@GetMapping("/item-reviews/{itemInventoryId}")
-	public ItemReviewDTOResponse getItemReviewsByItemInventoryIdFeign(@PathVariable String itemInventoryId) {
+	@Retry(name = "testing-circuit-breaker", fallbackMethod = "returnDefaultResponse")
+	// fires off 10 request per sec command: watch -n 0.1 curl
+	// http://localhost:1111/circuit-breaker
+	// @CircuitBreaker(name = "default", fallbackMethod = "returnDefaultResponse")
+	// @Bulkhead(name = "default")
+	// @RateLimiter(name = "default")
+	public com.item.review.model.response.ResponseDTO getItemReviewsByItemInventoryIdFeign(
+			@PathVariable String itemInventoryId) {
 		log.debug("getItemReviewsByItemInventoryIdFeign - itemInventoryId={}", itemInventoryId);
 
 		return itemInventoryFeignProxy.getItemReviews(itemInventoryId);
+	}
+
+	public ErrorDTOResponse returnDefaultResponse(Throwable ex) {
+		log.debug("returnDefaultResponse - Error occured during junk-breaker call. ex=" + ex.getLocalizedMessage());
+
+		return ErrorDTOResponse.builder()
+				.errorMessage("Error occured during junk-breaker call. ex=" + ex.getLocalizedMessage())
+				.build();
 	}
 }
