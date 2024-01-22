@@ -19,7 +19,9 @@ public class ItemReviewUtil {
 	}
 
 	public static ItemReviewEntity buildMockItemReviewEntity() {
-		String feedback = "Lorem ipsum dolor sit amet, consectetur adipiscing elit.";
+		// String feedback = "Lorem ipsum dolor sit amet, consectetur adipiscing elit.";
+
+		String feedback = f.shakespeare().asYouLikeItQuote();
 
 		double rating = Double.valueOf(f.commerce().price(1, 5));
 
