@@ -14,19 +14,26 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.item.inventory.model.request.ItemInventoryDTORequest;
 import com.item.inventory.model.response.ResponseDTO;
+import com.item.inventory.proxy.ItemInventoryFeignProxy;
 import com.item.inventory.service.ItemInventoryService;
+import com.item.review.model.response.ItemReviewDTOResponse;
 
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Mono;
 
 @RestController
 @RequestMapping("v1/item-inventories")
+@Slf4j
 public class ItemInventoryController {
 
 	private ItemInventoryService itemInventoryService;
+	private ItemInventoryFeignProxy itemInventoryFeignProxy;
 
-	public ItemInventoryController(ItemInventoryService itemInventoryService) {
+	public ItemInventoryController(ItemInventoryService itemInventoryService,
+			ItemInventoryFeignProxy itemInventoryFeignProxy) {
 		this.itemInventoryService = itemInventoryService;
+		this.itemInventoryFeignProxy = itemInventoryFeignProxy;
 	}
 
 	@PostMapping
@@ -66,5 +73,12 @@ public class ItemInventoryController {
 	@PostMapping("/init-test-data/{size}")
 	public Mono<ResponseEntity<ResponseDTO>> initTestDataBySize(@PathVariable String size) {
 		return itemInventoryService.initTestDataBySize(size);
+	}
+
+	@GetMapping("/item-reviews/{itemInventoryId}")
+	public ItemReviewDTOResponse getItemReviewsByItemInventoryIdFeign(@PathVariable String itemInventoryId) {
+		log.debug("getItemReviewsByItemInventoryIdFeign - itemInventoryId={}", itemInventoryId);
+
+		return itemInventoryFeignProxy.getItemReviews(itemInventoryId);
 	}
 }

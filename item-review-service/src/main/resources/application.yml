@@ -3,10 +3,29 @@ spring:
     name: item-review-service
   profiles:
     active: local
-
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+          
 server:
   port: 2222  
   
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "health,info"
+        
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka     
+    enabled: true
 ---
 spring:
   config:
@@ -21,8 +40,7 @@ spring:
 logging:
   level: 
     "[com.item.review]" : DEBUG         
-
-
+    "[com.sandbox.util]" : DEBUG  
 ---
 spring:
   config:
@@ -36,3 +54,4 @@ spring:
 logging:
   level: 
     "[com.item.review]" : DEBUG     
+    "[com.sandbox.util]" : DEBUG  

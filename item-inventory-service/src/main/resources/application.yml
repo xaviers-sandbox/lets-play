@@ -3,10 +3,29 @@ spring:
     name: item-inventory-service
   profiles:
     active: local
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
 
 server:
   port: 1111  
 
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "health,info"
+        
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka     
+    enabled: true
 ---
 spring:
   config:
@@ -21,13 +40,14 @@ spring:
       #host: 10.11.12.13
       host: localhost
       port: 6379
+
 logging:
   level: 
     "[com.item.inventory]" : DEBUG   
     "[com.sandbox.util]" : DEBUG  
     #"[org.springframework.data.mongodb.core.MongoTemplate]": DEBUG
-    #"[org.springframework.data.mongodb.core.ReactiveMongoTemplate]": DEBUG
-  
+    #"[org.springframework.data.mongodb.core.ReactiveMongoTemplate]": DEBUG 
+
 ---
 spring:
   config:
