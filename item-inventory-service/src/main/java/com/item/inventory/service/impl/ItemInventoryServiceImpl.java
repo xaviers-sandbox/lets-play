@@ -1,9 +1,6 @@
 package com.item.inventory.service.impl;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Stream;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,13 +8,12 @@ import org.springframework.stereotype.Service;
 
 import com.item.inventory.entity.ItemInventoryEntity;
 import com.item.inventory.mapper.ItemInventoryMapper;
-import com.item.inventory.model.ItemInventoryDTO;
 import com.item.inventory.model.request.ItemInventoryDTORequest;
 import com.item.inventory.model.response.ErrorDTOResponse;
-import com.item.inventory.model.response.ItemInventoryDTOResponse;
 import com.item.inventory.model.response.ResponseDTO;
 import com.item.inventory.repository.ItemInventoryRepository;
 import com.item.inventory.service.ItemInventoryService;
+import com.item.inventory.service.ProcessItemInventoryEntity;
 import com.item.inventory.service.cache.ItemInventoryCacheService;
 import com.item.inventory.util.ItemInventoryUtil;
 import com.item.inventory.validator.ItemInventoryValidator;
@@ -28,7 +24,7 @@ import reactor.core.publisher.Mono;
 
 @Service
 @Slf4j
-public class ItemInventoryServiceImpl implements ItemInventoryService {
+public class ItemInventoryServiceImpl extends ProcessItemInventoryEntity implements ItemInventoryService {
 	private ItemInventoryValidator itemInventoryValidator;
 
 	private ItemInventoryRepository itemInventoryRepository;
@@ -43,8 +39,7 @@ public class ItemInventoryServiceImpl implements ItemInventoryService {
 		this.itemInventoryCacheService = itemInventoryCacheService;
 	}
 
-	// this needs to update the cache by 1 after the save
-	// also add update the entire cache
+	@Override
 	public Mono<ResponseEntity<ResponseDTO>> addNewItemInventory(ItemInventoryDTORequest newItemInventoryDTOrequest) {
 		log.debug("addNewItemInventory - newItemInventoryDTOrequest=", newItemInventoryDTOrequest);
 		ItemInventoryEntity itemInventoryEntity = ItemInventoryMapper
@@ -57,6 +52,7 @@ public class ItemInventoryServiceImpl implements ItemInventoryService {
 		return processItemInventoryEntityMono(itemInventoryEntityMono, HttpStatus.CREATED);
 	}
 
+	@Override
 	public Mono<ResponseEntity<ResponseDTO>> getAllItemInventories() {
 		log.debug("getAllItemInventories");
 
@@ -66,6 +62,7 @@ public class ItemInventoryServiceImpl implements ItemInventoryService {
 
 	}
 
+	@Override
 	public Mono<ResponseEntity<ResponseDTO>> getItemInventoryById(String id) {
 		log.debug("getItemInventoryById - id=", id);
 
@@ -75,6 +72,7 @@ public class ItemInventoryServiceImpl implements ItemInventoryService {
 				.switchIfEmpty(Mono.just(ItemInventoryMapper.generateItemNotFoundResponse()));
 	}
 
+	@Override
 	public Mono<ResponseEntity<ResponseDTO>> updateItemInventoryById(String id,
 			ItemInventoryDTORequest updatedItemInventoryDTOrequest) {
 		log.debug("updateItemInventoryById - id={} newItemInventoryDTOrequest=", id, updatedItemInventoryDTOrequest);
@@ -98,6 +96,7 @@ public class ItemInventoryServiceImpl implements ItemInventoryService {
 		}).switchIfEmpty(Mono.just(ItemInventoryMapper.generateItemNotFoundResponse()));
 	}
 
+	@Override
 	public Mono<Void> deleteItemInventoryById(String id) {
 		log.debug("deleteItemInventoryById - id=", id);
 
@@ -108,6 +107,7 @@ public class ItemInventoryServiceImpl implements ItemInventoryService {
 		return Mono.empty();
 	}
 
+	@Override
 	public Mono<Void> deleteAllItemInventories() {
 		log.debug("deleteAllItemInventories");
 
@@ -118,44 +118,17 @@ public class ItemInventoryServiceImpl implements ItemInventoryService {
 		return Mono.empty();
 	}
 
-	// this uses streams. the others to streams
-	public Mono<ResponseEntity<ResponseDTO>> processItemInventoryEntityMono(
-			Mono<ItemInventoryEntity> itemInventoryEntityMono, HttpStatus httpStatus) {
-		log.debug("processItemInventoryEntityMono");
+	@Override
+	public Mono<ResponseEntity<ResponseDTO>> buildBadRequestResponseEntity(String errorMessage) {
+		log.debug("buildBadRequestResponseEntity errorMessages={}", errorMessage);
 
-		return itemInventoryEntityMono.flatMap(returnedItemInventoryEntity -> {
-			ResponseEntity<ResponseDTO> responseEntity = Stream
-					.of(ItemInventoryMapper.mapItemInventoryEntityToItemInventoryDTO(returnedItemInventoryEntity))
-					.map(itemInventoryDTO -> {
-						List<ItemInventoryDTO> itemInventoryDTOList = new ArrayList<>(Arrays.asList(itemInventoryDTO));
-						return ItemInventoryMapper.buildItemInventoryDTOResponse(itemInventoryDTOList);
-					})
-					.map(itemInventoryDTOResponse -> ItemInventoryMapper
-							.buildResponseEntityWithDTOResponse(itemInventoryDTOResponse, httpStatus))
-					.findAny()
-					.get();
+		ErrorDTOResponse errorDTOResponse = ItemInventoryMapper.buildErrorDTOResponse(errorMessage,
+				HttpStatus.BAD_REQUEST);
 
-			return Mono.just(responseEntity);
-		});
-	}
+		ResponseEntity<ResponseDTO> responseEntity = ItemInventoryMapper
+				.buildResponseEntityWithDTOResponse(errorDTOResponse, HttpStatus.BAD_REQUEST);
 
-	public Mono<ResponseEntity<ResponseDTO>> processItemInventoryEntityFlux(
-			Flux<ItemInventoryEntity> itemInventoryEntityFlux) {
-		log.debug("processItemInventoryEntityFlux");
-
-		return itemInventoryEntityFlux.collectList().flatMap(itemInventoryEntityList -> {
-
-			List<ItemInventoryDTO> itemInventoryDTOList = ItemInventoryMapper
-					.mapItemInventoryEntityListToItemInventoryDTOList(itemInventoryEntityList);
-
-			ItemInventoryDTOResponse itemInventoryDTOResponse = ItemInventoryMapper
-					.buildItemInventoryDTOResponse(itemInventoryDTOList);
-
-			ResponseEntity<ResponseDTO> responseEntity = ItemInventoryMapper
-					.buildResponseEntityWithDTOResponse(itemInventoryDTOResponse, HttpStatus.OK);
-
-			return Mono.just(responseEntity);
-		});
+		return Mono.just(responseEntity);
 	}
 
 	@Override
@@ -177,18 +150,5 @@ public class ItemInventoryServiceImpl implements ItemInventoryService {
 				.saveAll(itemInventoryEntityListMock);
 
 		return processItemInventoryEntityFlux(itemInventoryEntityFlux);
-	}
-
-	@Override
-	public Mono<ResponseEntity<ResponseDTO>> buildBadRequestResponseEntity(String errorMessage) {
-		log.debug("buildBadRequestResponseEntity errorMessages={}", errorMessage);
-
-		ErrorDTOResponse errorDTOResponse = ItemInventoryMapper.buildErrorDTOResponse(errorMessage,
-				HttpStatus.BAD_REQUEST);
-
-		ResponseEntity<ResponseDTO> responseEntity = ItemInventoryMapper
-				.buildResponseEntityWithDTOResponse(errorDTOResponse, HttpStatus.BAD_REQUEST);
-
-		return Mono.just(responseEntity);
 	}
 }
