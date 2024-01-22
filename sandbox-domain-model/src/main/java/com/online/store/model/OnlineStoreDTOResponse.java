@@ -1,4 +1,4 @@
-package com.online.store.service.model;
+package com.online.store.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;

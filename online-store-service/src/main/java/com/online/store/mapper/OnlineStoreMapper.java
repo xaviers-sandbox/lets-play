@@ -8,16 +8,14 @@ import org.springframework.web.reactive.function.server.ServerResponse;
 import com.item.inventory.model.response.ItemInventoryDTOResponse;
 import com.item.review.model.response.ItemReviewDTOResponse;
 import com.online.store.exception.ExternalClient500Exception;
-import com.online.store.service.model.OnlineStoreDTOResponse;
-import com.online.store.service.model.ResponseDTO;
+import com.online.store.model.OnlineStoreDTOResponse;
+import com.online.store.model.ResponseDTO;
 
-import lombok.extern.slf4j.Slf4j;
 import reactor.core.Exceptions;
 import reactor.core.publisher.Mono;
 import reactor.util.retry.Retry;
 import reactor.util.retry.RetryBackoffSpec;
 
-@Slf4j
 public class OnlineStoreMapper {
 
 	public static OnlineStoreDTOResponse buildOnlineStoreDTOResponseWithItemReviewDTOResponse(

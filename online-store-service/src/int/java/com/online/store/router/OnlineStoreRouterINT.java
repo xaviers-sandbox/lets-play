@@ -19,7 +19,7 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
 import com.item.inventory.model.response.ErrorDTOResponse;
-import com.online.store.service.model.OnlineStoreDTOResponse;
+import com.online.store.model.OnlineStoreDTOResponse;
 import com.sandbox.util.SandboxUtils;
 
 import lombok.extern.slf4j.Slf4j;
