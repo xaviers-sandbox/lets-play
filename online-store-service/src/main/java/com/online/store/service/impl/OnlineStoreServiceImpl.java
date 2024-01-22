@@ -82,69 +82,60 @@ public class OnlineStoreServiceImpl implements OnlineStoreService {
 
 		Mono<ItemInventoryDTOResponse> itemInventoryDTOResponseMono = itemInventoyWebClient
 				.getItemInventoryByItemInventoryId(itemInventoryId);
-		log.debug("100000");
-		Mono<ServerResponse> tmp = itemInventoryDTOResponseMono.flatMap(itemInventoryDTOResponse -> {
-			log.debug("200000");
+
+		return itemInventoryDTOResponseMono.flatMap(itemInventoryDTOResponse -> {
+
 			ItemInventoryDTO itemInventoryDTO = itemInventoryDTOResponse.getItemInventoryDTOList()
 					.stream()
 					.findFirst()
 					.get();
 
-			log.debug("300000 itemInventoryDTO=" + itemInventoryDTO);
 			if (!ObjectUtils.isEmpty(itemInventoryDTO)) {
-				log.debug("400000");
+
 				Mono<ItemReviewDTOResponse> itemReviewDTOResponseMono = itemReviewWebClient
 						.getItemReviewByItemInventoryId(itemInventoryDTO.getId());
 
-				log.debug("500000 itemReviewDTOResponseMono=");
-
 				return itemReviewDTOResponseMono.flatMap(itemReviewDTOResponse -> {
-					log.debug("600000");
+
 					OnlineStoreDTOResponse onlineStoreDTOResponse = OnlineStoreMapper
 							.buildOnlineStoreDTOResponsWithItemInventoryDTOResponseAndItemReviewDTOResponse(
 									itemInventoryDTOResponse,
 									itemReviewDTOResponse);
-					log.debug("700000");
+
 					return OnlineStoreMapper.buildServerResponseMonoWithDTOResponse(onlineStoreDTOResponse,
 							HttpStatus.OK);
 				}).switchIfEmpty(processItemInventoryDTOResponseMono(itemInventoryDTOResponseMono, HttpStatus.OK));
-				// return processItemInventoryDTOResponseMono(itemInventoryDTOResponseMono,
-				// HttpStatus.OK);
-
 			}
-			log.debug("800000");
+
 			return processItemInventoryDTOResponseMono(itemInventoryDTOResponseMono, HttpStatus.OK);
 		}).switchIfEmpty(OnlineStoreMapper.buildDefaultEmptyServerResponseMono());
-
-		return tmp;
-	}
-
-	@Override
-	public Mono<ServerResponse> processItemReviewDTOResponseMono(Mono<ItemReviewDTOResponse> itemReviewDTOResponseMono,
-			HttpStatus httpStatus) {
-		log.debug("processItemReviewDTOResponseMono itemReviewDTOResponseMono={}", itemReviewDTOResponseMono);
-
-		return itemReviewDTOResponseMono.flatMap(itemReviewDTOResponse -> {
-			SandboxUtils.prettyPrintObjectToJson(itemReviewDTOResponse);
-
-			OnlineStoreDTOResponse onlineStoreDTOResponse = OnlineStoreMapper
-					.buildOnlineStoreDTOResponseWithItemReviewDTOResponse(itemReviewDTOResponse);
-
-			return OnlineStoreMapper.buildServerResponseMonoWithDTOResponse(onlineStoreDTOResponse, httpStatus);
-		});
 	}
 
 	@Override
 	public Mono<ServerResponse> processItemInventoryDTOResponseMono(
 			Mono<ItemInventoryDTOResponse> itemInventoryDTOResponseMono, HttpStatus httpStatus) {
 
-		log.debug("processItemInventoryDTOResponseMono");
-
 		return itemInventoryDTOResponseMono.flatMap(itemInventoryDTOResponse -> {
-			SandboxUtils.prettyPrintObjectToJson(itemInventoryDTOResponse);
+			log.debug("processItemInventoryDTOResponseMono itemInventoryDTOResponse={}",
+					SandboxUtils.getPrettyPrintJsonFromObject(itemInventoryDTOResponse));
 
 			OnlineStoreDTOResponse onlineStoreDTOResponse = OnlineStoreMapper
 					.buildOnlineStoreDTOResponsWithItemInventoryDTOResponse(itemInventoryDTOResponse);
+
+			return OnlineStoreMapper.buildServerResponseMonoWithDTOResponse(onlineStoreDTOResponse, httpStatus);
+		});
+	}
+
+	@Override
+	public Mono<ServerResponse> processItemReviewDTOResponseMono(Mono<ItemReviewDTOResponse> itemReviewDTOResponseMono,
+			HttpStatus httpStatus) {
+
+		return itemReviewDTOResponseMono.flatMap(itemReviewDTOResponse -> {
+			log.debug("processItemReviewDTOResponseMono itemReviewDTOResponseMono={}",
+					SandboxUtils.getPrettyPrintJsonFromObject(itemReviewDTOResponse));
+
+			OnlineStoreDTOResponse onlineStoreDTOResponse = OnlineStoreMapper
+					.buildOnlineStoreDTOResponseWithItemReviewDTOResponse(itemReviewDTOResponse);
 
 			return OnlineStoreMapper.buildServerResponseMonoWithDTOResponse(onlineStoreDTOResponse, httpStatus);
 		});

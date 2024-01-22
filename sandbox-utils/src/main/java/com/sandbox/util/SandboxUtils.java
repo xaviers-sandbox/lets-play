@@ -11,12 +11,25 @@ public class SandboxUtils {
 		ObjectMapper mapper = new ObjectMapper();
 
 		try {
-			mapper.writeValueAsString(anyObject);
-
 			log.debug(mapper.writerWithDefaultPrettyPrinter().writeValueAsString(anyObject));
+
 		} catch (JsonProcessingException e) {
 
-			log.debug("JsonProcessingException message={}", e.getLocalizedMessage());
+			log.error("JsonProcessingException message={}", e.getLocalizedMessage());
+		}
+	}
+
+	public static String getPrettyPrintJsonFromObject(Object anyObject) {
+		ObjectMapper mapper = new ObjectMapper();
+
+		try {
+			return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(anyObject);
+
+		} catch (JsonProcessingException e) {
+
+			log.error("JsonProcessingException message={}", e.getLocalizedMessage());
+
+			return "";
 		}
 	}
 }

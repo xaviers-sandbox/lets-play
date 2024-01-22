@@ -11,6 +11,7 @@ public class ExternalClient500Exception extends RuntimeException {
 	private String errorMessage;
 
 	public ExternalClient500Exception(String errorMessage) {
+
 		super(errorMessage);
 		this.errorMessage = errorMessage;
 	}

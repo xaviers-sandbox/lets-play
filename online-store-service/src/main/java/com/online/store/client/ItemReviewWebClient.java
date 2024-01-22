@@ -7,6 +7,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import com.item.review.model.response.ItemReviewDTOResponse;
 import com.online.store.client.error.handler.OnlineStoreClientErrorHandler;
+import com.online.store.mapper.OnlineStoreMapper;
 
 import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Mono;
@@ -45,10 +46,14 @@ public class ItemReviewWebClient {
 
 					return onlineStoreClientErrorHandler.processItemReview5xxServerError(clientResponse);
 				})
-				.bodyToMono(ItemReviewDTOResponse.class);
+				.bodyToMono(ItemReviewDTOResponse.class)
+				.retryWhen(OnlineStoreMapper.buildRetryBackoffSpec());
+		// .retry(3);
+		// .retryWhen(Retry.backoff(3, Duration.ofSeconds(3L)));
 	}
 
 	public Mono<ItemReviewDTOResponse> getAllItemReviews() {
+
 		return webClient.get()
 				.uri(itemReviewsUrl)
 				.retrieve()
@@ -60,7 +65,10 @@ public class ItemReviewWebClient {
 
 					return onlineStoreClientErrorHandler.processItemReview5xxServerError(clientResponse);
 				})
-				.bodyToMono(ItemReviewDTOResponse.class);
+				.bodyToMono(ItemReviewDTOResponse.class)
+				.retryWhen(OnlineStoreMapper.buildRetryBackoffSpec());
+		// .retryWhen(Retry.backoff(3, Duration.ofSeconds(3L)));
+		// .retry(3);
 	}
 
 	public Mono<ItemReviewDTOResponse> getItemReviewById(String id) {
@@ -78,6 +86,9 @@ public class ItemReviewWebClient {
 
 					return onlineStoreClientErrorHandler.processItemReview5xxServerError(clientResponse);
 				})
-				.bodyToMono(ItemReviewDTOResponse.class);
+				.bodyToMono(ItemReviewDTOResponse.class)
+				.retryWhen(OnlineStoreMapper.buildRetryBackoffSpec());
+		// .retryWhen(Retry.backoff(3, Duration.ofSeconds(3L)));
+		// .retry(3);
 	}
 }

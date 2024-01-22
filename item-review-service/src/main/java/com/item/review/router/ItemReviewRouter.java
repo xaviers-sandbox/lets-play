@@ -13,10 +13,10 @@ import com.item.review.handler.ItemReviewHandler;
 @Configuration
 public class ItemReviewRouter {
 
-	@Bean
+	@Bean("itemReviewRoutes")
 	RouterFunction<ServerResponse> itemReviewRoutes(ItemReviewHandler itemReviewHandler) {
 
-		return route().nest(path("v1/item-reviews"), builder -> {
+		return route().nest(path("v1/item-reviews/app"), builder -> {
 			builder.POST("", (serverRequest -> itemReviewHandler.handleAddNewItemReview(serverRequest)))
 					.POST("/init-test-data/{size}",
 							(serverRequest -> itemReviewHandler.handleInitTestDataBySize(serverRequest)))

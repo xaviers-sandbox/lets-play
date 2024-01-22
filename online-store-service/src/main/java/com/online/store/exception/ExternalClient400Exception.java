@@ -9,7 +9,6 @@ public class ExternalClient400Exception extends RuntimeException {
 
 	private static final long serialVersionUID = 1L;
 	private String errorMessage;
-	private int statusCode;
 
 	public ExternalClient400Exception(String errorMessage) {
 		super(errorMessage);
