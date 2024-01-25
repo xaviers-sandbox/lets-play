@@ -23,6 +23,7 @@ Lastly, there are two applications that provide shared models and common utiliti
 - Eureka
 - Api Gateway
 - Config Server
+- OpenApi
 - Hibernate
 - Lombok
 - Jackson
@@ -38,3 +39,9 @@ Lastly, there are two applications that provide shared models and common utiliti
 - Caching
 - Exception Handling, Retries
 - On-demand Cache and Database Management
+
+# Swagger for Item Inventory Service
+<img width="1440" alt="Screen Shot 2024-01-25 at 12 13 46 AM" src="https://github.com/xaviers-sandbox/lets-play/assets/155487917/a93e876b-516c-4fc9-9ddb-df1176cf75d1">
+
+# Swagger for Item Review Service
+<img width="1440" alt="Screen Shot 2024-01-25 at 12 14 07 AM" src="https://github.com/xaviers-sandbox/lets-play/assets/155487917/c47898e4-6a94-49db-91c6-14a01956dcda">
