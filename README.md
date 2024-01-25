@@ -48,3 +48,7 @@ Lastly, there are two applications that provide shared models and common utiliti
 
 # Swagger for Item Review Service
 <img width="1440" alt="Screen Shot 2024-01-25 at 12 14 07 AM" src="https://github.com/xaviers-sandbox/lets-play/assets/155487917/c47898e4-6a94-49db-91c6-14a01956dcda">
+
+# Swagger for Online Store Service
+<img width="1440" alt="Screen Shot 2024-01-25 at 6 06 25 PM" src="https://github.com/xaviers-sandbox/lets-play/assets/155487917/1f9f5123-17f0-4f74-935f-24d481d61369">
+
