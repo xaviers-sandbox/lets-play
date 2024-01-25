@@ -13,7 +13,7 @@ import com.item.inventory.model.response.ErrorDTOResponse;
 import com.item.inventory.model.response.ResponseDTO;
 import com.item.inventory.repository.ItemInventoryRepository;
 import com.item.inventory.service.ItemInventoryService;
-import com.item.inventory.service.ProcessItemInventoryEntity;
+import com.item.inventory.service.ProcessItemInventoryEntityService;
 import com.item.inventory.service.cache.ItemInventoryCacheService;
 import com.item.inventory.util.ItemInventoryUtil;
 import com.item.inventory.validator.ItemInventoryValidator;
@@ -24,7 +24,7 @@ import reactor.core.publisher.Mono;
 
 @Service
 @Slf4j
-public class ItemInventoryServiceImpl extends ProcessItemInventoryEntity implements ItemInventoryService {
+public class ItemInventoryServiceImpl extends ProcessItemInventoryEntityService implements ItemInventoryService {
 	private ItemInventoryValidator itemInventoryValidator;
 
 	private ItemInventoryRepository itemInventoryRepository;

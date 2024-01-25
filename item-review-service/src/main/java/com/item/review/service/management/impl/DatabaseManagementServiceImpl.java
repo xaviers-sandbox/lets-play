@@ -6,7 +6,7 @@ import org.springframework.web.reactive.function.server.ServerResponse;
 
 import com.item.review.entity.ItemReviewEntity;
 import com.item.review.repository.ItemReviewRepository;
-import com.item.review.service.ProcessItemReviewEntity;
+import com.item.review.service.ProcessItemReviewEntityService;
 import com.item.review.service.management.DatabaseManagementService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -15,7 +15,7 @@ import reactor.core.publisher.Mono;
 
 @Service
 @Slf4j
-public class DatabaseManagementServiceImpl extends ProcessItemReviewEntity implements DatabaseManagementService {
+public class DatabaseManagementServiceImpl extends ProcessItemReviewEntityService implements DatabaseManagementService {
 	private ItemReviewRepository itemReviewRepository;
 
 	public DatabaseManagementServiceImpl(ItemReviewRepository itemReviewRepository) {

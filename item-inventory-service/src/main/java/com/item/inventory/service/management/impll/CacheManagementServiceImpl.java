@@ -8,7 +8,7 @@ import com.item.inventory.entity.ItemInventoryEntity;
 import com.item.inventory.mapper.ItemInventoryMapper;
 import com.item.inventory.model.request.ItemInventoryDTORequest;
 import com.item.inventory.model.response.ResponseDTO;
-import com.item.inventory.service.ProcessItemInventoryEntity;
+import com.item.inventory.service.ProcessItemInventoryEntityService;
 import com.item.inventory.service.cache.ItemInventoryCacheService;
 import com.item.inventory.service.management.CacheManagementService;
 
@@ -18,7 +18,7 @@ import reactor.core.publisher.Mono;
 
 @Service
 @Slf4j
-public class CacheManagementServiceImpl extends ProcessItemInventoryEntity implements CacheManagementService {
+public class CacheManagementServiceImpl extends ProcessItemInventoryEntityService implements CacheManagementService {
 
 	private ItemInventoryCacheService itemInventoryCacheService;
 

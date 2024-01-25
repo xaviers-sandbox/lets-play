@@ -2,6 +2,7 @@ package com.item.inventory.config;
 
 import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.boot.autoconfigure.http.HttpMessageConverters;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.cloud.openfeign.support.SpringDecoder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -9,6 +10,7 @@ import org.springframework.context.annotation.Configuration;
 import feign.codec.Decoder;
 
 @Configuration
+@EnableFeignClients(basePackages = { "com.item.inventory.proxy" })
 public class FeignResponseDecoderConfig {
 	@Bean
 	Decoder feignDecoder() {

@@ -18,7 +18,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Slf4j
-public abstract class ProcessItemInventoryEntity {
+public abstract class ProcessItemInventoryEntityService {
 	public Mono<ResponseEntity<ResponseDTO>> processItemInventoryEntityMono(
 			Mono<ItemInventoryEntity> itemInventoryEntityMono, HttpStatus httpStatus) {
 

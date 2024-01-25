@@ -8,7 +8,7 @@ import com.item.inventory.entity.ItemInventoryEntity;
 import com.item.inventory.mapper.ItemInventoryMapper;
 import com.item.inventory.model.response.ResponseDTO;
 import com.item.inventory.repository.ItemInventoryRepository;
-import com.item.inventory.service.ProcessItemInventoryEntity;
+import com.item.inventory.service.ProcessItemInventoryEntityService;
 import com.item.inventory.service.management.DatabaseManagementService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -17,7 +17,7 @@ import reactor.core.publisher.Mono;
 
 @Service
 @Slf4j
-public class DatabaseManagementServiceImpl extends ProcessItemInventoryEntity implements DatabaseManagementService {
+public class DatabaseManagementServiceImpl extends ProcessItemInventoryEntityService implements DatabaseManagementService {
 
 	private ItemInventoryRepository itemInventoryRepository;
 

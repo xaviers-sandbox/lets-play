@@ -7,7 +7,7 @@ import org.springframework.web.reactive.function.server.ServerResponse;
 import com.item.review.entity.ItemReviewEntity;
 import com.item.review.mapper.ItemReviewMapper;
 import com.item.review.model.request.ItemReviewDTORequest;
-import com.item.review.service.ProcessItemReviewEntity;
+import com.item.review.service.ProcessItemReviewEntityService;
 import com.item.review.service.cache.ItemReviewCacheService;
 import com.item.review.service.management.CacheManagementService;
 
@@ -17,7 +17,7 @@ import reactor.core.publisher.Mono;
 
 @Service
 @Slf4j
-public class CacheManagementServiceImpl extends ProcessItemReviewEntity implements CacheManagementService {
+public class CacheManagementServiceImpl extends ProcessItemReviewEntityService implements CacheManagementService {
 	private ItemReviewCacheService itemReviewCacheService;
 
 	public CacheManagementServiceImpl(ItemReviewCacheService itemReviewCacheService) {

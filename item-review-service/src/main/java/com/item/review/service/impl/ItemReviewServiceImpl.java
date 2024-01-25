@@ -13,7 +13,7 @@ import com.item.review.model.request.ItemReviewDTORequest;
 import com.item.review.model.response.ErrorDTOResponse;
 import com.item.review.repository.ItemReviewRepository;
 import com.item.review.service.ItemReviewService;
-import com.item.review.service.ProcessItemReviewEntity;
+import com.item.review.service.ProcessItemReviewEntityService;
 import com.item.review.util.ItemReviewUtil;
 
 import lombok.extern.slf4j.Slf4j;
@@ -22,7 +22,7 @@ import reactor.core.publisher.Mono;
 
 @Service
 @Slf4j
-public class ItemReviewServiceImpl extends ProcessItemReviewEntity implements ItemReviewService {
+public class ItemReviewServiceImpl extends ProcessItemReviewEntityService implements ItemReviewService {
 	private ItemReviewRepository itemReviewRepo;
 
 	public ItemReviewServiceImpl(ItemReviewRepository itemReviewRepo) {

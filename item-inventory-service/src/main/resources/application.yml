@@ -11,7 +11,8 @@ spring:
           lower-case-service-id: true
 
 server:
-  port: 1111  
+  port: 1111
+  #forward-headers-strategy: framework
 
 management:
   endpoints:
@@ -25,7 +26,7 @@ eureka:
   client:
     serviceUrl:
       defaultZone: http://localhost:8761/eureka     
-    enabled: true 
+    enabled: false 
     
 resilience4j:
   retry:
@@ -34,6 +35,16 @@ resilience4j:
         maxAttempts: 3   
         waitDuration: 1s
         enableExponentialBackoff: true
+
+springdoc:
+  api-docs:
+    path: /api-docs
+    enabled: true
+  swagger-ui: 
+    path: /swagger-ui.html 
+    enabled: true
+    #disable-swagger-default-url: false
+
 ---
 spring:
   config:

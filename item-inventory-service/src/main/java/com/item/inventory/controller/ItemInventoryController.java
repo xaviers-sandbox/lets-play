@@ -59,7 +59,7 @@ public class ItemInventoryController {
 		return itemInventoryService.updateItemInventoryById(id, updatedItemInventoryDTOrequest);
 	}
 
-	@DeleteMapping("/{id}")
+	@DeleteMapping("/delete/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public Mono<Void> deleteItemInventoryById(@PathVariable String id) {
 		return itemInventoryService.deleteItemInventoryById(id);

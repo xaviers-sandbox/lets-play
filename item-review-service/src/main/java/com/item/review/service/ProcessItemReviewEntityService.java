@@ -17,7 +17,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Slf4j
-public abstract class ProcessItemReviewEntity {
+public abstract class ProcessItemReviewEntityService {
 	public Mono<ServerResponse> processItemReviewEntityMono(Mono<ItemReviewEntity> itemReviewEntityMono,
 			HttpStatus httpStatus) {
 		log.debug("processItemReviewEntityMono");
