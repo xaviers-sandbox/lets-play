@@ -1,4 +1,6 @@
 spring:
+  main:
+    web-application-type: REACTIVE
   application:
     name: online-store-service
   profiles:
@@ -25,7 +27,16 @@ eureka:
   client:
     serviceUrl:
       defaultZone: http://localhost:8761/eureka     
+    enabled: false
+    
+springdoc:
+  api-docs:
+    path: /api-docs
     enabled: true
+  swagger-ui: 
+    path: /swagger-ui.html 
+    enabled: true
+    #disable-swagger-default-url: false   
 ---
 spring:
   config:
@@ -43,8 +54,8 @@ logging:
     "[com.sandbox.util]" : DEBUG    
 
 webClient:
-  itemInventoriesUrl: http://localhost:1111/v1/item-inventories
-  itemReviewsUrl: http://localhost:2222/v1/item-reviews
+  itemInventoriesUrl: http://localhost:1111/v1/item-inventories/app
+  itemReviewsUrl: http://localhost:2222/v1/item-reviews/app
 
 ---
 spring:
@@ -63,7 +74,7 @@ logging:
     "[com.sandbox.util]" : DEBUG
 
 webClient:
-  itemInventoriesUrl: http://localhost:1111/v1/item-inventories
-  itemReviewsUrl: http://localhost:2222/v1/item-reviews
+  itemInventoriesUrl: http://localhost:1111/v1/item-inventories/app
+  itemReviewsUrl: http://localhost:2222/v1/item-reviews/app
 
 

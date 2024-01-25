@@ -9,7 +9,8 @@ import com.item.review.model.response.ItemReviewDTOResponse;
 import reactor.core.publisher.Mono;
 
 public interface OnlineStoreService {
-
+	Mono<ServerResponse> getItemDetailsByItemInventoryId(String itemInventoryId);
+	
 	Mono<ServerResponse> getAllItemReviews();
 
 	Mono<ServerResponse> getItemReviewById(String id);
@@ -19,8 +20,6 @@ public interface OnlineStoreService {
 	Mono<ServerResponse> getAllItemInventories();
 
 	Mono<ServerResponse> getItemInventoryById(String id);
-
-	Mono<ServerResponse> getItemDetailsByItemInventoryId(String itemInventoryId);
 
 	Mono<ServerResponse> processItemReviewDTOResponseMono(Mono<ItemReviewDTOResponse> itemReviewDTOResponseMono,
 			HttpStatus httpStatus);

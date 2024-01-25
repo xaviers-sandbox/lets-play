@@ -20,6 +20,14 @@ public class OnlineStoreHandler {
 		this.onlineStoreService = onlineStoreService;
 	}
 
+	public Mono<ServerResponse> handleGetItemDetailsByItemInventoryId(ServerRequest serverRequest) {
+		String itemInventoryId = serverRequest.pathVariable("itemInventoryId");
+
+		log.debug("handleGetItemDetailsByItemInventoryId itemInventoryId={}", itemInventoryId);
+
+		return onlineStoreService.getItemDetailsByItemInventoryId(itemInventoryId);
+	}
+	
 	public Mono<ServerResponse> handleGetAllItemReviews(ServerRequest serverRequest) {
 		log.debug("handleGetAllItemReviews");
 
@@ -50,13 +58,5 @@ public class OnlineStoreHandler {
 		log.debug("handleGetItemInventoryById id={}", id);
 
 		return onlineStoreService.getItemInventoryById(id);
-	}
-
-	public Mono<ServerResponse> handleGetItemDetailsByItemInventoryId(ServerRequest serverRequest) {
-		String itemInventoryId = serverRequest.pathVariable("id");
-
-		log.debug("handleGetItemDetailsByItemInventoryId itemInventoryId={}", itemInventoryId);
-
-		return onlineStoreService.getItemDetailsByItemInventoryId(itemInventoryId);
 	}
 }
