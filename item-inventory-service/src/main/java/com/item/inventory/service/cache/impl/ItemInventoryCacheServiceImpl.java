@@ -22,7 +22,7 @@ import reactor.core.publisher.Mono;
 public class ItemInventoryCacheServiceImpl implements ItemInventoryCacheService {
 	private final String ITEM_INVENTORY_MAP_KEY = "itemInventoryEntity";
 
-	Faker f = new Faker();
+	private static Faker f = new Faker();
 
 	private ItemInventoryRepository itemInventoryRepository;
 
@@ -111,26 +111,4 @@ public class ItemInventoryCacheServiceImpl implements ItemInventoryCacheService 
 				.doFinally(signalType -> rMapReactive.expire(Duration.ofHours(1L)).subscribe());
 
 	}
-
-	// this uses streams. update the others to streams
-//	public Mono<ResponseEntity<ResponseDTO>> processItemInventoryEntityMono_afiuahfiuahfoajfoaijfoij(
-//			Mono<ItemInventoryEntity> itemInventoryEntityMono, HttpStatus httpStatus) {
-//		log.debug("processItemInventoryEntityMono");
-//
-//		return itemInventoryEntityMono.flatMap(returnedItemInventoryEntity -> {
-//			ResponseEntity<ResponseDTO> responseEntity = Stream
-//					.of(ItemInventoryMapper.mapItemInventoryEntityToItemInventoryDTO(returnedItemInventoryEntity))
-//					.map(itemInventoryDTO -> {
-//						List<ItemInventoryDTO> itemInventoryDTOList = new ArrayList<>(Arrays.asList(itemInventoryDTO));
-//						return ItemInventoryMapper.buildItemInventoryDTOResponse(itemInventoryDTOList);
-//					})
-//					.map(itemInventoryDTOResponse -> ItemInventoryMapper
-//							.buildResponseEntityWithDTOResponse(itemInventoryDTOResponse, httpStatus))
-//					.findAny()
-//					.get();
-//
-//			return Mono.just(responseEntity);
-//		});
-//	}
-
 }

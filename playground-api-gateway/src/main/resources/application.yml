@@ -1,0 +1,46 @@
+spring:
+  application:
+    name: api-gateway-service
+  profiles:
+    active: local
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+      routes:
+        - id: item-inventory-service
+          uri: lb://item-inventory-service
+          predicates:
+            - Path=/item-inventory-service/**
+        - id: item-review-service
+          uri: lb://item-review-service
+          predicates:
+            - Path=/item-review-service/**
+        - id: online-store-service
+          uri: lb://online-store-service
+          predicates:
+            - Path=/online-store-service/**
+
+server:
+  port: 8765 
+
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka     
+    enabled: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "health,info"   
+        
+        
+logging:
+  level: 
+    "[com.playground]" : DEBUG                   

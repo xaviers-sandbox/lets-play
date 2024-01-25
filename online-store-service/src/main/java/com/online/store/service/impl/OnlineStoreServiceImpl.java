@@ -11,8 +11,8 @@ import com.item.review.model.response.ItemReviewDTOResponse;
 import com.online.store.client.ItemInventoyWebClient;
 import com.online.store.client.ItemReviewWebClient;
 import com.online.store.mapper.OnlineStoreMapper;
+import com.online.store.model.OnlineStoreDTOResponse;
 import com.online.store.service.OnlineStoreService;
-import com.online.store.service.model.OnlineStoreDTOResponse;
 import com.sandbox.util.SandboxUtils;
 
 import lombok.extern.slf4j.Slf4j;

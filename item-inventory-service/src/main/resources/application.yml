@@ -3,9 +3,47 @@ spring:
     name: item-inventory-service
   profiles:
     active: local
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
 
 server:
-  port: 1111  
+  port: 1111
+  #forward-headers-strategy: framework
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "health,info"
+        
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka     
+    enabled: false 
+    
+resilience4j:
+  retry:
+    instances:
+      testing-circuit-breaker:
+        maxAttempts: 3   
+        waitDuration: 1s
+        enableExponentialBackoff: true
+
+springdoc:
+  api-docs:
+    path: /api-docs
+    enabled: true
+  swagger-ui: 
+    path: /swagger-ui.html 
+    enabled: true
+    #disable-swagger-default-url: false
 
 ---
 spring:
@@ -21,13 +59,14 @@ spring:
       #host: 10.11.12.13
       host: localhost
       port: 6379
+
 logging:
   level: 
     "[com.item.inventory]" : DEBUG   
     "[com.sandbox.util]" : DEBUG  
     #"[org.springframework.data.mongodb.core.MongoTemplate]": DEBUG
-    #"[org.springframework.data.mongodb.core.ReactiveMongoTemplate]": DEBUG
-  
+    #"[org.springframework.data.mongodb.core.ReactiveMongoTemplate]": DEBUG 
+
 ---
 spring:
   config:

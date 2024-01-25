@@ -1,19 +1,13 @@
 package com.item.review.service.management.impl;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Stream;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.server.ServerResponse;
 
 import com.item.review.entity.ItemReviewEntity;
 import com.item.review.mapper.ItemReviewMapper;
-import com.item.review.model.ItemReviewDTO;
 import com.item.review.model.request.ItemReviewDTORequest;
-import com.item.review.model.response.ItemReviewDTOResponse;
+import com.item.review.service.ProcessItemReviewEntityService;
 import com.item.review.service.cache.ItemReviewCacheService;
 import com.item.review.service.management.CacheManagementService;
 
@@ -23,7 +17,7 @@ import reactor.core.publisher.Mono;
 
 @Service
 @Slf4j
-public class CacheManagementServiceImpl implements CacheManagementService {
+public class CacheManagementServiceImpl extends ProcessItemReviewEntityService implements CacheManagementService {
 	private ItemReviewCacheService itemReviewCacheService;
 
 	public CacheManagementServiceImpl(ItemReviewCacheService itemReviewCacheService) {
@@ -97,41 +91,4 @@ public class CacheManagementServiceImpl implements CacheManagementService {
 
 		return Mono.empty();
 	}
-
-	public Mono<ServerResponse> processItemReviewEntityMono(Mono<ItemReviewEntity> itemReviewEntityMono,
-			HttpStatus httpStatus) {
-		log.debug("processItemReviewEntityMono");
-
-		return itemReviewEntityMono.flatMap(returnedItemReviewEntity -> {
-			Mono<ServerResponse> serverResponseMono = Stream
-					.of(ItemReviewMapper.mapItemReviewEntityToItemReviewDTO(returnedItemReviewEntity))
-					.map(itemReviewDTO -> {
-						List<ItemReviewDTO> itemReviewDTOList = new ArrayList<>(Arrays.asList(itemReviewDTO));
-						return ItemReviewMapper.buildItemReviewDTOResponse(itemReviewDTOList);
-					})
-					.map(itemReviewDTOResponse -> ItemReviewMapper
-							.buildServerResponseMonoWithDTOResponse(itemReviewDTOResponse, httpStatus))
-					.findAny()
-					.get();
-
-			return serverResponseMono;
-		});
-	}
-
-	public Mono<ServerResponse> processItemReviewEntityFlux(Flux<ItemReviewEntity> itemReviewEntityFlux,
-			HttpStatus httpStatus) {
-		log.debug("processItemReviewEntityFlux");
-
-		return itemReviewEntityFlux.collectList().flatMap(itemReviewEntityList -> {
-
-			List<ItemReviewDTO> itemReviewDTOList = ItemReviewMapper
-					.mapItemReviewEntityListToItemReviewDTOList(itemReviewEntityList);
-
-			ItemReviewDTOResponse itemReviewDTOResponse = ItemReviewMapper
-					.buildItemReviewDTOResponse(itemReviewDTOList);
-
-			return ItemReviewMapper.buildServerResponseMonoWithDTOResponse(itemReviewDTOResponse, httpStatus);
-		});
-	}
-
 }

@@ -1,9 +1,11 @@
 # Distributed Event Driven Microservices Architecture Design Sandbox
 The ecosystem consists of loosely coupled non-blocking Springboot 3 applications that interact with each other, databases, and queues written in Java 21.
 
-Currently, there are two lightnening fast applications that operate at the database level and interact with NoSQL MongoDB databases and a redis server: item-inventory-service and item-review-service. These two applications allow the standard CRUD operations. item-inventory-services using the traditional controller while item-review-services uses functional endpoints. They are both heavily written using functional programming.
+Currently, there are two lightnening fast applications that operate at the database layer and interact with NoSQL MongoDB databases and a redis server: item-inventory-service and item-review-service. These two applications allow the standard CRUD operations. item-inventory-services using the traditional controller while item-review-services uses functional endpoints. They are both heavily written using functional programming.
 
-A third application, online-order-service, operates at the HTTP level and interfaces with the two previously mentioned applications to expose data through CRUD endpoints. It is also heavily written using functional programming and implements functional endpoints.
+A third application, online-order-service, operates at the HTTP layer and interfaces with the two previously mentioned applications to expose data through CRUD endpoints. It is also heavily written using functional programming and implements functional endpoints.
+
+App management and orchestration is taken care of by the playground-naming-server, playground-config-server, and playground-api-gateway apps. playground-naming-server serves as the app registry. playground-config-server provides centralized app configurations. playground-api-gateway tackles the task of loadbalancing and being a fascade to other apis.
 
 Lastly, there are two applications that provide shared models and common utilities to the ecosystem: sandbox-domain-model and sandbox-utilities
 
@@ -17,6 +19,11 @@ Lastly, there are two applications that provide shared models and common utiliti
 - Reactor
 - WebFlux
 - WebClient
+- OpenFeign
+- Eureka
+- Api Gateway
+- Config Server
+- OpenApi
 - Hibernate
 - Lombok
 - Jackson
@@ -32,3 +39,9 @@ Lastly, there are two applications that provide shared models and common utiliti
 - Caching
 - Exception Handling, Retries
 - On-demand Cache and Database Management
+
+# Swagger for Item Inventory Service
+<img width="1440" alt="Screen Shot 2024-01-25 at 12 13 46 AM" src="https://github.com/xaviers-sandbox/lets-play/assets/155487917/a93e876b-516c-4fc9-9ddb-df1176cf75d1">
+
+# Swagger for Item Review Service
+<img width="1440" alt="Screen Shot 2024-01-25 at 12 14 07 AM" src="https://github.com/xaviers-sandbox/lets-play/assets/155487917/c47898e4-6a94-49db-91c6-14a01956dcda">
