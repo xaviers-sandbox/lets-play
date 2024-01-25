@@ -36,6 +36,11 @@ public class ItemInventoryController {
 		this.itemInventoryService = itemInventoryService;
 		this.itemInventoryFeignProxy = itemInventoryFeignProxy;
 	}
+	
+	@GetMapping("unsecure-world")
+	public String helloWorldNoSecurity() {
+		return "Life without security";
+	}
 
 	@PostMapping
 	public Mono<ResponseEntity<ResponseDTO>> addNewItemInventory(
@@ -43,40 +48,40 @@ public class ItemInventoryController {
 		return itemInventoryService.addNewItemInventory(newItemInventoryDTOrequest);
 	}
 
-	@GetMapping("/{id}")
+	@GetMapping("/app/{id}")
 	public Mono<ResponseEntity<ResponseDTO>> getItemInventoryById(@PathVariable String id) {
 		return itemInventoryService.getItemInventoryById(id);
 	}
 
-	@GetMapping
+	@GetMapping("/app")
 	public Mono<ResponseEntity<ResponseDTO>> getAllItemInventories() {
 		return itemInventoryService.getAllItemInventories();
 	}
 
-	@PutMapping("/{id}")
+	@PutMapping("/app/{id}")
 	public Mono<ResponseEntity<ResponseDTO>> updateItemInventoryById(@PathVariable String id,
 			@RequestBody @Valid ItemInventoryDTORequest updatedItemInventoryDTOrequest) {
 		return itemInventoryService.updateItemInventoryById(id, updatedItemInventoryDTOrequest);
 	}
 
-	@DeleteMapping("/delete/{id}")
+	@DeleteMapping("/app/delete/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public Mono<Void> deleteItemInventoryById(@PathVariable String id) {
 		return itemInventoryService.deleteItemInventoryById(id);
 	}
 
-	@DeleteMapping("/delete/all")
+	@DeleteMapping("/app/delete/all")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public Mono<Void> deleteAllItemInventories() {
 		return itemInventoryService.deleteAllItemInventories();
 	}
 
-	@PostMapping("/init-test-data/{size}")
+	@PostMapping("/app/init-test-data/{size}")
 	public Mono<ResponseEntity<ResponseDTO>> initTestDataBySize(@PathVariable String size) {
 		return itemInventoryService.initTestDataBySize(size);
 	}
 
-	@GetMapping("/item-reviews/{itemInventoryId}")
+	@GetMapping("/app/item-reviews/{itemInventoryId}")
 	@Retry(name = "testing-circuit-breaker", fallbackMethod = "returnDefaultResponse")
 	// fires off 10 request per sec command: watch -n 0.1 curl
 	// http://localhost:1111/circuit-breaker

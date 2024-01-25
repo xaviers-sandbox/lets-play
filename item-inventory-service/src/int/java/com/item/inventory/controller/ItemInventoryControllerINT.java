@@ -28,6 +28,7 @@ import net.datafaker.Faker;
 @AutoConfigureWebTestClient
 @ActiveProfiles("test")
 @Slf4j
+//@Import(SecurityConfigs.class)
 public class ItemInventoryControllerINT {
 	@Autowired
 	private ItemInventoryRepository itemInventoryRepo;

@@ -10,7 +10,10 @@ App management and orchestration is taken care of by the playground-naming-serve
 Lastly, there are two applications that provide shared models and common utilities to the ecosystem: sandbox-domain-model and sandbox-utilities
 
 ### Technologies, Frameworks, and Libraries Used:
+- Intellij
+- Mac OS
 - Springboot 3
+- Maven
 - Java 21
 - MongoDB
 - MongoDB Reactive
