@@ -1,9 +1,9 @@
 # Distributed Event Driven Microservices Architecture Design Sandbox
-The ecosystem consists of loosely coupled non-blocking Springboot 3 applications that interact with each other, databases, and queues written in Java 21.
+The ecosystem consists of secure, loosely coupled, and non-blocking Springboot 3 applications that interact with each other, databases, and queues written in Java 21.
 
-Currently, there are two lightnening fast applications that operate at the database layer and interact with NoSQL MongoDB databases and a redis server: item-inventory-service and item-review-service. These two applications allow the standard CRUD operations. item-inventory-services using the traditional controller while item-review-services uses functional endpoints. They are both heavily written using functional programming.
+Currently, there are two lightnening fast applications that operate at the database layer and interact with NoSQL MongoDB databases and a redis server: item-inventory-service and item-review-service. These two applications allow the standard CRUD operations. item-inventory-services using the traditional controller while item-review-services uses functional endpoints. They are both secured by role based JWTs and heavily written using functional programming.
 
-A third application, online-order-service, operates at the HTTP layer and interfaces with the two previously mentioned applications to expose data through CRUD endpoints. It is also heavily written using functional programming and implements functional endpoints.
+A third application, online-order-service, operates at the HTTP layer and interfaces with the two previously mentioned applications to expose data through CRUD endpoints. It is also secured by JWT and heavily written using functional programming and implements functional endpoints.
 
 App management and orchestration is taken care of by the playground-naming-server, playground-config-server, and playground-api-gateway apps. playground-naming-server serves as the app registry. playground-config-server provides centralized app configurations. playground-api-gateway tackles the task of loadbalancing and being a fascade to other apis.
 
@@ -19,6 +19,9 @@ Lastly, there are two applications that provide shared models and common utiliti
 - MongoDB Reactive
 - Redisson
 - Redis
+- Keycloak
+- Oauth2
+- JWT
 - Reactor
 - WebFlux
 - WebClient
@@ -36,6 +39,7 @@ Lastly, there are two applications that provide shared models and common utiliti
 - Integration Testing : WebClientTest, Reactor Test, Embedded MongoDB, Wiremock, Datafaker
 
 ### Robust Software Implementations
+- API Security
 - Abstraction, Inheritance, Polymorphism 
 - Validation - Bean, Entity, RequestDTO, and ResponseDTO
 - Logging

@@ -42,7 +42,7 @@ public class ItemInventoryController {
 		return "Life without security";
 	}
 
-	@PostMapping
+	@PostMapping("/app")
 	public Mono<ResponseEntity<ResponseDTO>> addNewItemInventory(
 			@RequestBody @Valid ItemInventoryDTORequest newItemInventoryDTOrequest) {
 		return itemInventoryService.addNewItemInventory(newItemInventoryDTOrequest);
