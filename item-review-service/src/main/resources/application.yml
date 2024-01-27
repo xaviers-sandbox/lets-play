@@ -1,4 +1,6 @@
 spring:
+  main:
+    web-application-type: REACTIVE
   application:
     name: item-review-service
   profiles:
@@ -9,7 +11,17 @@ spring:
         locator:
           enabled: true
           lower-case-service-id: true
-          
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: http://localhost:4444/realms/playground-keycloak-service/protocol/openid-connect/certs          
+
+#client id - item-review-api
+#client secret - JdYsFquJliE1rmqy4UgPwhPMjSySOkNh
+#client secret - JdYsFquJliE1rmqy4UgPwhPMjSySOkNh
+#client secret - JdYsFquJliE1rmqy4UgPwhPMjSySOkNh
+
 server:
   port: 2222  
   
@@ -34,7 +46,7 @@ springdoc:
   swagger-ui: 
     path: /swagger-ui.html 
     enabled: true
-    #disable-swagger-default-url: false
+    #disable-swagger-default-url: true
 ---
 spring:
   config:

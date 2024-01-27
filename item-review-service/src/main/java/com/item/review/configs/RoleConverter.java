@@ -1,4 +1,4 @@
-package com.item.inventory.config;
+package com.item.review.configs;
 
 import java.util.Collection;
 import java.util.Collections;
