@@ -11,6 +11,23 @@ spring:
         locator:
           enabled: true
           lower-case-service-id: true
+  security:
+    oauth2:
+      #resourceserver:
+        #jwt:
+          #jwk-set-uri: http://localhost:4444/realms/playground-keycloak-service/protocol/openid-connect/certs
+      client:
+        registration:
+          keycloak:
+            client-id: item-inventory-api
+            client-secret: 5ptanrhy2H08qigXuHa7D55FvMD5wvFn
+            #client-secret: 5ptanrhy2H08qigXuHa7D55FvMD5wvFnXaviersSandbox
+            authorization-grant-type: client_credentials
+            scope: openid
+        provider:
+          keycloak:
+            token-uri: http://localhost:4444/realms/playground-keycloak-service/protocol/openid-connect/token
+            jwk-set-uri: http://localhost:4444/realms/playground-keycloak-service/protocol/openid-connect/certs
 
 server:
   port: 3333  

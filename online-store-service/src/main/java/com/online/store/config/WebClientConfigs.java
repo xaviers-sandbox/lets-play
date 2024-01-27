@@ -2,6 +2,9 @@ package com.online.store.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.oauth2.client.registration.ReactiveClientRegistrationRepository;
+import org.springframework.security.oauth2.client.web.reactive.function.client.ServerOAuth2AuthorizedClientExchangeFilterFunction;
+import org.springframework.security.oauth2.client.web.server.ServerOAuth2AuthorizedClientRepository;
 import org.springframework.web.reactive.function.client.ExchangeFilterFunction;
 import org.springframework.web.reactive.function.client.WebClient;
 
@@ -13,14 +16,15 @@ import reactor.core.publisher.Mono;
 public class WebClientConfigs {
 
 	@Bean
-	WebClient buildWebClient(WebClient.Builder webclientBuilder) {
-		return webclientBuilder
-		// .filters(exchangeFilterFunctions -> {
-		// exchangeFilterFunctions.add(logRequest());
-		// exchangeFilterFunctions.add(logResponse());
-//		})
-				.build();
+	WebClient webClient(ReactiveClientRegistrationRepository clientRegistrationRepo,
+			ServerOAuth2AuthorizedClientRepository authorizedClientRepo) {
+		
+		ServerOAuth2AuthorizedClientExchangeFilterFunction filter = new ServerOAuth2AuthorizedClientExchangeFilterFunction(
+				clientRegistrationRepo, authorizedClientRepo);
 
+		filter.setDefaultClientRegistrationId("keycloak");
+
+		return WebClient.builder().filter(filter).build();
 	}
 
 	public ExchangeFilterFunction logRequest() {
@@ -38,7 +42,7 @@ public class WebClientConfigs {
 				clientResponse.bodyToMono(String.class).subscribe(i -> {
 					log.debug("Logging Response:: response={}", i);
 				});
-				// log.info("tracey ross sexy ass - Request: {}",
+				// log.info("seafood festival - Request: {}",
 				// clientRequest.headers()
 				// .forEach((name, values) -> values.forEach(value -> log.info("tracey ross
 				// {}={}", name, value)));
