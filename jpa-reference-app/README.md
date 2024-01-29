@@ -20,4 +20,4 @@
 - Be Aware of Cascading Deletes
 
 ### ER Diagram
-<img width="1440" alt="Screen Shot 2024-01-29 at 2 49 57 AM" src="https://github.com/xaviers-sandbox/reference-apps/assets/155487917/969c79da-5947-4dd5-a46c-d5e4823a63d6">
+<img width="1440" alt="Screen Shot 2024-01-29 at 2 49 57 AM" src="https://github.com/xaviers-sandbox/lets-play/assets/155487917/083b44f7-59fb-4950-a626-6717d7e12b15">
