@@ -17,6 +17,8 @@ Lastly, there are two applications that provide shared models and common utiliti
 - Java 21
 - MongoDB
 - MongoDB Reactive
+- MySql
+- JPA Hibernate
 - Redisson
 - Redis
 - Keycloak
@@ -30,7 +32,6 @@ Lastly, there are two applications that provide shared models and common utiliti
 - Api Gateway
 - Config Server
 - OpenApi
-- Hibernate
 - Lombok
 - Jackson
 
