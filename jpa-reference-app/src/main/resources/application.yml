@@ -1,0 +1,65 @@
+spring:
+  main:
+    banner-mode: off
+  application:
+    name: jpa-reference-app
+  profiles:
+    active: local
+  datasource:
+    url: jdbc:mysql://localhost:3306/jpa-reference-app
+    username: root
+    password: root
+    hikari:
+      auto-commit: true
+      idle-timeout: 10000
+      minimum-idle: 5
+      maximum-pool-size: 10
+      max-lifetime: 30000
+      connection-timeout: 30000
+      pool-name: Pooling-With-Hikari
+    
+server:
+  port: 9999
+
+
+#http://localhost:8080/actuator/metrics
+#http://localhost:8080/actuator/metrics/hikaricp-connections-max
+#https://springframework.guru/hikari-configuration-for-mysql-in-spring-boot-2/
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "metrics,health,info"
+  metrics:
+    enabled: true
+    
+#logging:
+#  level:
+#    root: warn
+#    org:
+#      hibernate:
+#        sql: trace
+#        orm:
+#          jdbc:
+#            bind: trace
+
+---
+spring:
+  config:
+    activate:
+      on-profile: local      
+
+logging:
+  level: 
+    "[com.reference]" : DEBUG   
+    "[com.sandbox.util]" : DEBUG  
+
+---
+spring:
+  config:
+    activate:
+      on-profile: test       
+logging:
+  level:    
+    "[com.reference]" : DEBUG   
+    "[com.sandbox.util]" : DEBUG    
