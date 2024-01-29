@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.springframework.util.CollectionUtils;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -49,6 +51,8 @@ public class Student {
 	@JoinTable(name = "course_student", 
 		joinColumns = @JoinColumn(name = "student_id"), 
 		inverseJoinColumns = @JoinColumn(name = "course_id"))
+	@JsonBackReference
+	//@Fetch(value = FetchMode.SUBSELECT)
 	private List<Course> coursesList;
 	
 	public void addCourse(Course newCourse) {
@@ -57,5 +61,10 @@ public class Student {
 		}
 
 		coursesList.add(newCourse);
+	}
+
+	@Override
+	public String toString() {
+		return "Student [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email + "]";
 	}
 }

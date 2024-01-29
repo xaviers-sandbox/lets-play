@@ -1,7 +1,6 @@
 package com.playground.controller;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -33,7 +32,8 @@ public class InstructorDetailsController {
 
 		List<Course> coursesList = courseRepo.findAll();
 
-		return coursesList.stream().map(JpaRefMapper::buildCourseDTO).collect(Collectors.toList());
+		//return coursesList.stream().map(JpaRefMapper::buildCourseDTO).collect(Collectors.toList());
+		return null;
 
 	}
 
@@ -45,7 +45,9 @@ public class InstructorDetailsController {
 
 		Course origCourse = courseRepo.findById(Integer.valueOf(id)).orElse(new Course());
 
-		return (ObjectUtils.isEmpty(origCourse)) ? new CourseDTO() : JpaRefMapper.buildCourseDTO(origCourse);
+		//return (ObjectUtils.isEmpty(origCourse)) ? new CourseDTO() : JpaRefMapper.buildCourseDTO(origCourse);
+		
+		return null;
 
 	}
 
@@ -69,6 +71,8 @@ public class InstructorDetailsController {
 
 		Course newlySavedCourse = courseRepo.save(updatedCourse);
 
-		return JpaRefMapper.buildCourseDTO(newlySavedCourse);
+		//return JpaRefMapper.buildCourseDTO(newlySavedCourse);
+		
+		return null;
 	}
 }

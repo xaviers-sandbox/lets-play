@@ -21,6 +21,6 @@ public interface CourseRepo extends JpaRepository<Course, Integer> {
 	@Query("select c from course c join fetch c.studentsList s where c.id = :id")
 	public Optional<Course> findCourseWithStudentsByCourseId(@Param("id") final int id);
 	
-	@Query("select c from course c join fetch c.studentsList s join fetch c.reviewsList r where c.id = :id")
+	@Query("select c from course c join fetch c.reviewsList r join fetch c.studentsList s where c.id = :id")
 	public Optional<Course> findCourseWithStudentsAndReviewsByCourseId(@Param("id") final int id);
 }

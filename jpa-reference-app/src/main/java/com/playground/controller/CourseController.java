@@ -2,6 +2,7 @@ package com.playground.controller;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.ObjectUtils;
@@ -18,6 +19,7 @@ import com.playground.entity.Course;
 import com.playground.entity.Student;
 import com.playground.mapper.JpaRefMapper;
 import com.playground.model.CourseDTO;
+import com.playground.model.ResponseDTO;
 import com.playground.repo.CourseRepo;
 import com.sandbox.util.SandboxUtils;
 
@@ -34,36 +36,51 @@ public class CourseController {
 
 	@PostMapping("/{testDataSize}")
 	@Transactional
-	public List<CourseDTO> addNewCoursesWithReviews(@PathVariable String testDataSize) {
+	public ResponseDTO addNewCoursesWithReviews(@PathVariable String testDataSize) {
 
 		if (StringUtils.isNumeric(testDataSize) && (1 < Integer.valueOf(testDataSize))) {
 			List<Course> coursesList = JpaRefMapper.generateCourseEntityList(Integer.valueOf(testDataSize));
 
-			List<Student> studentsList = JpaRefMapper.generateStudentsEntityList(Integer.valueOf(testDataSize) - 1);
+			Set<Student> studentsSet = JpaRefMapper.generateStudentsEntitySet(Integer.valueOf(testDataSize) - 1);
 
 			coursesList.forEach(course -> {
-				course.setStudentsList(studentsList);
+				course.setStudentsList(studentsSet);
 			});
 
 			coursesList = courseRepo.saveAll(coursesList);
 
-			List<CourseDTO> courseDTOList = coursesList.stream()
-					.map(JpaRefMapper::buildCourseDTO)
+			List<CourseDTO> coursesDTOList = coursesList.stream()
+					.map(JpaRefMapper::buildCourseDTOWithNullCoursesDTOList)
 					.collect(Collectors.toList());
 
-			return courseDTOList;
+			return JpaRefMapper.buildResponseDTOWithCourseDTO(coursesDTOList);
 		}
 
-		return Collections.emptyList();
+		return JpaRefMapper.buildResponseDTOWithCourseDTO(Collections.emptyList());
 
 	}
 
 	@GetMapping
-	public List<CourseDTO> getAllCourses() {
+	public ResponseDTO getAllCourses() {
 
 		List<Course> coursesList = courseRepo.findAll();
 
-		return coursesList.stream().map(JpaRefMapper::buildCourseDTO).collect(Collectors.toList());
+		List<CourseDTO> coursesDTOList = coursesList.stream()
+				.map(JpaRefMapper::buildCourseDTOWithNullCoursesDTOList)
+				.collect(Collectors.toList());
+
+		return JpaRefMapper.buildResponseDTOWithCourseDTO(coursesDTOList);
+
+	}
+
+	@GetMapping("/{id}")
+	public CourseDTO getCourseByCourseId(@PathVariable String id) {
+		if (!StringUtils.isNumeric(id))
+			return new CourseDTO();
+
+		Course course = courseRepo.findById(Integer.valueOf(id)).orElse(new Course());
+
+		return (ObjectUtils.isEmpty(course)) ? new CourseDTO() : JpaRefMapper.buildCourseDTOWithNullCoursesDTOList(course);
 
 	}
 
@@ -74,8 +91,7 @@ public class CourseController {
 
 		Course course = courseRepo.findCourseWithReviewsByCourseId(Integer.valueOf(id)).orElse(new Course());
 
-		return (ObjectUtils.isEmpty(course)) ? new CourseDTO() : JpaRefMapper.buildCourseDTO(course);
-
+		return (ObjectUtils.isEmpty(course)) ? new CourseDTO() : JpaRefMapper.buildCourseDTOWithNullCoursesDTOList(course);
 	}
 
 	@GetMapping("/students/{id}")
@@ -85,10 +101,11 @@ public class CourseController {
 
 		Course course = courseRepo.findCourseWithStudentsByCourseId(Integer.valueOf(id)).orElse(new Course());
 
-		return (ObjectUtils.isEmpty(course)) ? new CourseDTO() : JpaRefMapper.buildCourseDTO(course);
-
+		System.out.println(id + " course.getTitle()" + course.getTitle());
+		
+		return (ObjectUtils.isEmpty(course)) ? new CourseDTO() : JpaRefMapper.buildCourseDTOWithNullCoursesDTOList(course);
 	}
-	
+
 	@GetMapping("/students/reviews/{id}")
 	public CourseDTO getCourseWithStudentsAndReviewsByCourseId(@PathVariable String id) {
 		if (!StringUtils.isNumeric(id))
@@ -96,7 +113,7 @@ public class CourseController {
 
 		Course course = courseRepo.findCourseWithStudentsAndReviewsByCourseId(Integer.valueOf(id)).orElse(new Course());
 
-		return (ObjectUtils.isEmpty(course)) ? new CourseDTO() : JpaRefMapper.buildCourseDTO(course);
+		return (ObjectUtils.isEmpty(course)) ? new CourseDTO() : JpaRefMapper.buildCourseDTOWithNullCoursesDTOList(course);
 
 	}
 
@@ -120,7 +137,7 @@ public class CourseController {
 
 		Course newlySavedCourse = courseRepo.save(updatedCourse);
 
-		return JpaRefMapper.buildCourseDTO(newlySavedCourse);
+		return JpaRefMapper.buildCourseDTOWithNullCoursesDTOList(newlySavedCourse);
 
 	}
 

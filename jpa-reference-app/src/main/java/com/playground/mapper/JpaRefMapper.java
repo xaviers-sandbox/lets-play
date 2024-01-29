@@ -1,13 +1,17 @@
 package com.playground.mapper;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.BeanUtils;
+import org.springframework.util.CollectionUtils;
 
 import com.playground.entity.Course;
 import com.playground.entity.Instructor;
@@ -15,9 +19,10 @@ import com.playground.entity.InstructorDetails;
 import com.playground.entity.Review;
 import com.playground.entity.Student;
 import com.playground.model.CourseDTO;
+import com.playground.model.CourseResponseDTO;
 import com.playground.model.InstructorDTO;
 import com.playground.model.InstructorDetailsDTO;
-import com.playground.model.JpaRefResponseDTO;
+import com.playground.model.InstructorResponseDTO;
 import com.playground.model.ResponseDTO;
 import com.playground.model.ReviewDTO;
 import com.playground.model.StudentDTO;
@@ -72,7 +77,7 @@ public class JpaRefMapper {
 	}
 
 	public static ResponseDTO buildResponseDTOWithInstructorDTO(List<InstructorDTO> instructorDTOList) {
-		return JpaRefResponseDTO.builder()
+		return InstructorResponseDTO.builder()
 				.resultSetSize(instructorDTOList.size())
 				.instructorDTOList(instructorDTOList)
 				.build();
@@ -139,17 +144,6 @@ public class JpaRefMapper {
 				.build();
 	}
 
-	public static ResponseDTO buildResponseDtoWithInstructor(List<Instructor> instructorList) {
-		return JpaRefResponseDTO.builder().resultSetSize(instructorList.size()).instructorList(instructorList).build();
-	}
-
-	public static ResponseDTO buildResponseDtoWithInstructorDetails(List<InstructorDetails> instructorDetailsList) {
-		return JpaRefResponseDTO.builder()
-				.resultSetSize(instructorDetailsList.size())
-				.instructorDetailsList(instructorDetailsList)
-				.build();
-	}
-
 	public static List<Course> generateCourseEntityList(int testDataSize) {
 		List<Course> coursesList = IntStream.range(0, testDataSize)
 				.mapToObj(i -> buildMockCourseEntity())
@@ -160,29 +154,80 @@ public class JpaRefMapper {
 		return coursesList;
 	}
 
-	public static CourseDTO buildCourseDTO(Course course) {
+	public static CourseDTO buildCourseDTOWithNullCoursesDTOList(Course course) {
 
-		List<ReviewDTO> reviewsDTOList = course.getReviewsList()
-				.stream()
-				.map(i -> buildReviewDTO(i))
-				.collect(Collectors.toList());
+		List<ReviewDTO> reviewsDTOList = buildReviewsDTOList(course);
 
-		return CourseDTO.builder().id(course.getId()).title(course.getTitle()).reviewsDTOList(reviewsDTOList).build();
+		List<StudentDTO> studentsDTOList = buildStudentsDTOListWithNullCoursesDTOList(course);
+
+		return CourseDTO.builder()
+				.id(course.getId())
+				.title(course.getTitle())
+				.reviewsDTOList(reviewsDTOList)
+				.studentsDTOList(studentsDTOList)
+				.build();
 	}
 
-	public static StudentDTO buildStudentDTO(Student student) {
+	private static StudentDTO buildStudentDTOWithNullCoursesDTOList(Student student) {
+		return StudentDTO.builder()
+				.id(student.getId())
+				.firstName(student.getFirstName())
+				.lastName(student.getLastName())
+				.email(student.getEmail())
+				.coursesDTOList(null)
+				.build();
+	}
 
-		List<CourseDTO> courseDTOList = student.getCoursesList()
+	public static List<ReviewDTO> buildReviewsDTOList(Course course) {
+		if (CollectionUtils.isEmpty(course.getReviewsList()) || course.getReviewsList().size() < 1) {
+			return Collections.emptyList();
+		}
+
+		return course.getReviewsList()
 				.stream()
-				.map(i -> buildCourseDTO(i))
+				.filter(ObjectUtils::isNotEmpty)
+				.map(i -> buildReviewDTO(i))
 				.collect(Collectors.toList());
+	}
+
+	public static List<StudentDTO> buildStudentsDTOListWithoutCourses(Course course) {
+		System.out.println("course.getStudentsList()=" + course.getStudentsList().size());
+
+		if (CollectionUtils.isEmpty(course.getStudentsList()) || course.getStudentsList().size() < 1) {
+			return Collections.emptyList();
+		}
+
+		return course.getStudentsList()
+				.stream()
+				.filter(ObjectUtils::isNotEmpty)
+				.map(i -> buildStudentDTOWithoutCourses(i))
+				.collect(Collectors.toList());
+	}
+
+//	public static List<CourseDTO> buildCoursesDTOList(Student student) {
+//
+//		System.out.println("student.getCoursesList()=" + student.getCoursesList().size());
+//
+//		if (CollectionUtils.isEmpty(student.getCoursesList()) || student.getCoursesList().size() < 1) {
+//			return Collections.emptyList();
+//		}
+//
+//		// return Collections.emptyList();
+//		return student.getCoursesList()
+//				.stream()
+//				.filter(ObjectUtils::isNotEmpty)
+//				.map(i -> buildCourseDTO(i))
+//				.collect(Collectors.toList());
+//	}
+
+	public static StudentDTO buildStudentDTOWithoutCourses(Student student) {
 
 		return StudentDTO.builder()
 				.id(student.getId())
 				.firstName(student.getFirstName())
 				.lastName(student.getLastName())
 				.email(student.getEmail())
-				.coursesDTOList(courseDTOList)
+				.coursesDTOList(null)
 				.build();
 	}
 
@@ -222,14 +267,14 @@ public class JpaRefMapper {
 		return ReviewDTO.builder().id(review.getId()).comment(review.getComment()).build();
 	}
 
-	public static List<Student> generateStudentsEntityList(int testDataSize) {
-		List<Student> studentsList = IntStream.range(0, testDataSize)
+	public static Set<Student> generateStudentsEntitySet(int testDataSize) {
+		Set<Student> studentsSet = IntStream.range(0, testDataSize)
 				.mapToObj(i -> buildMockStudentEntity())
-				.collect(Collectors.toList());
+				.collect(Collectors.toSet());
 
-		SandboxUtils.prettyPrintObjectToJson(studentsList);
+		SandboxUtils.prettyPrintObjectToJson(studentsSet);
 
-		return studentsList;
+		return studentsSet;
 
 	}
 
@@ -249,5 +294,67 @@ public class JpaRefMapper {
 				.email(origStudent.getEmail())
 				.coursesList(generateCourseEntityList(size))
 				.build();
+	}
+
+	public static ResponseDTO buildResponseDtoWithInstructor(List<Instructor> instructorList) {
+		return InstructorResponseDTO.builder()
+				.resultSetSize(instructorList.size())
+				.instructorList(instructorList)
+				.build();
+	}
+
+	public static ResponseDTO buildResponseDtoWithInstructorDetails(List<InstructorDetails> instructorDetailsList) {
+		return InstructorResponseDTO.builder()
+				.resultSetSize(instructorDetailsList.size())
+				.instructorDetailsList(instructorDetailsList)
+				.build();
+	}
+
+	public static ResponseDTO buildResponseDTOWithCourseDTO(List<CourseDTO> coursesDTOList) {
+		return CourseResponseDTO.builder().resultSetSize(coursesDTOList.size()).coursesDTOList(coursesDTOList).build();
+	}
+
+	public static StudentDTO buildStudentDTOWithNullStudentsDTOList(Student student) {
+		List<CourseDTO> coursesDTOList = buildCoursesDTOListWithNullStudentsDTOList(student);
+
+		return StudentDTO.builder()
+				.id(student.getId())
+				.firstName(student.getFirstName())
+				.lastName(student.getLastName())
+				.coursesDTOList(coursesDTOList)
+				.build();
+	}
+
+	public static List<CourseDTO> buildCoursesDTOListWithNullStudentsDTOList(Student student) {
+		return  Optional.ofNullable(student.getCoursesList())
+				.orElse(new ArrayList<>())
+				.stream()
+				.filter(ObjectUtils::isNotEmpty)
+				.map(i -> buildCourseDTOWithNullStudentsDTOList(i))
+				.collect(Collectors.toList());
+	}
+
+	public static CourseDTO buildCourseDTOWithNullStudentsDTOList(Course course) {
+		List<ReviewDTO> reviewsDTOList = Optional.ofNullable(course.getReviewsList())
+				.orElse(new ArrayList<>())
+				.stream()
+				.map(i -> buildReviewDTO(i))
+				.collect(Collectors.toList());
+
+		return CourseDTO.builder()
+				.id(course.getId())
+				.reviewsDTOList(reviewsDTOList)
+				.studentsDTOList(null)
+				.title(course.getTitle())
+				.build();
+	}
+
+	public static List<StudentDTO> buildStudentsDTOListWithNullCoursesDTOList(Course course) {
+		return Optional.ofNullable(course.getStudentsList())
+				.orElse(new HashSet<>())
+				.stream()
+				.filter(ObjectUtils::isNotEmpty)
+				.map(i -> buildStudentDTOWithNullCoursesDTOList(i))
+				.collect(Collectors.toList());
 	}
 }

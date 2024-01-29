@@ -15,7 +15,7 @@ import lombok.EqualsAndHashCode;
 @Builder
 @JsonInclude(Include.NON_NULL)
 @EqualsAndHashCode(callSuper = false)
-public class JpaRefResponseDTO extends ResponseDTO {
+public class InstructorResponseDTO extends ResponseDTO {
 	private int resultSetSize;
 	private List<Instructor> instructorList;
 	private List<InstructorDetails> instructorDetailsList;

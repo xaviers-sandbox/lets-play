@@ -61,7 +61,7 @@ public class StudentController {
 
 		List<Student> studentsList = studentRepo.findAll();
 
-		return studentsList.stream().map(JpaRefMapper::buildStudentDTO).collect(Collectors.toList());
+		return studentsList.stream().map(JpaRefMapper::buildStudentDTOWithNullStudentsDTOList).collect(Collectors.toList());
 
 	}
 
@@ -75,7 +75,7 @@ public class StudentController {
 
 			Student student = studentRepo.findById(Integer.valueOf(id)).orElse(new Student());
 
-			return (ObjectUtils.isEmpty(student)) ? new StudentDTO() : JpaRefMapper.buildStudentDTO(student);
+			return (ObjectUtils.isEmpty(student)) ? new StudentDTO() : JpaRefMapper.buildStudentDTOWithNullStudentsDTOList(student);
 		}
 	}
 
@@ -99,7 +99,7 @@ public class StudentController {
 
 			Student newlySavedStudent = studentRepo.save(updatedStudent);
 
-			return JpaRefMapper.buildStudentDTO(newlySavedStudent);
+			return JpaRefMapper.buildStudentDTOWithNullStudentsDTOList(newlySavedStudent);
 		
 	}
 

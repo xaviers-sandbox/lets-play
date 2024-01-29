@@ -1,7 +1,9 @@
 package com.playground.entity;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.util.CollectionUtils;
 
@@ -48,6 +50,8 @@ public class Course {
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn(name = "course_id")
+	@JsonBackReference
+	//@Fetch(value = FetchMode.SUBSELECT)
 	private List<Review> reviewsList;
 
 	// do not cascade the deletes or removes
@@ -56,7 +60,9 @@ public class Course {
 	@JoinTable(name = "course_student", 
 		joinColumns = @JoinColumn(name = "course_id"), 
 		inverseJoinColumns = @JoinColumn(name = "student_id"))
-	private List<Student> studentsList;
+	@JsonBackReference
+	//@Fetch(value = FetchMode.SUBSELECT)
+	private Set<Student> studentsList;
 
 	public void addReview(Review newReview) {
 		if (CollectionUtils.isEmpty(reviewsList)) {
@@ -68,7 +74,7 @@ public class Course {
 
 	public void addStudent(Student newStudent) {
 		if (CollectionUtils.isEmpty(studentsList)) {
-			studentsList = new ArrayList<Student>();
+			studentsList = new HashSet<Student>();
 		}
 
 		studentsList.add(newStudent);

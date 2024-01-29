@@ -8,16 +8,16 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 @Builder
 @JsonInclude(Include.NON_NULL)
-public class CourseDTO {
-	private Integer id;
-	private String title;
-	private List<ReviewDTO> reviewsDTOList;
-	private List<StudentDTO> studentsDTOList;
+@EqualsAndHashCode(callSuper = false)
+@AllArgsConstructor
+@NoArgsConstructor
+public class CourseResponseDTO extends ResponseDTO {
+	private int resultSetSize;
+	private List<CourseDTO> coursesDTOList;
 }

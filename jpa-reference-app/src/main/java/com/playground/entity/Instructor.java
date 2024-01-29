@@ -54,6 +54,7 @@ public class Instructor {
 	@OneToMany(mappedBy = "instructor", cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST,
 			CascadeType.REFRESH }, fetch = FetchType.LAZY)
 	@JsonManagedReference
+	//@Fetch(value = FetchMode.SUBSELECT)
 	private List<Course> coursesList;
 
 	public void addCourse(Course newCourse) {
