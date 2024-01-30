@@ -35,7 +35,6 @@ public class Student {
 	@Column(name = "id")
 	private Integer id;
 	
-	
 	@Column(name = "first_name")
 	private String firstName;
 	
@@ -52,7 +51,6 @@ public class Student {
 		joinColumns = @JoinColumn(name = "student_id"), 
 		inverseJoinColumns = @JoinColumn(name = "course_id"))
 	@JsonBackReference
-	//@Fetch(value = FetchMode.SUBSELECT)
 	private List<Course> coursesList;
 	
 	public void addCourse(Course newCourse) {

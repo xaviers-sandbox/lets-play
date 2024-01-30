@@ -27,12 +27,20 @@ server:
   port: 1111
   #forward-headers-strategy: framework
 
+
+#http://localhost:8080/actuator/metrics
+#http://localhost:8080/actuator/metrics/hikaricp-connections-max
+#https://springframework.guru/hikari-configuration-for-mysql-in-spring-boot-2/
 management:
   endpoints:
     web:
       exposure:
-        include: "health,info"
-        
+        include: "metrics,health,info"
+  metrics:
+    enabled: true
+
+
+   
 eureka:
   instance:
     hostname: localhost

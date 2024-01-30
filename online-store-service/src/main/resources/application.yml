@@ -18,16 +18,28 @@ spring:
           #jwk-set-uri: http://localhost:4444/realms/playground-keycloak-service/protocol/openid-connect/certs
       client:
         registration:
-          keycloak:
+          item-inventory-api:
             client-id: item-inventory-api
             client-secret: 5ptanrhy2H08qigXuHa7D55FvMD5wvFn
-            #client-secret: 5ptanrhy2H08qigXuHa7D55FvMD5wvFnXaviersSandbox
+            #client-secret: JdYsFquJliE1rmqy4UgPwhPMjSySOkNhXavierSandbox
             authorization-grant-type: client_credentials
             scope: openid
+          item-review-api:
+            client-id: item-review-api
+            client-secret: JdYsFquJliE1rmqy4UgPwhPMjSySOkNh
+            #client-secret: 5ptanrhy2H08qigXuHa7D55FvMD5wvFnXaviersSandbox
+            authorization-grant-type: client_credentials
+            scope: openid  
         provider:
           keycloak:
             token-uri: http://localhost:4444/realms/playground-keycloak-service/protocol/openid-connect/token
             jwk-set-uri: http://localhost:4444/realms/playground-keycloak-service/protocol/openid-connect/certs
+
+
+#client id - online-store-api
+#client secret - zR8XNmemblnbx6Ki7mQGdqxGyNU4IXZw
+#client secret - zR8XNmemblnbx6Ki7mQGdqxGyNU4IXZw
+#client secret - zR8XNmemblnbx6Ki7mQGdqxGyNU4IXZw
 
 server:
   port: 3333  
