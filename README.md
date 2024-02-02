@@ -15,10 +15,13 @@ Lastly, there are two applications that provide shared models and common utiliti
 - Springboot 3
 - Maven
 - Java 21
+- Docker
 - Kafka
+- Offset Explorer 2
 - MongoDB
 - MongoDB Reactive
 - MySql
+- MySql Workbench
 - JPA Hibernate
 - Redisson
 - Redis
@@ -26,6 +29,7 @@ Lastly, there are two applications that provide shared models and common utiliti
 - Oauth2
 - JWT
 - Reactor
+- Postman
 - WebFlux
 - WebClient
 - OpenFeign
