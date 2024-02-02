@@ -2,6 +2,7 @@ package com.online.store.config;
 
 import java.util.List;
 
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -14,6 +15,7 @@ import io.swagger.v3.oas.models.servers.Server;
 
 @Configuration
 @OpenAPIDefinition
+//@ConfigurationProperties("configs-name")
 public class SwaggerConfigs {
 	@Bean
 	OpenAPI config() {
