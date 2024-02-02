@@ -16,6 +16,8 @@ spring:
       resourceserver:
         jwt:
           jwk-set-uri: http://localhost:4444/realms/playground-keycloak-service/protocol/openid-connect/certs
+  #autoconfigure:
+    #exclude: org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration
 
 #client id - item-inventory-api
 #client secret - 5ptanrhy2H08qigXuHa7D55FvMD5wvFn

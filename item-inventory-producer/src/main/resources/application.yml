@@ -1,0 +1,65 @@
+spring:
+  main:
+    banner-mode: off
+  application:
+    name: item-inventory-producer
+  profiles:
+    active: local
+   
+server:
+  port: 5555
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "metrics,health,info"
+  metrics:
+    enabled: true
+  
+---
+spring:
+  config:
+    activate:
+      on-profile: local      
+  kafka:
+    topic: "inventory-events"
+    partitions: 3
+    replicas: 3
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.IntegerSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      bootstrap-servers: localhost:9092,localhost:9093,localhost:9094
+    admin:  
+      properties:
+        bootstrap-servers: localhost:9092,localhost:9093,localhost:9094
+logging:
+  level: 
+    "[com.inventory.producer]" : DEBUG   
+    "[com.sandbox.util]" : DEBUG  
+
+---
+spring:
+  #cloud:
+  #  stream:
+   #   kafka:
+    #    binder:
+     #     autoCreateTopics: false
+  config:
+    activate:
+      on-profile: test       
+  kafka:
+    topic: "inventory-events"
+    partitions: 3
+    replicas: 3
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.IntegerSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      bootstrap-servers: localhost:9092,localhost:9093,localhost:9094
+    admin:  
+      properties:
+        bootstrap-servers: localhost:9092,localhost:9093,localhost:9094
+logging:
+  level: 
+    "[com.inventory.producer]" : DEBUG   
+    "[com.sandbox.util]" : DEBUG  
