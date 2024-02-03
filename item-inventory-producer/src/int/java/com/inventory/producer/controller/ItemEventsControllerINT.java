@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,6 +28,8 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
+import com.inventory.producer.model.InventoryEventDTO;
+import com.inventory.producer.model.InventoryEventDTOResponse;
 import com.inventory.producer.record.InventoryEvent;
 import com.sandbox.util.SandboxUtils;
 
@@ -37,7 +38,9 @@ import lombok.extern.slf4j.Slf4j;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureWebTestClient
 @ActiveProfiles("test")
-@EmbeddedKafka(topics = "inventory-events", brokerProperties = { "log.dir=/Users/craps/git/lets-play/item-inventory-producer/src/int/kafka-logs" })
+@EmbeddedKafka(topics = "inventory-events"
+//, brokerProperties = { "log.dir=/Users/craps/git/lets-play/item-inventory-producer/src/int/kafka-logs" }
+)
 @Slf4j
 @TestPropertySource(locations = "classpath:application.yml", properties = {
 		"spring.kafka.admin.bootstrap.servers=${spring.embedded.kafka.brokers}",
@@ -51,9 +54,9 @@ public class ItemEventsControllerINT {
 
 	private Consumer<Integer, String> kafkaConsumer;
 
-	static final String INVENTORIES_EVENTS_URL = "/v1/inventory-events";
+	private static final String INVENTORIES_EVENTS_URL = "/v1/inventory-events/app";
 
-	static final int TEST_LIST_SIZE = 2;
+	private static final int TEST_LIST_SIZE = 2;
 
 	@BeforeEach
 	void initTest() throws IOException {
@@ -86,11 +89,19 @@ public class ItemEventsControllerINT {
 				.exchange()
 				.expectStatus()
 				.is2xxSuccessful()
-				.expectBodyList(InventoryEvent.class)
+				.expectBody(InventoryEventDTOResponse.class)
 				.consumeWith(response -> {
-					List<InventoryEvent> inventoryEventList = response.getResponseBody();
-					assertNotNull(inventoryEventList);
-					assertEquals(TEST_LIST_SIZE, inventoryEventList.size());
+					InventoryEventDTOResponse inventoryEventDTOResponse = response.getResponseBody();
+
+					List<InventoryEventDTO> responseList = inventoryEventDTOResponse.getItemInventoryDTOList();
+					assertNotNull(responseList);
+					assertEquals(TEST_LIST_SIZE, responseList.size());
+
+					responseList.forEach(i -> {
+						assertNotNull(i.getEventId());
+						assertNotNull(i.getEventType());
+						assertNotNull(i.getItemDTO());
+					});
 				})
 				.value(SandboxUtils::prettyPrintObjectToJson);
 

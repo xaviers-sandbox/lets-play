@@ -10,21 +10,15 @@ import com.inventory.producer.record.Item;
 
 import net.datafaker.Faker;
 
-public class InventoryProducerUtils {
+public class InventoryEventUtils {
 	private static Faker f = new Faker();
-	
-	public static List<InventoryEvent> generateInventoryEventList(int testDataSize) {
-		return IntStream.range(0, testDataSize).mapToObj(i -> {
-			if (i % 2 == 0) {
-				return buildMockInventoryEvent(InventoryEventType.NEW);
-			} else {
-				return buildMockInventoryEvent(InventoryEventType.UPDATE);
-			}
-		}).collect(Collectors.toList());
 
+	public static List<InventoryEvent> generateInventoryEventList(int testDataSize) {
+		
+		return IntStream.range(0, testDataSize).mapToObj(i -> buildMockInventoryEvent()).collect(Collectors.toList());
 	}
-	
-	public static InventoryEvent buildMockInventoryEvent(InventoryEventType inventoryEventType) {
+
+	public static InventoryEvent buildMockInventoryEvent() {
 		double price = Double.valueOf(f.commerce().price(1, 100));
 
 		Item item = Item.builder()
@@ -34,11 +28,13 @@ public class InventoryProducerUtils {
 				.quantity(f.number().numberBetween(0, 10))
 				.build();
 
+		InventoryEventType inventoryEventType = (item.id() % 2 == 0) ? InventoryEventType.NEW
+				: InventoryEventType.UPDATE;
+
 		return InventoryEvent.builder()
 				.eventId(f.number().numberBetween(100000, 10000000))
 				.eventType(inventoryEventType)
 				.item(item)
 				.build();
-
 	}
 }

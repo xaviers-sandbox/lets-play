@@ -8,15 +8,20 @@ import org.springframework.kafka.config.TopicBuilder;
 
 @Configuration
 public class KafkaConfigs {
-	@Value("${spring.kafka.topic}")
+	
 	public String topicName;
-	
-	@Value("${spring.kafka.partitions}")
+
 	public int partitions;
-	
-	@Value("${spring.kafka.replicas}")
+
 	public int replicas;
-	
+
+	public KafkaConfigs(@Value("${spring.kafka.topic}") String topicName,
+			@Value("${spring.kafka.partitions}") int partitions, @Value("${spring.kafka.replicas}") int replicas) {
+		this.topicName = topicName;
+		this.partitions = partitions;
+		this.replicas = replicas;
+	}
+
 	@Bean
 	NewTopic InventoryEvent() {
 		return TopicBuilder.name(topicName).partitions(partitions).replicas(replicas).build();

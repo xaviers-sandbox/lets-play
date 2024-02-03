@@ -23,6 +23,12 @@ spring:
     activate:
       on-profile: local      
   kafka:
+    properties:
+      "[log.dirs]": "/Users/craps/git/lets-play/item-inventory-producer/src/int/kafka-logs"
+      "[log.dir]": "/Users/craps/git/lets-play/item-inventory-producer/src/int/kafka-logs"
+      #-Djava.io.tmpdir=/Users/craps/git/lets-play/item-inventory-producer/src/int/kafka-logs
+      #-Dlog.dir=/Users/craps/git/lets-play/item-inventory-producer/src/int/kafka-logs
+      #-Dlog.dirs=/Users/craps/git/lets-play/item-inventory-producer/src/int/kafka-logs
     topic: "inventory-events"
     partitions: 3
     replicas: 3
@@ -30,6 +36,9 @@ spring:
       key-serializer: org.apache.kafka.common.serialization.IntegerSerializer
       value-serializer: org.apache.kafka.common.serialization.StringSerializer
       bootstrap-servers: localhost:9092,localhost:9093,localhost:9094
+      properties:
+        retries: 5
+        "[retry.backoff.ms]": 1000
     admin:  
       properties:
         bootstrap-servers: localhost:9092,localhost:9093,localhost:9094
@@ -49,6 +58,12 @@ spring:
     activate:
       on-profile: test       
   kafka:
+    properties:
+      "[log.dirs]": "/Users/craps/git/lets-play/item-inventory-producer/src/int/kafka-logs"
+      "[log.dir]": "/Users/craps/git/lets-play/item-inventory-producer/src/int/kafka-logs"
+      #-Djava.io.tmpdir=/Users/craps/git/lets-play/item-inventory-producer/src/int/kafka-logs
+      #-Dlog.dir=/Users/craps/git/lets-play/item-inventory-producer/src/int/kafka-logs
+      #-Dlog.dirs=/Users/craps/git/lets-play/item-inventory-producer/src/int/kafka-logs
     topic: "inventory-events"
     partitions: 3
     replicas: 3
@@ -56,9 +71,13 @@ spring:
       key-serializer: org.apache.kafka.common.serialization.IntegerSerializer
       value-serializer: org.apache.kafka.common.serialization.StringSerializer
       bootstrap-servers: localhost:9092,localhost:9093,localhost:9094
+      properties:
+        retries: 5
+        "[retry.backoff.ms]": 1000
     admin:  
       properties:
         bootstrap-servers: localhost:9092,localhost:9093,localhost:9094
+
 logging:
   level: 
     "[com.inventory.producer]" : DEBUG   

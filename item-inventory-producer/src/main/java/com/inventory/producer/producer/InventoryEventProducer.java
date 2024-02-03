@@ -17,31 +17,15 @@ import lombok.extern.slf4j.Slf4j;
 
 @Component
 @Slf4j
-public class InventoryEventsProducer {
+public class InventoryEventProducer {
 
 	private KafkaTemplate<Integer, String> kafkaTemplate;
 
-	@Value("${spring.kafka.topic}")
 	public String topicName;
 
-	public InventoryEventsProducer(KafkaTemplate<Integer, String> kafkaTemplate) {
+	public InventoryEventProducer(KafkaTemplate<Integer, String> kafkaTemplate, @Value("${spring.kafka.topic}") String topicName) {
 		this.kafkaTemplate = kafkaTemplate;
-	}
-
-	public CompletableFuture<SendResult<Integer, String>> sendEventToTopicAsync(InventoryEvent inventoryEvent) {
-
-		Integer key = inventoryEvent.eventId();
-		String value = SandboxUtils.convertObjectToString(inventoryEvent);
-
-		CompletableFuture<SendResult<Integer, String>> kafkaResponse = kafkaTemplate.send(topicName, key, value);
-
-		return kafkaResponse.whenComplete((sendResponse, throwable) -> {
-			if (ObjectUtils.isNotEmpty(throwable)) {
-				 logKafkaFailure(key, value, throwable);
-			} else {
-				logKafkaSuccess(key, value, sendResponse);
-			}
-		});
+		this.topicName = topicName;
 	}
 
 	public CompletableFuture<SendResult<Integer, String>> sendEventToTopicAsyncWithProducerRecord(

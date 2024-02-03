@@ -1,10 +1,11 @@
 package com.inventory.producer.model;
 
-import com.inventory.producer.record.InventoryEvent;
+import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Data
@@ -12,7 +13,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 //@JsonInclude(Include.NON_NULL)
-public class ItemEventsResponseDTO {
-	private InventoryEvent inventoryEvent;
-
+@EqualsAndHashCode(callSuper=false)
+public class InventoryEventDTOResponse extends ResponseDTO {
+	private Integer resultSetSize;
+	private List<InventoryEventDTO> itemInventoryDTOList;
 }
