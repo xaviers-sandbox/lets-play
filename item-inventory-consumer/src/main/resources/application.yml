@@ -1,0 +1,93 @@
+spring:
+  main:
+    banner-mode: off
+  application:
+    name: item-inventory-consumer
+  profiles:
+    active: local
+  datasource:
+    url: jdbc:mysql://localhost:3306/item-inventory-consumer-app
+    username: root
+    password: root
+    hikari:
+      auto-commit: true
+      idle-timeout: 10000
+      minimum-idle: 5
+      maximum-pool-size: 10
+      max-lifetime: 30000
+      connection-timeout: 30000
+      pool-name: Pooling-With-Hikari   
+
+server:
+  port: 7777
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "metrics,health,info"
+  metrics:
+    enabled: true
+  
+---
+spring:
+  config:
+    activate:
+      on-profile: local      
+  kafka:
+    properties:
+      "[log.dirs]": "/Users/craps/git/lets-play/item-inventory-consumer/src/int/kafka-logs"
+      "[log.dir]": "/Users/craps/git/lets-play/item-inventory-consumer/src/int/kafka-logs"
+      #-Djava.io.tmpdir=/Users/craps/git/lets-play/item-inventory-consumer/src/int/kafka-logs
+      #-Dlog.dir=/Users/craps/git/lets-play/item-inventory-consumer/src/int/kafka-logs
+      #-Dlog.dirs=/Users/craps/git/lets-play/item-inventory-consumer/src/int/kafka-logs
+    topic: "inventory-events"
+    partitions: 3
+    replicas: 3
+    consumer:
+      groupid: consumer-group-id-12345
+      key-serializer: org.apache.kafka.common.serialization.IntegerSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      bootstrap-servers: localhost:9092,localhost:9093,localhost:9094
+      #properties:
+       # retries: 5
+       # "[retry.backoff.ms]": 1000
+    admin:  
+      properties:
+        bootstrap-servers: localhost:9092,localhost:9093,localhost:9094
+
+logging:
+  level: 
+    "[com.inventory.consumer]" : DEBUG   
+    "[com.sandbox.util]" : DEBUG  
+
+---
+spring:
+  config:
+    activate:
+      on-profile: test       
+  kafka:
+    properties:
+      "[log.dirs]": "/Users/craps/git/lets-play/item-inventory-consumer/src/int/kafka-logs"
+      "[log.dir]": "/Users/craps/git/lets-play/item-inventory-consumer/src/int/kafka-logs"
+      #-Djava.io.tmpdir=/Users/craps/git/lets-play/item-inventory-consumer/src/int/kafka-logs
+      #-Dlog.dir=/Users/craps/git/lets-play/item-inventory-consumer/src/int/kafka-logs
+      #-Dlog.dirs=/Users/craps/git/lets-play/item-inventory-consumer/src/int/kafka-logs
+    topic: "inventory-events"
+    partitions: 3
+    replicas: 3
+    consumer:
+      key-serializer: org.apache.kafka.common.serialization.IntegerSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      bootstrap-servers: localhost:9092,localhost:9093,localhost:9094
+      properties:
+        retries: 5
+        "[retry.backoff.ms]": 1000
+    admin:  
+      properties:
+        bootstrap-servers: localhost:9092,localhost:9093,localhost:9094
+
+logging:
+  level: 
+    "[com.inventory.consumer]" : DEBUG   
+    "[com.sandbox.util]" : DEBUG  
