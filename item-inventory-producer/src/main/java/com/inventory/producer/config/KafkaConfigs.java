@@ -15,7 +15,7 @@ public class KafkaConfigs {
 
 	public int replicas;
 
-	public KafkaConfigs(@Value("${spring.kafka.topic}") String topicName,
+	public KafkaConfigs(@Value("${spring.kafka.topic-name}") String topicName,
 			@Value("${spring.kafka.partitions}") int partitions, @Value("${spring.kafka.replicas}") int replicas) {
 		this.topicName = topicName;
 		this.partitions = partitions;

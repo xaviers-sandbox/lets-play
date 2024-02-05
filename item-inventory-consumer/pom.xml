@@ -21,13 +21,13 @@
 	</properties>
 	<dependencies>
 		<dependency>
-			<groupId>com.sandbox.domain</groupId>
-			<artifactId>sandbox-domain-model</artifactId>
+			<groupId>com.sandbox.util</groupId>
+			<artifactId>sandbox-utils</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
-			<groupId>com.sandbox.util</groupId>
-			<artifactId>sandbox-utils</artifactId>
+			<groupId>com.sandbox.domain</groupId>
+			<artifactId>sandbox-domain-model</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
@@ -60,7 +60,7 @@
 			<artifactId>lombok</artifactId>
 			<optional>true</optional>
 		</dependency>
-	<!--	<dependency>
+		<!--	<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
 			<scope>runtime</scope>

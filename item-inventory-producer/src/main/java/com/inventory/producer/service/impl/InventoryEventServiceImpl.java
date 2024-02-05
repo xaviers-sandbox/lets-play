@@ -25,7 +25,7 @@ public class InventoryEventServiceImpl implements InventoryEventService {
 	private String topicName;
 
 	public InventoryEventServiceImpl(InventoryEventProducer inventoryEventProducer,
-			@Value("${spring.kafka.topic}") String topicName) {
+			@Value("${spring.kafka.topic-name}") String topicName) {
 		this.inventoryEventProducer = inventoryEventProducer;
 		this.topicName = topicName;
 	}

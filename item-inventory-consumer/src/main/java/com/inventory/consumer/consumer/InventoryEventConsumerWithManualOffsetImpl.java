@@ -6,17 +6,22 @@ import org.springframework.kafka.listener.AcknowledgingMessageListener;
 import org.springframework.kafka.support.Acknowledgment;
 import org.springframework.stereotype.Component;
 
-import com.inventory.producer.model.InventoryEventDTO;
-import com.sandbox.util.SandboxUtils;
+import com.inventory.consumer.service.InventoryEventService;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Component
 @Slf4j
 public class InventoryEventConsumerWithManualOffsetImpl implements AcknowledgingMessageListener<Integer, String> {
+	
+	private InventoryEventService inventoryEventService;
+
+	public InventoryEventConsumerWithManualOffsetImpl(InventoryEventService inventoryEventService) {
+		this.inventoryEventService = inventoryEventService;
+	}
 
 	@Override
-	@KafkaListener(topics = "${spring.kafka.topic}", id = "${spring.kafka.topic}")
+	@KafkaListener(topics = "${spring.kafka.topic-name}", id = "${spring.kafka.consumer.group-id}")
 	// , autoStartup="${spring.kafka.auto-startup}")
 	// @KafkaListener(topics =
 	// "${kafka.consumer.topics}",autoStartup="${kafka.consumer.autoStartup}",
@@ -29,9 +34,6 @@ public class InventoryEventConsumerWithManualOffsetImpl implements Acknowledging
 
 		acknowledgment.acknowledge();
 
-		InventoryEventDTO inventoryEvent = (InventoryEventDTO) SandboxUtils.mapStringToObject(consumerRecord.value(),
-				InventoryEventDTO.class);
-
-		SandboxUtils.prettyPrintObjectToJson(inventoryEvent);
+		inventoryEventService.processConsumerRecord(consumerRecord);
 	}
 }

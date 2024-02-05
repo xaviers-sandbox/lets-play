@@ -40,13 +40,13 @@ public class InventoryEventMapper {
 			InventoryItemDTORequest newInventoryItemDTORequest) {
 		
 		Item item = Item.builder()
-				.id(f.number().numberBetween(100000, 10000000))
+				.itemId(f.number().numberBetween(100000, 10000000))
 				.price(newInventoryItemDTORequest.getPrice())
 				.name(newInventoryItemDTORequest.getName())
 				.quantity(newInventoryItemDTORequest.getQuantity())
 				.build();
 		
-		InventoryEventType inventoryEventType = (item.id() % 2 == 0) ? InventoryEventType.NEW : InventoryEventType.UPDATE;
+		InventoryEventType inventoryEventType = (item.itemId() % 2 == 0) ? InventoryEventType.NEW : InventoryEventType.UPDATE;
 
 		return InventoryEvent.builder()
 				.eventId(f.number().numberBetween(100000, 10000000))
@@ -65,7 +65,7 @@ public class InventoryEventMapper {
 			InventoryEvent inventoryEvent) {
 		
 		ItemDTO itemDTO = ItemDTO.builder()
-				.id(inventoryEvent.item().id())
+				.id(inventoryEvent.item().itemId())
 				.price(inventoryEvent.item().price())
 				.name(inventoryEvent.item().name())
 				.quantity(inventoryEvent.item().quantity())
@@ -82,7 +82,7 @@ public class InventoryEventMapper {
 			InventoryItemDTORequest updatedInventoryItemDTORequest) {
 		
 		Item item = Item.builder()
-				.id(f.number().numberBetween(100000, 10000000))
+				.itemId(f.number().numberBetween(100000, 10000000))
 				.price(updatedInventoryItemDTORequest.getPrice())
 				.name(updatedInventoryItemDTORequest.getName())
 				.quantity(updatedInventoryItemDTORequest.getQuantity())

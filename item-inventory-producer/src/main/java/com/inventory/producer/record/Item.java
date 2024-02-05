@@ -4,7 +4,7 @@ import lombok.Builder;
 
 @Builder
 public record Item(
-		Integer id,
+		Integer itemId,
 		String name,
 		Double price,
 		Integer quantity) {

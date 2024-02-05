@@ -28,7 +28,7 @@ public class InventoryProducerINTUtil {
 		double price = Double.valueOf(f.commerce().price(1, 100));
 
 		Item item = Item.builder()
-				.id(f.number().numberBetween(100000, 10000000))
+				.itemId(f.number().numberBetween(100000, 10000000))
 				.price(price)
 				.name(f.commerce().productName())
 				.quantity(f.number().numberBetween(0, 10))

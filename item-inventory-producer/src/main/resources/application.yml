@@ -29,7 +29,7 @@ spring:
       #-Djava.io.tmpdir=/Users/craps/git/lets-play/item-inventory-producer/src/int/kafka-logs
       #-Dlog.dir=/Users/craps/git/lets-play/item-inventory-producer/src/int/kafka-logs
       #-Dlog.dirs=/Users/craps/git/lets-play/item-inventory-producer/src/int/kafka-logs
-    topic: "inventory-events"
+    topic-name: "inventory-events"
     partitions: 3
     replicas: 3
     producer:
@@ -64,7 +64,7 @@ spring:
       #-Djava.io.tmpdir=/Users/craps/git/lets-play/item-inventory-producer/src/int/kafka-logs
       #-Dlog.dir=/Users/craps/git/lets-play/item-inventory-producer/src/int/kafka-logs
       #-Dlog.dirs=/Users/craps/git/lets-play/item-inventory-producer/src/int/kafka-logs
-    topic: "inventory-events"
+    topic-name: "inventory-events"
     partitions: 3
     replicas: 3
     producer:

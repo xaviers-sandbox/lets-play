@@ -23,7 +23,7 @@ public class InventoryEventProducer {
 
 	public String topicName;
 
-	public InventoryEventProducer(KafkaTemplate<Integer, String> kafkaTemplate, @Value("${spring.kafka.topic}") String topicName) {
+	public InventoryEventProducer(KafkaTemplate<Integer, String> kafkaTemplate, @Value("${spring.kafka.topic-name}") String topicName) {
 		this.kafkaTemplate = kafkaTemplate;
 		this.topicName = topicName;
 	}

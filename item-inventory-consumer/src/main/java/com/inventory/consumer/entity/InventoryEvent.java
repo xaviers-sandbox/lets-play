@@ -12,12 +12,14 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Entity(name = "inventoryEvent")
+@Entity(name = "inventory_event")
+@Table(name = "inventory_event")
 @Builder
 @Data
 @AllArgsConstructor
@@ -32,12 +34,18 @@ public class InventoryEvent {
 	@Column(name = "event_type")
 	private InventoryEventType eventType;
 
-	@OneToOne(mappedBy = "inventoryEvent", cascade = { CascadeType.ALL })
-	@JsonManagedReference
-	private Item item;
+	
+    @OneToOne(mappedBy = "inventoryEventItem", cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private Item item;
+ 
+    @OneToOne(mappedBy = "inventoryEventKafka", cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private KafkaDetails kafkaDetails;
 
 	@Override
 	public String toString() {
-		return "InventoryEvent [eventId=" + eventId + ", eventType=" + eventType + "]";
+		return "InventoryEvent [eventId=" + eventId + ", eventType=" + eventType + ", item=" + item + ", kafkaDetails="
+				+ kafkaDetails + "]";
 	}
 }
