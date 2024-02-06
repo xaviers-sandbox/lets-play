@@ -12,35 +12,34 @@ App management and orchestration is taken care of by the playground-naming-serve
 Lastly, there are two applications that provide shared models and common utilities to the ecosystem: sandbox-domain-model and sandbox-utilities.
 
 ### Technologies, Frameworks, and Libraries Used:
-- Intellij
-- Mac OS
-- Springboot 3
-- Maven
-- Java 21
-- Docker
-- Kafka
-- Offset Explorer 2
-- MongoDB
-- MongoDB Reactive
-- MySql
-- MySql Workbench
-- JPA Hibernate
-- Redisson
-- Redis
-- Keycloak
-- Oauth2
-- JWT
-- Reactor
-- Postman
-- WebFlux
-- WebClient
-- OpenFeign
-- Eureka
-- Api Gateway
-- Config Server
-- OpenApi
-- Lombok
-- Jackson
+- Springboot 3 : Convention over Configuration Framework
+- Maven : Build Automation Management
+- Java 21 : The Programming Language
+- Kafka : Distributed Data Topics Server
+- MongoDB Reactive : Non-Blocking NoSQL DB
+- MySql : Relational Database
+- JPA Hibernate : Database Persisting Framework
+- Redis : Distributed Caching Server
+- Redisson : Java Redis Client Framework
+- Keycloak : API Security Server
+- Oauth2 : Token Client
+- JWT : API to API Security Tokens
+- Reactor : Root Framework For All NonBlocking Components
+- WebFlux : 
+- WebClient :
+- OpenFeign :
+- Eureka :
+- Api Gateway : 
+- Config Server : 
+- OpenApi : Api Documentation Framework
+
+### Environment and Tools Used:
+- Intellij : My IDE
+- Mac OS : My OS
+- Docker : My Kafka Container
+- Offset Explorer 2 : Topic Debugging Tool
+- MySql Workbench : MySql Database UI Tool
+- Postman : API Testing Tool
 
 ### Testing
 - Unit Testing : Junit5, Mockito, Datafaker
@@ -49,7 +48,7 @@ Lastly, there are two applications that provide shared models and common utiliti
 ### Robust Software Implementations
 - API Security
 - Abstraction, Inheritance, Polymorphism 
-- Validation - Bean, Entity, RequestDTO, and ResponseDTO
+- Validation : Bean, Entity, RequestDTO, and ResponseDTO
 - Logging
 - Caching
 - Unit Testing and Integration Testing
