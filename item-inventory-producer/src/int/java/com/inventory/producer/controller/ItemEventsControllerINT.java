@@ -29,8 +29,8 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
 import com.inventory.producer.model.InventoryEventDTO;
-import com.inventory.producer.model.InventoryEventDTOResponse;
-import com.inventory.producer.record.InventoryEvent;
+import com.inventory.producer.model.response.InventoryEventDTOResponse;
+import com.inventory.producer.record.InventoryEventRecord;
 import com.sandbox.util.SandboxUtils;
 
 import lombok.extern.slf4j.Slf4j;
@@ -110,12 +110,12 @@ public class ItemEventsControllerINT {
 		assertEquals(TEST_LIST_SIZE, consumerRecords.count());
 
 		consumerRecords.forEach(r -> {
-			InventoryEvent inventoryEvent = (InventoryEvent) SandboxUtils.mapStringToObject(r.value(),
-					InventoryEvent.class);
-			assertNotNull(inventoryEvent);
-			assertNotNull(inventoryEvent.eventId());
-			assertNotNull(inventoryEvent.eventType());
-			assertNotNull(inventoryEvent.item());
+			InventoryEventRecord inventoryEventRecord = (InventoryEventRecord) SandboxUtils.mapStringToObject(r.value(),
+					InventoryEventRecord.class);
+			assertNotNull(inventoryEventRecord);
+			assertNotNull(inventoryEventRecord.eventId());
+			assertNotNull(inventoryEventRecord.eventType());
+			assertNotNull(inventoryEventRecord.item());
 		});
 	}
 
@@ -127,7 +127,7 @@ public class ItemEventsControllerINT {
 
 		System.out.println("\n\n\ntestingMapper");
 		Arrays.asList(value1, value2, junk).forEach(i -> {
-			InventoryEvent tmp = (InventoryEvent) SandboxUtils.mapStringToObject(i, InventoryEvent.class);
+			InventoryEventRecord tmp = (InventoryEventRecord) SandboxUtils.mapStringToObject(i, InventoryEventRecord.class);
 			System.out.println(tmp);
 		});
 	}

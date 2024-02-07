@@ -10,7 +10,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import com.inventory.producer.model.ErrorDTOResponse;
+import com.inventory.producer.model.response.ErrorDTOResponse;
 
 import lombok.extern.slf4j.Slf4j;
 

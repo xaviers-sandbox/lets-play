@@ -4,40 +4,66 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import org.springframework.util.ObjectUtils;
+
 import com.inventory.producer.enums.InventoryEventType;
-import com.inventory.producer.record.InventoryEvent;
-import com.inventory.producer.record.Item;
+import com.inventory.producer.record.InventoryEventRecord;
+import com.inventory.producer.record.ItemRecord;
 
 import net.datafaker.Faker;
 
 public class InventoryProducerINTUtil {
-	private static Faker f = new Faker();
+	private static Faker faker;
 
-	public static List<InventoryEvent> generateInventoryEventList(int testDataSize) {
+	public static Faker getFaker() {
+		if (ObjectUtils.isEmpty(faker)) {
+			faker = new Faker();
+		}
+
+		return faker;
+	}
+
+	public static List<InventoryEventRecord> generateInventoryEventRecordList(int testDataSize) {
 		return IntStream.range(0, testDataSize).mapToObj(i -> {
 			if (i % 2 == 0)
-				return buildMockInventoryEvent(InventoryEventType.NEW);
+				return buildMockInventoryEventRecord(InventoryEventType.NEW);
 			
-			return buildMockInventoryEvent(InventoryEventType.UPDATE);
+			return buildMockInventoryEventRecord(InventoryEventType.UPDATE);
 
 		}).collect(Collectors.toList());
 
 	}
 
-	public static InventoryEvent buildMockInventoryEvent(InventoryEventType inventoryEventType) {
-		double price = Double.valueOf(f.commerce().price(1, 100));
+	public static InventoryEventRecord buildMockInventoryEventRecord(InventoryEventType inventoryEventType) {
+		double price = Double.valueOf(getFaker().commerce().price(1, 100));
 
-		Item item = Item.builder()
-				.itemId(f.number().numberBetween(100000, 10000000))
+		ItemRecord itemRecord = ItemRecord.builder()
+				.itemId(buildUniqueId())
 				.price(price)
-				.name(f.commerce().productName())
-				.quantity(f.number().numberBetween(0, 10))
+				.name(getFaker().commerce().productName())
+				.quantity(getFaker().number().numberBetween(0, 10))
 				.build();
 
-		return InventoryEvent.builder()
-				.eventId(f.number().numberBetween(100000, 10000000))
+		return InventoryEventRecord.builder()
+				.eventId(buildUniqueId())
 				.eventType(inventoryEventType)
-				.item(item)
+				.item(itemRecord)
 				.build();
+	}
+	
+	public static String buildUniqueId() {
+		String lorem1 = getFaker().lorem().characters(5);
+		int num1 = getFaker().number().numberBetween(1000, 9999);
+		String lorem2 = getFaker().lorem().characters(5);
+		long num2 = getFaker().number().numberBetween(1000, 9999);
+
+		return new StringBuilder().append(lorem1)
+				.append("-")
+				.append(num1)
+				.append("-")
+				.append(lorem2)
+				.append("-")
+				.append(num2)
+				.toString();
 	}
 }

@@ -20,11 +20,11 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
 import com.inventory.producer.mapper.InventoryEventMapper;
-import com.inventory.producer.model.ErrorDTOResponse;
 import com.inventory.producer.model.InventoryEventDTO;
-import com.inventory.producer.model.InventoryEventDTOResponse;
-import com.inventory.producer.model.ResponseDTO;
-import com.inventory.producer.record.InventoryEvent;
+import com.inventory.producer.model.response.ErrorDTOResponse;
+import com.inventory.producer.model.response.InventoryEventDTOResponse;
+import com.inventory.producer.model.response.ResponseDTO;
+import com.inventory.producer.record.InventoryEventRecord;
 import com.inventory.producer.service.InventoryEventService;
 import com.inventory.producer.util.InventoryEventUtils;
 import com.sandbox.util.SandboxUtils;
@@ -50,10 +50,10 @@ public class InventoryEventControllerTest {
 	void postItemEvents_test_200() {
 		log.debug("\n\npostItemEvents_test_200");
 
-		List<InventoryEvent> inventoryEventListMock = InventoryEventUtils.generateInventoryEventList(TEST_LIST_SIZE);
+		List<InventoryEventRecord> inventoryEventRecordListMock = InventoryEventUtils.generateInventoryEventRecordList(TEST_LIST_SIZE);
 
-		List<InventoryEventDTO> inventoryEventDTOList = inventoryEventListMock.stream()
-				.map(InventoryEventMapper::mapInventoryEventToInventoryEventDTO)
+		List<InventoryEventDTO> inventoryEventDTOList = inventoryEventRecordListMock.stream()
+				.map(InventoryEventMapper::mapInventoryEventRecordToInventoryEventDTO)
 				.collect(Collectors.toList());
 
 		ResponseDTO responseDTO = InventoryEventMapper.buildResponseDTO(inventoryEventDTOList);

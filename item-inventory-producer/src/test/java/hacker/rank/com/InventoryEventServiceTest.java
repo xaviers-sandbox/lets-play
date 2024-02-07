@@ -23,10 +23,10 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import com.inventory.producer.model.InventoryEventDTO;
-import com.inventory.producer.model.InventoryEventDTOResponse;
-import com.inventory.producer.model.ResponseDTO;
+import com.inventory.producer.model.response.InventoryEventDTOResponse;
+import com.inventory.producer.model.response.ResponseDTO;
 import com.inventory.producer.producer.InventoryEventProducer;
-import com.inventory.producer.record.InventoryEvent;
+import com.inventory.producer.record.InventoryEventRecord;
 import com.inventory.producer.service.impl.InventoryEventServiceImpl;
 import com.inventory.producer.util.InventoryEventUtils;
 
@@ -41,7 +41,7 @@ public class InventoryEventServiceTest {
 	private InventoryEventProducer inventoryEventsProducerMock;
 
 	@MockBean
-	private CompletableFuture<SendResult<Integer, String>> kafkaResponseMock;
+	private CompletableFuture<SendResult<String, String>> kafkaResponseMock;
 	
 	@BeforeEach
 	public void setup() {
@@ -53,15 +53,15 @@ public class InventoryEventServiceTest {
 	void postItemEventsTest() {
 		System.out.println("\n\npostItemEventsTest");
 		
-		List<InventoryEvent> inventoryEventListMock = InventoryEventUtils
-				.generateInventoryEventList(TEST_LIST_SIZE);
+		List<InventoryEventRecord> inventoryEventListMock = InventoryEventUtils
+				.generateInventoryEventRecordList(TEST_LIST_SIZE);
 
 		MockedStatic<InventoryEventUtils> inventoryProducerUtilsMock = Mockito.mockStatic(InventoryEventUtils.class);
 
-		inventoryProducerUtilsMock.when(() -> InventoryEventUtils.generateInventoryEventList(any(Integer.class)))
+		inventoryProducerUtilsMock.when(() -> InventoryEventUtils.generateInventoryEventRecordList(any(Integer.class)))
 				.thenReturn(inventoryEventListMock);
 
-		ProducerRecord<Integer, String> producerRecordMock = any();
+		ProducerRecord<String, String> producerRecordMock = any();
 
 		when(inventoryEventsProducerMock.sendEventToTopicAsyncWithProducerRecord(producerRecordMock))
 				.thenReturn(kafkaResponseMock);

@@ -2,8 +2,8 @@ package com.inventory.producer.service;
 
 import org.springframework.http.ResponseEntity;
 
-import com.inventory.producer.model.InventoryEventDTORequest;
-import com.inventory.producer.model.ResponseDTO;
+import com.inventory.producer.model.request.InventoryEventDTORequest;
+import com.inventory.producer.model.response.ResponseDTO;
 
 public interface InventoryEventService{
 

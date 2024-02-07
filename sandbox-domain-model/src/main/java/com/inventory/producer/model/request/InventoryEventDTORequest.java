@@ -1,4 +1,4 @@
-package com.inventory.producer.model;
+package com.inventory.producer.model.request;
 
 import com.inventory.producer.enums.InventoryEventType;
 

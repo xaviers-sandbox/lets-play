@@ -52,6 +52,7 @@ public class InventoryEventServiceImpl implements InventoryEventService {
 			SandboxUtils.prettyPrintObjectToJson(savedResponse);
 	}
 
+	@Transactional
 	public InventoryEvent processUpdateConsumerRecord(InventoryEvent consumersInventoryEvent) {
 		return inventoryEventRepo.findById(consumersInventoryEvent.getEventId())
 				.filter(ObjectUtils::isNotEmpty)

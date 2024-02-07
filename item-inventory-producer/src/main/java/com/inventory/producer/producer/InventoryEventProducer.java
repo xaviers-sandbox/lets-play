@@ -10,7 +10,7 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.SendResult;
 import org.springframework.stereotype.Component;
 
-import com.inventory.producer.record.InventoryEvent;
+import com.inventory.producer.record.InventoryEventRecord;
 import com.sandbox.util.SandboxUtils;
 
 import lombok.extern.slf4j.Slf4j;
@@ -43,11 +43,11 @@ public class InventoryEventProducer {
 		});
 	}
 
-	public SendResult<String, String> sendEventToTopicBlocking(InventoryEvent inventoryEvent)
+	public SendResult<String, String> sendEventToTopicBlocking(InventoryEventRecord inventoryEventRecord)
 			throws InterruptedException, ExecutionException {
 
-		String eventId = inventoryEvent.eventId();
-		String inventoryEventStr = SandboxUtils.convertObjectToString(inventoryEvent);
+		String eventId = inventoryEventRecord.eventId();
+		String inventoryEventStr = SandboxUtils.convertObjectToString(inventoryEventRecord);
 
 		SendResult<String, String> sendResponse = kafkaTemplate.send(topicName, eventId, inventoryEventStr).get();
 

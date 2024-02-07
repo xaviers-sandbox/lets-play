@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.inventory.producer.mapper.InventoryEventMapper;
-import com.inventory.producer.model.InventoryEventDTORequest;
-import com.inventory.producer.model.ResponseDTO;
+import com.inventory.producer.model.request.InventoryEventDTORequest;
+import com.inventory.producer.model.response.ResponseDTO;
 import com.inventory.producer.service.InventoryEventService;
 
 import jakarta.validation.Valid;

@@ -1,18 +1,14 @@
-package com.inventory.producer.util;
-
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
+package com.inventory.consumer.utils;
 
 import org.apache.commons.lang3.ObjectUtils;
 
+import com.inventory.consumer.records.InventoryEventRecord;
+import com.inventory.consumer.records.ItemRecord;
 import com.inventory.producer.enums.InventoryEventType;
-import com.inventory.producer.record.InventoryEventRecord;
-import com.inventory.producer.record.ItemRecord;
 
 import net.datafaker.Faker;
 
-public class InventoryEventUtils {
+public class InventoryConsumerIntUtils {
 	private static Faker faker;
 
 	public static Faker getFaker() {
@@ -22,12 +18,6 @@ public class InventoryEventUtils {
 
 		return faker;
 	}
-
-	public static List<InventoryEventRecord> generateInventoryEventRecordList(int testDataSize) {
-
-		return IntStream.range(0, testDataSize).mapToObj(i -> buildMockInventoryEventRecord()).collect(Collectors.toList());
-	}
-
 	public static InventoryEventRecord buildMockInventoryEventRecord() {
 
 		int randomNum = getFaker().number().numberBetween(100000, 10000000);
@@ -41,12 +31,7 @@ public class InventoryEventUtils {
 				.item(buildMockItemRecord())
 				.build();
 	}
-
-	public static List<ItemRecord> generateItemRecordList(int testDataSize) {
-
-		return IntStream.range(0, testDataSize).mapToObj(i -> buildMockItemRecord()).collect(Collectors.toList());
-	}
-
+	
 	public static ItemRecord buildMockItemRecord() {
 		double price = Double.valueOf(getFaker().commerce().price(1, 100));
 
@@ -74,3 +59,4 @@ public class InventoryEventUtils {
 				.toString();
 	}
 }
+
