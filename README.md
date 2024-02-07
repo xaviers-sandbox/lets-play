@@ -1,44 +1,45 @@
 # Distributed Event Driven Microservices Architecture Design Sandbox
-The ecosystem consists of secure, loosely coupled, and non-blocking Springboot 3 applications that interact with each other, databases, and queues written in Java 21.
+This repository holds a basic but technically sound Store Inventory Backend. The ecosystem consists of secure, loosely coupled, and non-blocking Springboot 3 applications that interact with each other, databases, and topics written in Java 21. 
 
 Currently, there are two lightnening fast applications that operate at the database layer and interact with NoSQL MongoDB databases and a redis server: item-inventory-service and item-review-service. These two applications allow the standard CRUD operations. item-inventory-services uses the traditional controller while item-review-services uses functional endpoints. They are both secured by role based JWTs and heavily written using functional programming.
 
 A third application, online-order-service, operates at the HTTP layer and interfaces with the two previously mentioned applications to expose data through CRUD endpoints. It is also secured by JWT and heavily written using functional programming and implements functional endpoints.
+
+The ecosystem also contains a kafka producer app (item-inventory-producer) and a kafka consumer app (item-inventory-consumer) that allow newly validated items to reach the DB tables. 
 
 App management and orchestration is taken care of by the playground-naming-server, playground-config-server, and playground-api-gateway apps. playground-naming-server serves as the app registry. playground-config-server provides centralized app configurations. playground-api-gateway tackles the task of loadbalancing and being a fascade to other apis.
 
 Lastly, there are two applications that provide shared models and common utilities to the ecosystem: sandbox-domain-model and sandbox-utilities.
 
 ### Technologies, Frameworks, and Libraries Used:
-- Intellij
-- Mac OS
-- Springboot 3
-- Maven
-- Java 21
-- Docker
-- Kafka
-- Offset Explorer 2
-- MongoDB
-- MongoDB Reactive
-- MySql
-- MySql Workbench
-- JPA Hibernate
-- Redisson
-- Redis
-- Keycloak
-- Oauth2
-- JWT
-- Reactor
-- Postman
-- WebFlux
-- WebClient
-- OpenFeign
-- Eureka
-- Api Gateway
-- Config Server
-- OpenApi
-- Lombok
-- Jackson
+- Springboot 3 : Convention over Configuration Framework
+- Maven : Build Automation Management
+- Java 21 : The Programming Language
+- Kafka : Distributed Data Topics Server
+- MongoDB Reactive : Non-Blocking NoSQL DB
+- MySql : Relational Database
+- JPA Hibernate : Database Persisting Framework
+- Redis : Distributed Caching Server
+- Redisson : Java Redis Client Framework
+- Keycloak : API Security Server
+- Oauth2 : Token Client
+- JWT : API to API Security Tokens
+- Reactor : Root Framework For All NonBlocking Components
+- WebFlux : 
+- WebClient :
+- OpenFeign :
+- Eureka :
+- Api Gateway : 
+- Config Server : 
+- OpenApi : Api Documentation Framework
+
+### Environment and Tools Used:
+- Intellij : My IDE
+- Mac OS : My OS
+- Docker : My Kafka Container
+- Offset Explorer 2 : Topic Debugging Tool
+- MySql Workbench : MySql Database UI Tool
+- Postman : API Testing Tool
 
 ### Testing
 - Unit Testing : Junit5, Mockito, Datafaker
@@ -47,7 +48,7 @@ Lastly, there are two applications that provide shared models and common utiliti
 ### Robust Software Implementations
 - API Security
 - Abstraction, Inheritance, Polymorphism 
-- Validation - Bean, Entity, RequestDTO, and ResponseDTO
+- Validation : Bean, Entity, RequestDTO, and ResponseDTO
 - Logging
 - Caching
 - Unit Testing and Integration Testing

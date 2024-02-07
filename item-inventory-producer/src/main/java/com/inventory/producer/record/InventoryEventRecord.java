@@ -4,10 +4,9 @@ import com.inventory.producer.enums.InventoryEventType;
 
 import lombok.Builder;
 
-
 @Builder
-public record InventoryEvent(
-		Integer eventId,
+public record InventoryEventRecord(
+		String eventId,
 		InventoryEventType eventType,
-		Item item) {
+		ItemRecord item) {
 }

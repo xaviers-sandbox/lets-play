@@ -10,44 +10,28 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.SendResult;
 import org.springframework.stereotype.Component;
 
-import com.inventory.producer.record.InventoryEvent;
+import com.inventory.producer.record.InventoryEventRecord;
 import com.sandbox.util.SandboxUtils;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Component
 @Slf4j
-public class InventoryEventsProducer {
+public class InventoryEventProducer {
 
-	private KafkaTemplate<Integer, String> kafkaTemplate;
+	private KafkaTemplate<String, String> kafkaTemplate;
 
-	@Value("${spring.kafka.topic}")
 	public String topicName;
 
-	public InventoryEventsProducer(KafkaTemplate<Integer, String> kafkaTemplate) {
+	public InventoryEventProducer(KafkaTemplate<String, String> kafkaTemplate, @Value("${spring.kafka.topic-name}") String topicName) {
 		this.kafkaTemplate = kafkaTemplate;
+		this.topicName = topicName;
 	}
 
-	public CompletableFuture<SendResult<Integer, String>> sendEventToTopicAsync(InventoryEvent inventoryEvent) {
+	public CompletableFuture<SendResult<String, String>> sendEventToTopicAsyncWithProducerRecord(
+			ProducerRecord<String, String> producerRecord) {
 
-		Integer key = inventoryEvent.eventId();
-		String value = SandboxUtils.convertObjectToString(inventoryEvent);
-
-		CompletableFuture<SendResult<Integer, String>> kafkaResponse = kafkaTemplate.send(topicName, key, value);
-
-		return kafkaResponse.whenComplete((sendResponse, throwable) -> {
-			if (ObjectUtils.isNotEmpty(throwable)) {
-				 logKafkaFailure(key, value, throwable);
-			} else {
-				logKafkaSuccess(key, value, sendResponse);
-			}
-		});
-	}
-
-	public CompletableFuture<SendResult<Integer, String>> sendEventToTopicAsyncWithProducerRecord(
-			ProducerRecord<Integer, String> producerRecord) {
-
-		CompletableFuture<SendResult<Integer, String>> kafkaResponse = kafkaTemplate
+		CompletableFuture<SendResult<String, String>> kafkaResponse = kafkaTemplate
 				.send(producerRecord);
 
 		return kafkaResponse.whenComplete((sendResponse, throwable) -> {
@@ -59,20 +43,20 @@ public class InventoryEventsProducer {
 		});
 	}
 
-	public SendResult<Integer, String> sendEventToTopicBlocking(InventoryEvent inventoryEvent)
+	public SendResult<String, String> sendEventToTopicBlocking(InventoryEventRecord inventoryEventRecord)
 			throws InterruptedException, ExecutionException {
 
-		Integer eventId = inventoryEvent.eventId();
-		String inventoryEventStr = SandboxUtils.convertObjectToString(inventoryEvent);
+		String eventId = inventoryEventRecord.eventId();
+		String inventoryEventStr = SandboxUtils.convertObjectToString(inventoryEventRecord);
 
-		SendResult<Integer, String> sendResponse = kafkaTemplate.send(topicName, eventId, inventoryEventStr).get();
+		SendResult<String, String> sendResponse = kafkaTemplate.send(topicName, eventId, inventoryEventStr).get();
 
 		logKafkaSuccess(eventId, inventoryEventStr, sendResponse);
 
 		return sendResponse;
 	}
 
-	public void logKafkaFailure(Integer eventId, String inventoryEventStr, Throwable throwable) {
+	public void logKafkaFailure(String eventId, String inventoryEventStr, Throwable throwable) {
 		
 		log.error("logKafkaFailure - eventId={} errorMessage={} inventoryEventStr={}",
 				eventId,
@@ -80,7 +64,7 @@ public class InventoryEventsProducer {
 				inventoryEventStr);
 	}
 
-	public void logKafkaSuccess(Integer eventId, String inventoryEventStr, SendResult<Integer, String> sendResponse) {
+	public void logKafkaSuccess(String eventId, String inventoryEventStr, SendResult<String, String> sendResponse) {
 		int partition = sendResponse.getRecordMetadata().partition();
 		long offset = sendResponse.getRecordMetadata().offset();
 		String topicName = sendResponse.getRecordMetadata().topic();

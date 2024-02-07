@@ -1,20 +1,32 @@
 package com.sandbox.util;
 
+import org.apache.commons.lang3.ObjectUtils;
+
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class SandboxUtils {
-	private static ObjectMapper mapper = new ObjectMapper();
+	private static ObjectMapper mapper;
+
+	public static ObjectMapper getMapper() {
+		if (ObjectUtils.isEmpty(mapper)) {
+			mapper = new ObjectMapper();
+			mapper.registerModule(new JavaTimeModule());
+		}
+
+		return mapper;
+	}
 
 	public static void prettyPrintObjectToJson(Object anyObject) {
 		try {
 
-			log.debug(mapper.writerWithDefaultPrettyPrinter().writeValueAsString(anyObject));
+			log.debug(getMapper().writerWithDefaultPrettyPrinter().writeValueAsString(anyObject));
 
 		} catch (JsonProcessingException e) {
 
@@ -25,7 +37,7 @@ public class SandboxUtils {
 	public static String getPrettyPrintJsonFromObject(Object anyObject) {
 		try {
 
-			return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(anyObject);
+			return getMapper().writerWithDefaultPrettyPrinter().writeValueAsString(anyObject);
 
 		} catch (JsonProcessingException e) {
 
@@ -38,10 +50,10 @@ public class SandboxUtils {
 
 	public static String convertObjectToString(Object anyObject) {
 		try {
-			return mapper.writeValueAsString(anyObject);
+			return getMapper().writeValueAsString(anyObject);
 		} catch (JsonProcessingException e) {
 			log.error("convertObjectToString JsonProcessingException message={}", e.getLocalizedMessage());
-			
+
 			return "";
 		}
 	}
@@ -49,7 +61,7 @@ public class SandboxUtils {
 	public static <T> Object mapStringToObject(String anyString, Class<T> anyClass) {
 		try {
 
-			return mapper.readValue(anyString, anyClass);
+			return getMapper().readValue(anyString, anyClass);
 
 		} catch (JsonParseException e) {
 
