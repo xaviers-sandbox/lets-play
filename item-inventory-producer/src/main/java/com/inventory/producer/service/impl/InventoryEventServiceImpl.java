@@ -11,12 +11,13 @@ import org.springframework.stereotype.Service;
 
 import com.inventory.producer.mapper.InventoryEventMapper;
 import com.inventory.producer.model.InventoryEventDTO;
-import com.inventory.producer.model.InventoryItemDTORequest;
+import com.inventory.producer.model.InventoryEventDTORequest;
 import com.inventory.producer.model.ResponseDTO;
 import com.inventory.producer.producer.InventoryEventProducer;
 import com.inventory.producer.record.InventoryEvent;
 import com.inventory.producer.service.InventoryEventService;
 import com.inventory.producer.util.InventoryEventUtils;
+import com.sandbox.util.SandboxUtils;
 
 @Service
 public class InventoryEventServiceImpl implements InventoryEventService {
@@ -40,7 +41,7 @@ public class InventoryEventServiceImpl implements InventoryEventService {
 		});
 
 		List<InventoryEventDTO> inventoryEventDTOList = itemEventsList.stream()
-				.map(InventoryEventMapper::buildInventoryEventDTO)
+				.map(InventoryEventMapper::mapInventoryEventToInventoryEventDTO)
 				.collect(Collectors.toList());
 
 		ResponseDTO responseDTO = InventoryEventMapper.buildResponseDTO(inventoryEventDTOList);
@@ -49,15 +50,17 @@ public class InventoryEventServiceImpl implements InventoryEventService {
 	}
 
 	@Override
-	public ResponseEntity<ResponseDTO> addNewItemInventory(InventoryItemDTORequest newInventoryItemDTORequest) {
+	public ResponseEntity<ResponseDTO> addNewItemInventory(InventoryEventDTORequest newInventoryEventDTORequest) {
 
 		InventoryEvent inventoryEvent = InventoryEventMapper
-				.mapInventoryItemDTORequestToInventoryEvent(newInventoryItemDTORequest);
+				.mapInventoryEventDTORequestToInventoryEvent(newInventoryEventDTORequest);
+
+		SandboxUtils.prettyPrintObjectToJson(inventoryEvent);
 
 		inventoryEventProducer.sendEventToTopicAsyncWithProducerRecord(
 				InventoryEventMapper.buildProducerRecord(inventoryEvent, topicName));
 
-		InventoryEventDTO inventoryEventDTO = InventoryEventMapper.buildInventoryEventDTO(inventoryEvent);
+		InventoryEventDTO inventoryEventDTO = InventoryEventMapper.mapInventoryEventToInventoryEventDTO(inventoryEvent);
 
 		ResponseDTO responseDTO = InventoryEventMapper.buildResponseDTO(Arrays.asList(inventoryEventDTO));
 
@@ -65,13 +68,24 @@ public class InventoryEventServiceImpl implements InventoryEventService {
 	}
 
 	@Override
-	public ResponseEntity<ResponseDTO> updateItemInventory(Integer eventId,
-			InventoryItemDTORequest updatedInventoryItemDTORequest) {
+	public ResponseEntity<ResponseDTO> updateItemInventory(String eventId,
+			InventoryEventDTORequest updatedInventoryItemDTORequest) {
 		
-		InventoryEvent inventoryEvent = InventoryEventMapper
-				.mapUpdatedInventoryItemDTORequestToInventoryEvent(eventId, updatedInventoryItemDTORequest);
-		
-		return null;
-	}
+		updatedInventoryItemDTORequest.setEventId(eventId);
 
+		InventoryEvent updatedInventoryEvent = InventoryEventMapper.mapUpdatedInventoryItemDTORequestToInventoryEvent(eventId,
+				updatedInventoryItemDTORequest);
+		
+		SandboxUtils.prettyPrintObjectToJson(updatedInventoryEvent);
+		
+		inventoryEventProducer.sendEventToTopicAsyncWithProducerRecord(
+				InventoryEventMapper.buildProducerRecord(updatedInventoryEvent, topicName));
+		
+		InventoryEventDTO updatedInventoryEventDTO = InventoryEventMapper.mapInventoryEventToInventoryEventDTO(updatedInventoryEvent);
+		
+		ResponseDTO responseDTO = InventoryEventMapper.buildResponseDTO(Arrays.asList(updatedInventoryEventDTO));
+
+		return ResponseEntity.status(HttpStatus.CREATED).body(responseDTO);
+
+	}
 }

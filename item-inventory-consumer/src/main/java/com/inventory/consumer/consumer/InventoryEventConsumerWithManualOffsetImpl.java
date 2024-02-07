@@ -12,7 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Component
 @Slf4j
-public class InventoryEventConsumerWithManualOffsetImpl implements AcknowledgingMessageListener<Integer, String> {
+public class InventoryEventConsumerWithManualOffsetImpl implements AcknowledgingMessageListener<String, String> {
 	
 	private InventoryEventService inventoryEventService;
 
@@ -21,12 +21,9 @@ public class InventoryEventConsumerWithManualOffsetImpl implements Acknowledging
 	}
 
 	@Override
-	@KafkaListener(topics = "${spring.kafka.topic-name}", id = "${spring.kafka.consumer.group-id}")
-	// , autoStartup="${spring.kafka.auto-startup}")
-	// @KafkaListener(topics =
-	// "${kafka.consumer.topics}",autoStartup="${kafka.consumer.autoStartup}",
-	// id="${kafka.consumer.id}")
-	public void onMessage(ConsumerRecord<Integer, String> consumerRecord, Acknowledgment acknowledgment) {
+	@KafkaListener(topics = "${spring.kafka.topic-name}", id = "${spring.kafka.consumer.group-id}", 
+	autoStartup="true")
+	public void onMessage(ConsumerRecord<String, String> consumerRecord, Acknowledgment acknowledgment) {
 		log.debug("onMessage - On Message Started for topic={} - partition={} - offset={}",
 				consumerRecord.topic(),
 				consumerRecord.partition(),

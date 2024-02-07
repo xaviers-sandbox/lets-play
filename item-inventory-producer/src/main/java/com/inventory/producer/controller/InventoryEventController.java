@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.inventory.producer.mapper.InventoryEventMapper;
-import com.inventory.producer.model.InventoryItemDTORequest;
+import com.inventory.producer.model.InventoryEventDTORequest;
 import com.inventory.producer.model.ResponseDTO;
 import com.inventory.producer.service.InventoryEventService;
 
@@ -41,24 +41,21 @@ public class InventoryEventController {
 
 	@PostMapping("/create")
 	public ResponseEntity<ResponseDTO> addNewItemInventory(
-			@RequestBody @Valid InventoryItemDTORequest newInventoryItemDTORequest) {
+			@RequestBody @Valid InventoryEventDTORequest newInventoryEventDTORequest) {
 
-		log.debug("addNewItemInventory newInventoryItemDTORequest={}", newInventoryItemDTORequest);
+		log.debug("addNewItemInventory newInventoryEventDTORequest={}", newInventoryEventDTORequest);
 
-		return inventoryEventService.addNewItemInventory(newInventoryItemDTORequest);
+		return inventoryEventService.addNewItemInventory(newInventoryEventDTORequest);
 	}
 
 	@PutMapping("/update/{eventId}")
 	public ResponseEntity<ResponseDTO> updateItemInventory(@PathVariable String eventId,
-			@RequestBody @Valid InventoryItemDTORequest updatedInventoryItemDTORequest) {
+			@RequestBody @Valid InventoryEventDTORequest updatedInventoryEventDTORequest) {
 
-		log.debug("updateItemInventory eventId={} updatedInventoryItemDTORequest={}",
+		log.debug("updateItemInventory eventId={} updatedInventoryEventDTORequest={}",
 				eventId,
-				updatedInventoryItemDTORequest);
+				updatedInventoryEventDTORequest);
 
-		if (!StringUtils.isNumeric(eventId))
-			return InventoryEventMapper.buildBadPathVariableResponse(eventId);
-
-		return inventoryEventService.updateItemInventory(Integer.valueOf(eventId), updatedInventoryItemDTORequest);
+		return inventoryEventService.updateItemInventory(eventId, updatedInventoryEventDTORequest);
 	}
 }

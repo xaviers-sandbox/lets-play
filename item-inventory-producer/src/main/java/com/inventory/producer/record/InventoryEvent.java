@@ -7,7 +7,7 @@ import lombok.Builder;
 
 @Builder
 public record InventoryEvent(
-		Integer eventId,
+		String eventId,
 		InventoryEventType eventType,
 		Item item) {
 }

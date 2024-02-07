@@ -19,19 +19,19 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class InventoryEventProducer {
 
-	private KafkaTemplate<Integer, String> kafkaTemplate;
+	private KafkaTemplate<String, String> kafkaTemplate;
 
 	public String topicName;
 
-	public InventoryEventProducer(KafkaTemplate<Integer, String> kafkaTemplate, @Value("${spring.kafka.topic-name}") String topicName) {
+	public InventoryEventProducer(KafkaTemplate<String, String> kafkaTemplate, @Value("${spring.kafka.topic-name}") String topicName) {
 		this.kafkaTemplate = kafkaTemplate;
 		this.topicName = topicName;
 	}
 
-	public CompletableFuture<SendResult<Integer, String>> sendEventToTopicAsyncWithProducerRecord(
-			ProducerRecord<Integer, String> producerRecord) {
+	public CompletableFuture<SendResult<String, String>> sendEventToTopicAsyncWithProducerRecord(
+			ProducerRecord<String, String> producerRecord) {
 
-		CompletableFuture<SendResult<Integer, String>> kafkaResponse = kafkaTemplate
+		CompletableFuture<SendResult<String, String>> kafkaResponse = kafkaTemplate
 				.send(producerRecord);
 
 		return kafkaResponse.whenComplete((sendResponse, throwable) -> {
@@ -43,20 +43,20 @@ public class InventoryEventProducer {
 		});
 	}
 
-	public SendResult<Integer, String> sendEventToTopicBlocking(InventoryEvent inventoryEvent)
+	public SendResult<String, String> sendEventToTopicBlocking(InventoryEvent inventoryEvent)
 			throws InterruptedException, ExecutionException {
 
-		Integer eventId = inventoryEvent.eventId();
+		String eventId = inventoryEvent.eventId();
 		String inventoryEventStr = SandboxUtils.convertObjectToString(inventoryEvent);
 
-		SendResult<Integer, String> sendResponse = kafkaTemplate.send(topicName, eventId, inventoryEventStr).get();
+		SendResult<String, String> sendResponse = kafkaTemplate.send(topicName, eventId, inventoryEventStr).get();
 
 		logKafkaSuccess(eventId, inventoryEventStr, sendResponse);
 
 		return sendResponse;
 	}
 
-	public void logKafkaFailure(Integer eventId, String inventoryEventStr, Throwable throwable) {
+	public void logKafkaFailure(String eventId, String inventoryEventStr, Throwable throwable) {
 		
 		log.error("logKafkaFailure - eventId={} errorMessage={} inventoryEventStr={}",
 				eventId,
@@ -64,7 +64,7 @@ public class InventoryEventProducer {
 				inventoryEventStr);
 	}
 
-	public void logKafkaSuccess(Integer eventId, String inventoryEventStr, SendResult<Integer, String> sendResponse) {
+	public void logKafkaSuccess(String eventId, String inventoryEventStr, SendResult<String, String> sendResponse) {
 		int partition = sendResponse.getRecordMetadata().partition();
 		long offset = sendResponse.getRecordMetadata().offset();
 		String topicName = sendResponse.getRecordMetadata().topic();

@@ -6,7 +6,5 @@ import org.springframework.stereotype.Repository;
 import com.inventory.consumer.entity.InventoryEvent;
 
 @Repository
-public interface InventoryEventRepo extends JpaRepository<InventoryEvent, Integer> {
-
-
+public interface InventoryEventRepo extends JpaRepository<InventoryEvent, String> {
 }

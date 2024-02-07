@@ -49,7 +49,7 @@ spring:
     replicas: 3
     consumer:
       groupid: consumer-group-id-12345
-      key-serializer: org.apache.kafka.common.serialization.IntegerSerializer
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.apache.kafka.common.serialization.StringSerializer
       bootstrap-servers: localhost:9092,localhost:9093,localhost:9094
       #properties:
@@ -80,11 +80,11 @@ spring:
     partitions: 3
     replicas: 3
     producer: 
-      key-serializer: org.apache.kafka.common.serialization.IntegerSerializer
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.apache.kafka.common.serialization.StringSerializer
       bootstrap-servers: localhost:9092,localhost:9093,localhost:9094
     consumer:
-      key-serializer: org.apache.kafka.common.serialization.IntegerSerializer
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.apache.kafka.common.serialization.StringSerializer
       bootstrap-servers: localhost:9092,localhost:9093,localhost:9094
       properties:

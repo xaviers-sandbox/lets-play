@@ -6,9 +6,13 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.inventory.producer.enums.InventoryEventType;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -27,34 +31,50 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class KafkaDetails {
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "kafka_details_id")
-	private Integer kafkaDetailsId;
+	@Column(name = "id")
+	private Integer id;
 
-	@Column(name = "orig_topic_name")
-	private String origTopicName;
+	@Column(name = "topic_name")
+	private String topicName;
 
-	@Column(name = "orig_partition")
-	private Integer origPartition;
+	@Column(name = "partition_value")
+	private Integer partition;
 
-	@Column(name = "orig_offset")
-	private Long origOffset;
+	@Column(name = "offset_value")
+	private Long offset;
+
+	@Column(name = "previous_topic_name")
+	private String previousTopicName;
+
+	@Column(name = "previous_partition_value")
+	private Integer previousPartition;
+
+	@Column(name = "previous_offset_value")
+	private Long previousOffset;
+
+	@Enumerated(EnumType.STRING)
+	@Column(name = "previous_event_type")
+	private InventoryEventType previousEventType;
 
 	@CreationTimestamp
 	private Instant createdOn;
 
 	@UpdateTimestamp
 	private Instant lastUpdatedOn;
-
-	@JoinColumn(name = "event_id")
-	@OneToOne
+	
+	@JoinColumn(name = "event_id", referencedColumnName = "event_id")
+	@OneToOne(cascade = CascadeType.ALL)
 	@JsonBackReference
 	private InventoryEvent inventoryEventKafka;
 
 	@Override
 	public String toString() {
-		return "KafkaDetails [kafkaDetailsId=" + kafkaDetailsId + ", origTopicName=" + origTopicName + ", origPartition=" + origPartition
-				+ ", origOffset=" + origOffset + ", createdOn=" + createdOn + ", lastUpdatedOn=" + lastUpdatedOn + "]";
+		return "KafkaDetails [id=" + id + ", topicName=" + topicName + ", partition=" + partition + ", offset=" + offset
+				+ ", previousTopicName=" + previousTopicName + ", previousPartition=" + previousPartition
+				+ ", previousOffset=" + previousOffset + ", previousEventType=" + previousEventType + ", createdOn="
+				+ createdOn + ", lastUpdatedOn=" + lastUpdatedOn + "]";
 	}
 }

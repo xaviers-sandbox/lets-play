@@ -2,6 +2,7 @@ package com.inventory.consumer.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -22,11 +23,14 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Item {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "item_id")
-	private Integer itemId;
+	@Column(name = "id")
+	private Integer id;
+
+	@Column(name = "item_id", unique = true)
+	private String itemId;
 
 	@Column(name = "name")
 	private String name;
@@ -36,14 +40,15 @@ public class Item {
 
 	@Column(name = "quantity")
 	private Integer quantity;
-	
-    @JoinColumn(name = "event_id")
-	@OneToOne
+
+	@JoinColumn(name = "event_id", referencedColumnName = "event_id")
+	@OneToOne(cascade = CascadeType.ALL)
 	@JsonBackReference
 	private InventoryEvent inventoryEventItem;
 
 	@Override
 	public String toString() {
-		return "Item [itemId=" + itemId + ", name=" + name + ", price=" + price + ", quantity=" + quantity + "]";
+		return "Item [id=" + id + ", itemId=" + itemId + ", name=" + name + ", price=" + price + ", quantity="
+				+ quantity + "]";
 	}
 }

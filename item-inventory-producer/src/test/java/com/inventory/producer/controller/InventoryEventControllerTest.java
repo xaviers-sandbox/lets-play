@@ -53,7 +53,7 @@ public class InventoryEventControllerTest {
 		List<InventoryEvent> inventoryEventListMock = InventoryEventUtils.generateInventoryEventList(TEST_LIST_SIZE);
 
 		List<InventoryEventDTO> inventoryEventDTOList = inventoryEventListMock.stream()
-				.map(InventoryEventMapper::buildInventoryEventDTO)
+				.map(InventoryEventMapper::mapInventoryEventToInventoryEventDTO)
 				.collect(Collectors.toList());
 
 		ResponseDTO responseDTO = InventoryEventMapper.buildResponseDTO(inventoryEventDTOList);
