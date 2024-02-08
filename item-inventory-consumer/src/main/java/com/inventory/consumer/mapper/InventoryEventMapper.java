@@ -1,6 +1,5 @@
 package com.inventory.consumer.mapper;
 
-import org.apache.commons.lang3.ObjectUtils;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 
 import com.inventory.consumer.entity.InventoryEvent;
@@ -9,18 +8,8 @@ import com.inventory.consumer.entity.KafkaDetails;
 import com.inventory.producer.enums.InventoryEventType;
 import com.sandbox.util.SandboxUtils;
 
-import net.datafaker.Faker;
-
 public class InventoryEventMapper {
-	private static Faker faker;
 
-	public static Faker getFaker() {
-		if (ObjectUtils.isEmpty(faker)) {
-			faker = new Faker();
-		}
-
-		return faker;
-	}
 
 	public static InventoryEvent buildInventoryEvent(ConsumerRecord<String, String> consumerRecord) {
 		InventoryEvent inventoryEvent = (InventoryEvent) SandboxUtils.mapStringToObject(consumerRecord.value(),

@@ -1,6 +1,7 @@
 package com.inventory.producer.mapper;
 
 import java.util.List;
+import java.util.Random;
 
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.common.header.Header;
@@ -12,27 +13,16 @@ import org.springframework.util.ObjectUtils;
 import com.inventory.producer.enums.InventoryEventType;
 import com.inventory.producer.model.InventoryEventDTO;
 import com.inventory.producer.model.ItemDTO;
+import com.inventory.producer.model.record.InventoryEventRecord;
+import com.inventory.producer.model.record.ItemRecord;
 import com.inventory.producer.model.request.InventoryEventDTORequest;
 import com.inventory.producer.model.response.ErrorDTOResponse;
 import com.inventory.producer.model.response.InventoryEventDTOResponse;
 import com.inventory.producer.model.response.ResponseDTO;
-import com.inventory.producer.record.InventoryEventRecord;
-import com.inventory.producer.record.ItemRecord;
+import com.item.inventory.test.utils.ItemInventoryTestUtils;
 import com.sandbox.util.SandboxUtils;
 
-import net.datafaker.Faker;
-
 public class InventoryEventMapper {
-	private static Faker faker;
-
-	public static Faker getFaker() {
-		if (ObjectUtils.isEmpty(faker)) {
-			faker = new Faker();
-		}
-
-		return faker;
-	}
-
 	public static ProducerRecord<String, String> buildProducerRecord(InventoryEventRecord inventoryEventRecord, String topicName) {
 		String key = inventoryEventRecord.eventId();
 		String value = SandboxUtils.convertObjectToString(inventoryEventRecord);
@@ -51,14 +41,15 @@ public class InventoryEventMapper {
 
 		InventoryEventType inventoryEventType = InventoryEventType.NEW;
 
-		int randonNum = getFaker().number().numberBetween(100000, 10000000);
+		int randonNum = new Random().nextInt(100000, 10000000);
+		
 
 		if (ObjectUtils.isEmpty(inventoryEventDTORequest.getEventType())) {
 			inventoryEventType = (randonNum % 2 == 0) ? InventoryEventType.NEW : InventoryEventType.UPDATE;
 		}
 
 		return InventoryEventRecord.builder()
-				.eventId(buildUniqueId())
+				.eventId(ItemInventoryTestUtils.buildUniqueId())
 				.eventType(inventoryEventType)
 				.item(mapInventoryEventDTORequestToItemRecord(inventoryEventDTORequest))
 				.build();
@@ -90,7 +81,7 @@ public class InventoryEventMapper {
 
 		return ObjectUtils.isEmpty(inventoryEventDTORequest) ? ItemRecord.builder().build()
 				: ItemRecord.builder()
-						.itemId(buildUniqueId())
+						.itemId(ItemInventoryTestUtils.buildUniqueId())
 						.price(inventoryEventDTORequest.getItem().getPrice())
 						.name(inventoryEventDTORequest.getItem().getName())
 						.quantity(inventoryEventDTORequest.getItem().getQuantity())
@@ -124,21 +115,5 @@ public class InventoryEventMapper {
 						.errorMessage(pathVariable + " Is Not Numeric")
 						.status(HttpStatus.BAD_REQUEST.name())
 						.build());
-	}
-
-	public static String buildUniqueId() {
-		String lorem1 = getFaker().lorem().characters(5);
-		int num1 = getFaker().number().numberBetween(1000, 9999);
-		String lorem2 = getFaker().lorem().characters(5);
-		long num2 = getFaker().number().numberBetween(1000, 9999);
-
-		return new StringBuilder().append(lorem1)
-				.append("-")
-				.append(num1)
-				.append("-")
-				.append(lorem2)
-				.append("-")
-				.append(num2)
-				.toString();
 	}
 }

@@ -1,4 +1,4 @@
-package com.inventory.consumer.records;
+package com.inventory.producer.model.record;
 
 import lombok.Builder;
 

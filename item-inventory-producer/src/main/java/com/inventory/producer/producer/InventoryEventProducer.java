@@ -10,7 +10,7 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.SendResult;
 import org.springframework.stereotype.Component;
 
-import com.inventory.producer.record.InventoryEventRecord;
+import com.inventory.producer.model.record.InventoryEventRecord;
 import com.sandbox.util.SandboxUtils;
 
 import lombok.extern.slf4j.Slf4j;
