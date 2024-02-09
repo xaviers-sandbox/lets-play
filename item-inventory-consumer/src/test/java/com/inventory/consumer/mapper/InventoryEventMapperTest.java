@@ -24,7 +24,10 @@ import com.inventory.consumer.entity.KafkaDetails;
 import com.inventory.producer.enums.InventoryEventType;
 import com.sandbox.util.SandboxUtils;
 
+import lombok.extern.slf4j.Slf4j;
+
 @ActiveProfiles("test")
+@Slf4j
 public class InventoryEventMapperTest {
 	private MockedStatic<InventoryEventMapper> inventoryEventMapperMock;
 
@@ -70,6 +73,7 @@ public class InventoryEventMapperTest {
 	@SuppressWarnings("unchecked")
 	@Test
 	void buildInventoryEvent_test() {
+		log.debug("buildInventoryEvent_test");
 
 		origInventoryEventMock.setEventId("testingMapper1234");
 
@@ -91,6 +95,7 @@ public class InventoryEventMapperTest {
 		assertEquals("testingMapper1234", inventoryEvent.getEventId());
 
 		verify(consumerRecordMock).value();
+		
 		sandboxUtilsMock.verify(() -> SandboxUtils.mapStringToObject(any(String.class), any(Class.class)));
 		
 		inventoryEventMapperMock.verify(() -> InventoryEventMapper
