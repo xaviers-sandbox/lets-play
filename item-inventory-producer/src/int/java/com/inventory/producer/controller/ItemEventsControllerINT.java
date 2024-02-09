@@ -1,5 +1,6 @@
 package com.inventory.producer.controller;
 
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -60,10 +61,6 @@ public class ItemEventsControllerINT {
 
 	@BeforeEach
 	void initTest() throws IOException {
-		// ProcessBuilder pb = new ProcessBuilder();
-		// pb.command("chmod 777
-		// /Users/craps/git/lets-play/item-inventory-producer/src/int/kafka-logs");
-
 		Map<String, Object> kafkaConfigs = new HashMap<>(
 				KafkaTestUtils.consumerProps("group1", "true", embeddedKafkaBroker));
 		kafkaConfigs.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "latest");

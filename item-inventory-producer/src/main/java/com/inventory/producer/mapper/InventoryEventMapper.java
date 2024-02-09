@@ -30,7 +30,7 @@ public class InventoryEventMapper {
 		return new ProducerRecord<String, String>(topicName, null, key, value, buildKafkaHeaders());
 	}
 
-	public static Iterable<Header> buildKafkaHeaders() {
+	public static List<Header> buildKafkaHeaders() {
 
 		return List.of(new RecordHeader("generic-header", "happyCoding".getBytes()),
 				new RecordHeader("dummy-header", "kafkaRocks".getBytes()));

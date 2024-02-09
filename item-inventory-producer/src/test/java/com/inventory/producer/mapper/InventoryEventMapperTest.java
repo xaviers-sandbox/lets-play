@@ -65,7 +65,6 @@ public class InventoryEventMapperTest {
 
 		String inventoryEventRecordStr = "{\"eventId\":\"unit-test-event-id\",\"eventType\":\"UPDATE\",\"item\":{\"itemId\":\"r6t9e-3944-vo41d-3521\",\"name\":\"Gorgeous Rubber Gloves\",\"price\":54.29,\"quantity\":6}}";
 
-
 		headerIterableMock = List.of(new RecordHeader("test-header", "producerHeader".getBytes()));
 
 		inventoryEventMapperMock.when(
@@ -90,7 +89,6 @@ public class InventoryEventMapperTest {
 			assertEquals("producerHeader".getBytes().length, header.value().length);
 		});
 		
-
 		inventoryEventMapperMock.verify(
 				() -> InventoryEventMapper.buildProducerRecord(any(InventoryEventRecord.class), any(String.class)));
 
@@ -105,7 +103,7 @@ public class InventoryEventMapperTest {
 
 		inventoryEventMapperMock.when(() -> InventoryEventMapper.buildKafkaHeaders()).thenCallRealMethod();
 
-		List<Header> headersList = (List<Header>)InventoryEventMapper
+		List<Header> headersList = InventoryEventMapper
 				.buildKafkaHeaders();
 
 		assertNotNull(headersList);
