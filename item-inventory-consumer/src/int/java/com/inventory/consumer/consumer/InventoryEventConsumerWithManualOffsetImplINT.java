@@ -30,11 +30,11 @@ import org.springframework.kafka.test.utils.ContainerTestUtils;
 import org.springframework.test.context.TestPropertySource;
 
 import com.inventory.consumer.entity.InventoryEvent;
-import com.inventory.consumer.records.InventoryEventRecord;
 import com.inventory.consumer.repo.InventoryEventRepo;
 import com.inventory.consumer.service.impl.InventoryEventServiceImpl;
-import com.inventory.consumer.utils.InventoryConsumerIntUtils;
 import com.inventory.producer.enums.InventoryEventType;
+import com.inventory.producer.model.record.InventoryEventRecord;
+import com.item.inventory.test.utils.ItemInventoryTestUtils;
 import com.sandbox.util.SandboxUtils;
 
 import jakarta.transaction.Transactional;
@@ -96,7 +96,6 @@ public class InventoryEventConsumerWithManualOffsetImplINT {
 	@Transactional
 	void deleteInventoryEventById() {
 		inventoryEventRepo.deleteById("id_is_a_string_now");
-
 	}
 
 	@SuppressWarnings("unchecked")
@@ -105,7 +104,7 @@ public class InventoryEventConsumerWithManualOffsetImplINT {
 	void addNewInventoryItemEvent_test() throws InterruptedException, ExecutionException {
 		log.debug("addNewInventoryItemEvent_test");
 
-		InventoryEventRecord inventoryEventRecord = InventoryConsumerIntUtils.buildMockInventoryEventRecord();
+		InventoryEventRecord inventoryEventRecord = ItemInventoryTestUtils.buildMockInventoryEventRecord();
 
 		SandboxUtils.prettyPrintObjectToJson(inventoryEventRecord);
 
@@ -143,7 +142,7 @@ public class InventoryEventConsumerWithManualOffsetImplINT {
 	@RepeatedTest(3)
 	void updateInventoryItemEvent_test() throws InterruptedException, ExecutionException {
 		log.debug("updateInventoryItemEvent_test");
-		InventoryEventRecord inventoryEventRecordMock = InventoryConsumerIntUtils.buildMockInventoryEventRecord();
+		InventoryEventRecord inventoryEventRecordMock = ItemInventoryTestUtils.buildMockInventoryEventRecord();
 
 		SandboxUtils.prettyPrintObjectToJson(inventoryEventRecordMock);
 
@@ -200,6 +199,29 @@ public class InventoryEventConsumerWithManualOffsetImplINT {
 			assertNotNull(origInventoryEvent.getKafkaDetails().getTopicName());
 			assertEquals(updatedInventoryEvent.getKafkaDetails().getTopicName(),
 					origInventoryEvent.getKafkaDetails().getTopicName());
+		});
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Transactional
+	@RepeatedTest(1)
+	void updateInventoryItemEvent_null_eventID_update_test() throws InterruptedException, ExecutionException {
+		
+		log.debug("updateInventoryItemEvent_null_eventID_update_test");
+		
+		String newItemStr = "{\"eventId\":\"null\",\"eventType\":\"UPDATE\",\"item\":{\"itemId\":\"r6t9e-3944-vo41d-3521\",\"name\":\"Gorgeous Rubber Gloves\",\"price\":54.29,\"quantity\":6}}";
+		
+		System.out.println(newItemStr);
+		
+		CompletableFuture<SendResult<String, String>> sendResult = kafkaTemplate.sendDefault(newItemStr);
+
+		sendResult.whenComplete((result, ex) -> {
+			
+			if (ObjectUtils.isNotEmpty(ex))
+				fail("updateInventoryItemEvent_test Failed - message=" + ex.getLocalizedMessage());
+				
+			verify(inventoryEventConsumerSpy).onMessage(any(ConsumerRecord.class), any(Acknowledgment.class));
+			verify(InventoryEventServiceImplSpy).processConsumerRecord(any());
 		});
 	}
 }

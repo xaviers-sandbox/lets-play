@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
 import org.springframework.kafka.core.ConsumerFactory;
 import org.springframework.kafka.listener.ContainerProperties;
+import org.springframework.kafka.listener.DefaultErrorHandler;
 
 @Configuration
 public class KafkaConfigs {
@@ -24,6 +25,11 @@ public class KafkaConfigs {
 		this.partitions = partitions;
 		this.replicas = replicas;
 	}
+	
+//	public DefaultErrorHandler errorHandler() {
+//		String fbo = new FixedBackOff(1000L, 2);
+//		return new DefaultErrorHandler();
+//	}
 
 	//manually manage the offset
 	@Bean

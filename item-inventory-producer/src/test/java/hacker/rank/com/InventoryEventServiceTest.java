@@ -23,12 +23,12 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import com.inventory.producer.model.InventoryEventDTO;
+import com.inventory.producer.model.record.InventoryEventRecord;
 import com.inventory.producer.model.response.InventoryEventDTOResponse;
 import com.inventory.producer.model.response.ResponseDTO;
 import com.inventory.producer.producer.InventoryEventProducer;
-import com.inventory.producer.record.InventoryEventRecord;
 import com.inventory.producer.service.impl.InventoryEventServiceImpl;
-import com.inventory.producer.util.InventoryEventUtils;
+import com.item.inventory.test.utils.ItemInventoryTestUtils;
 
 @ActiveProfiles("test")
 public class InventoryEventServiceTest {
@@ -53,12 +53,12 @@ public class InventoryEventServiceTest {
 	void postItemEventsTest() {
 		System.out.println("\n\npostItemEventsTest");
 		
-		List<InventoryEventRecord> inventoryEventListMock = InventoryEventUtils
+		List<InventoryEventRecord> inventoryEventListMock = ItemInventoryTestUtils
 				.generateInventoryEventRecordList(TEST_LIST_SIZE);
 
-		MockedStatic<InventoryEventUtils> inventoryProducerUtilsMock = Mockito.mockStatic(InventoryEventUtils.class);
+		MockedStatic<ItemInventoryTestUtils> itemInventoryTestUtils = Mockito.mockStatic(ItemInventoryTestUtils.class);
 
-		inventoryProducerUtilsMock.when(() -> InventoryEventUtils.generateInventoryEventRecordList(any(Integer.class)))
+		itemInventoryTestUtils.when(() -> ItemInventoryTestUtils.generateInventoryEventRecordList(any(Integer.class)))
 				.thenReturn(inventoryEventListMock);
 
 		ProducerRecord<String, String> producerRecordMock = any();

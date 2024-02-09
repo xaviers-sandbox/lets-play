@@ -11,12 +11,12 @@ import org.springframework.stereotype.Service;
 
 import com.inventory.producer.mapper.InventoryEventMapper;
 import com.inventory.producer.model.InventoryEventDTO;
+import com.inventory.producer.model.record.InventoryEventRecord;
 import com.inventory.producer.model.request.InventoryEventDTORequest;
 import com.inventory.producer.model.response.ResponseDTO;
 import com.inventory.producer.producer.InventoryEventProducer;
-import com.inventory.producer.record.InventoryEventRecord;
 import com.inventory.producer.service.InventoryEventService;
-import com.inventory.producer.util.InventoryEventUtils;
+import com.item.inventory.test.utils.ItemInventoryTestUtils;
 import com.sandbox.util.SandboxUtils;
 
 @Service
@@ -33,7 +33,7 @@ public class InventoryEventServiceImpl implements InventoryEventService {
 
 	@Override
 	public ResponseEntity<ResponseDTO> addNewMockItems(Integer size) {
-		List<InventoryEventRecord> inventoryEventRecordList = InventoryEventUtils.generateInventoryEventRecordList(size);
+		List<InventoryEventRecord> inventoryEventRecordList = ItemInventoryTestUtils.generateInventoryEventRecordList(size);
 
 		inventoryEventRecordList.forEach(inventoryEventRecord -> {
 			inventoryEventProducer.sendEventToTopicAsyncWithProducerRecord(

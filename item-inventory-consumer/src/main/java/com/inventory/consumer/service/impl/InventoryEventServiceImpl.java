@@ -30,12 +30,13 @@ public class InventoryEventServiceImpl implements InventoryEventService {
 		SandboxUtils.prettyPrintObjectToJson(consumersInventoryEvent);
 
 		InventoryEvent savedResponse = new InventoryEvent();
+		
 		if (consumersInventoryEvent.getEventType().toString().equalsIgnoreCase("new")) {
-			
+
 			savedResponse = saveInventoryEvent(consumersInventoryEvent);
 		
 		} else if (consumersInventoryEvent.getEventType().toString().equalsIgnoreCase("update")) {
-			
+
 			savedResponse = processUpdateConsumerRecord(consumersInventoryEvent);
 			
 			if(ObjectUtils.isEmpty(savedResponse))
@@ -54,6 +55,7 @@ public class InventoryEventServiceImpl implements InventoryEventService {
 
 	@Transactional
 	public InventoryEvent processUpdateConsumerRecord(InventoryEvent consumersInventoryEvent) {
+
 		return inventoryEventRepo.findById(consumersInventoryEvent.getEventId())
 				.filter(ObjectUtils::isNotEmpty)
 				.map(origInventoryEvent -> {
@@ -67,6 +69,7 @@ public class InventoryEventServiceImpl implements InventoryEventService {
 
 	@Transactional
 	public InventoryEvent saveInventoryEvent(InventoryEvent consumersInventoryEvent) {
+		
 		log.debug("saveInventoryEvent - Persisting Inventory Event To DB consumersInventoryEvent={}",
 				consumersInventoryEvent);
 	
@@ -75,6 +78,7 @@ public class InventoryEventServiceImpl implements InventoryEventService {
 
 	@Transactional
 	public void deleteInventoryEventById(String id) {
+
 		log.debug("deleteInventoryEvent - Deleting Inventory Event from DB by ID id={}", id);
 		
 		inventoryEventRepo.deleteById(id);

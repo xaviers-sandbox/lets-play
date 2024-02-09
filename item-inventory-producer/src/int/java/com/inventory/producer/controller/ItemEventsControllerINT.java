@@ -29,8 +29,8 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
 import com.inventory.producer.model.InventoryEventDTO;
+import com.inventory.producer.model.record.InventoryEventRecord;
 import com.inventory.producer.model.response.InventoryEventDTOResponse;
-import com.inventory.producer.record.InventoryEventRecord;
 import com.sandbox.util.SandboxUtils;
 
 import lombok.extern.slf4j.Slf4j;
