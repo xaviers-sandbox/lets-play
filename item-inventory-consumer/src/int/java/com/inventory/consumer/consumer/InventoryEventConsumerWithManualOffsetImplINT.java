@@ -96,7 +96,6 @@ public class InventoryEventConsumerWithManualOffsetImplINT {
 	@Transactional
 	void deleteInventoryEventById() {
 		inventoryEventRepo.deleteById("id_is_a_string_now");
-
 	}
 
 	@SuppressWarnings("unchecked")
@@ -200,6 +199,29 @@ public class InventoryEventConsumerWithManualOffsetImplINT {
 			assertNotNull(origInventoryEvent.getKafkaDetails().getTopicName());
 			assertEquals(updatedInventoryEvent.getKafkaDetails().getTopicName(),
 					origInventoryEvent.getKafkaDetails().getTopicName());
+		});
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Transactional
+	@RepeatedTest(1)
+	void updateInventoryItemEvent_null_eventID_update_test() throws InterruptedException, ExecutionException {
+		
+		log.debug("updateInventoryItemEvent_null_eventID_update_test");
+		
+		String newItemStr = "{\"eventId\":\"null\",\"eventType\":\"UPDATE\",\"item\":{\"itemId\":\"r6t9e-3944-vo41d-3521\",\"name\":\"Gorgeous Rubber Gloves\",\"price\":54.29,\"quantity\":6}}";
+		
+		System.out.println(newItemStr);
+		
+		CompletableFuture<SendResult<String, String>> sendResult = kafkaTemplate.sendDefault(newItemStr);
+
+		sendResult.whenComplete((result, ex) -> {
+			
+			if (ObjectUtils.isNotEmpty(ex))
+				fail("updateInventoryItemEvent_test Failed - message=" + ex.getLocalizedMessage());
+				
+			verify(inventoryEventConsumerSpy).onMessage(any(ConsumerRecord.class), any(Acknowledgment.class));
+			verify(InventoryEventServiceImplSpy).processConsumerRecord(any());
 		});
 	}
 }
