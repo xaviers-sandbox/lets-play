@@ -137,7 +137,6 @@ public class InventoryEventMapperTest {
 
 	@Test
 	void updateOrigItemEventWithUpdatedItemEvent() {
-		
 		inventoryEventMapperMock.when(() -> InventoryEventMapper
 				.updateOrigItemEventWithUpdatedItemEvent(any(InventoryEvent.class), any(InventoryEvent.class)))
 				.thenCallRealMethod();
@@ -146,7 +145,6 @@ public class InventoryEventMapperTest {
 		updatedItemMock.setPrice(9876.00);
 		updatedItemMock.setQuantity(5432);
 
-		
 		updatedKafkaDetailsMock.setTopicName("updatedKafkaTopicName");
 		updatedKafkaDetailsMock.setPartition(5555);
 		updatedKafkaDetailsMock.setOffset(4444L);

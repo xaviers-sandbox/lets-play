@@ -21,16 +21,16 @@ import com.inventory.consumer.service.InventoryEventService;
 public class InventoryEventConsumerWithManualOffsetImplTest {
 
 	@InjectMocks
-	private InventoryEventConsumerWithManualOffsetImpl inventoryEventConsumerWithManualOffsetImpl;
+	private InventoryEventConsumerWithManualOffsetImpl inventoryEventConsumerWithManualOffsetImplMock;
 	
 	@Mock
-	private ConsumerRecord<String, String> consumerRecord;
+	private ConsumerRecord<String, String> consumerRecordMock;
 	
 	@Mock
-	private Acknowledgment acknowledgment;
+	private Acknowledgment acknowledgmentMock;
 
 	@Mock
-	private InventoryEventService inventoryEventService;
+	private InventoryEventService inventoryEventServiceMock;
 	
 	@BeforeEach
 	public void setup() {
@@ -40,12 +40,12 @@ public class InventoryEventConsumerWithManualOffsetImplTest {
 	@SuppressWarnings({ "unchecked"})
 	@Test
 	void onMessage_test() {
-		doNothing().when(acknowledgment).acknowledge();
-		doNothing().when(inventoryEventService).processConsumerRecord((ConsumerRecord<String, String>)any());
+		doNothing().when(acknowledgmentMock).acknowledge();
+		doNothing().when(inventoryEventServiceMock).processConsumerRecord((ConsumerRecord<String, String>)any());
 		
-		inventoryEventConsumerWithManualOffsetImpl.onMessage(consumerRecord, acknowledgment);
+		inventoryEventConsumerWithManualOffsetImplMock.onMessage(consumerRecordMock, acknowledgmentMock);
 		
-		verify(acknowledgment).acknowledge();
-		verify(inventoryEventService).processConsumerRecord((ConsumerRecord<String, String>)any());
+		verify(acknowledgmentMock).acknowledge();
+		verify(inventoryEventServiceMock).processConsumerRecord((ConsumerRecord<String, String>)any());
 	}
 }
