@@ -31,7 +31,7 @@ public class InventoryEventController {
 	@PostMapping("/init-test-data/{size}")
 	public ResponseEntity<ResponseDTO> addNewMockItems(@PathVariable String size) {
 
-		log.debug("postInventories size={}", size);
+		log.debug("addNewMockItems size={}", size);
 
 		if (!StringUtils.isNumeric(size))
 			return InventoryEventMapper.buildBadPathVariableResponse(size);
