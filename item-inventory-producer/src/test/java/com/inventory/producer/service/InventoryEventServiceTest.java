@@ -16,7 +16,6 @@ import org.mockito.Mock;
 import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.ResponseEntity;
 import org.springframework.kafka.support.SendResult;
 import org.springframework.test.context.ActiveProfiles;
@@ -40,7 +39,7 @@ public class InventoryEventServiceTest {
 	@Mock
 	private InventoryEventProducer inventoryEventsProducerMock;
 
-	@MockBean
+	@Mock
 	private CompletableFuture<SendResult<String, String>> kafkaResponseMock;
 	
 	@BeforeEach
