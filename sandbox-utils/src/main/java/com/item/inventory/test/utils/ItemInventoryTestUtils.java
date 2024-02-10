@@ -1,5 +1,7 @@
 package com.item.inventory.test.utils;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -13,6 +15,7 @@ import com.inventory.producer.model.record.InventoryEventRecord;
 import com.inventory.producer.model.record.ItemRecord;
 import com.inventory.producer.model.request.InventoryEventDTORequest;
 import com.inventory.producer.model.request.ItemDTORequest;
+import com.inventory.producer.model.response.InventoryEventDTOResponse;
 
 import net.datafaker.Faker;
 
@@ -20,7 +23,7 @@ public class ItemInventoryTestUtils {
 	private static Faker faker;
 
 	public static Faker getFaker() {
-		
+
 		if (ObjectUtils.isEmpty(faker)) {
 			faker = new Faker();
 		}
@@ -94,6 +97,17 @@ public class ItemInventoryTestUtils {
 				.name(getRandomName())
 				.price(getRandomPrice())
 				.quantity(getRandomQuantity())
+				.build();
+	}
+
+	public static InventoryEventDTOResponse buildMockInventoryEventDTOResponse() {
+
+		List<InventoryEventDTO> inventoryEventDTOList = new ArrayList<>(
+				Collections.singletonList(buildMockInventoryEventDTO()));
+
+		return InventoryEventDTOResponse.builder()
+				.resultSetSize(inventoryEventDTOList.size())
+				.itemInventoryDTOList(inventoryEventDTOList)
 				.build();
 	}
 
