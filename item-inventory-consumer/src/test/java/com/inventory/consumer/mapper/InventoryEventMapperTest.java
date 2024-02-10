@@ -3,6 +3,7 @@ package com.inventory.consumer.mapper;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -79,7 +80,7 @@ public class InventoryEventMapperTest {
 
 		when(consumerRecordMock.value()).thenReturn("consumerRecordString");
 
-		sandboxUtilsMock.when(() -> SandboxUtils.mapStringToObject(any(String.class), any(Class.class)))
+		sandboxUtilsMock.when(() -> SandboxUtils.mapStringToObject(anyString(), any(Class.class)))
 				.thenReturn(origInventoryEventMock);
 
 		inventoryEventMapperMock.when(() -> InventoryEventMapper
@@ -96,7 +97,7 @@ public class InventoryEventMapperTest {
 
 		verify(consumerRecordMock).value();
 		
-		sandboxUtilsMock.verify(() -> SandboxUtils.mapStringToObject(any(String.class), any(Class.class)));
+		sandboxUtilsMock.verify(() -> SandboxUtils.mapStringToObject(anyString(), any(Class.class)));
 		
 		inventoryEventMapperMock.verify(() -> InventoryEventMapper
 				.mapKafkaDetailsToInventoryEvent(any(InventoryEvent.class), (ConsumerRecord<String, String>)any()));

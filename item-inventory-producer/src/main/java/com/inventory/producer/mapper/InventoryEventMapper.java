@@ -16,6 +16,7 @@ import com.inventory.producer.model.ItemDTO;
 import com.inventory.producer.model.record.InventoryEventRecord;
 import com.inventory.producer.model.record.ItemRecord;
 import com.inventory.producer.model.request.InventoryEventDTORequest;
+import com.inventory.producer.model.request.ItemDTORequest;
 import com.inventory.producer.model.response.ErrorDTOResponse;
 import com.inventory.producer.model.response.InventoryEventDTOResponse;
 import com.inventory.producer.model.response.ResponseDTO;
@@ -23,7 +24,8 @@ import com.item.inventory.test.utils.ItemInventoryTestUtils;
 import com.sandbox.util.SandboxUtils;
 
 public class InventoryEventMapper {
-	public static ProducerRecord<String, String> buildProducerRecord(InventoryEventRecord inventoryEventRecord, String topicName) {
+	public static ProducerRecord<String, String> buildProducerRecord(InventoryEventRecord inventoryEventRecord,
+			String topicName) {
 		String key = inventoryEventRecord.eventId();
 		String value = SandboxUtils.convertObjectToString(inventoryEventRecord);
 
@@ -42,7 +44,6 @@ public class InventoryEventMapper {
 		InventoryEventType inventoryEventType = InventoryEventType.NEW;
 
 		int randonNum = new Random().nextInt(100000, 10000000);
-		
 
 		if (ObjectUtils.isEmpty(inventoryEventDTORequest.getEventType())) {
 			inventoryEventType = (randonNum % 2 == 0) ? InventoryEventType.NEW : InventoryEventType.UPDATE;
@@ -55,7 +56,8 @@ public class InventoryEventMapper {
 				.build();
 	}
 
-	public static InventoryEventDTO mapInventoryEventRecordToInventoryEventDTO(InventoryEventRecord inventoryEventRecord) {
+	public static InventoryEventDTO mapInventoryEventRecordToInventoryEventDTO(
+			InventoryEventRecord inventoryEventRecord) {
 
 		return InventoryEventDTO.builder()
 				.eventId(inventoryEventRecord.eventId())
@@ -67,17 +69,26 @@ public class InventoryEventMapper {
 	public static InventoryEventRecord mapUpdatedInventoryEventDTORequestToInventoryEventRecord(String eventId,
 			InventoryEventDTORequest updateInventoryEventDTORequest) {
 
-		ItemRecord updatedItem = ItemRecord.builder()
-				.itemId(updateInventoryEventDTORequest.getItem().getItemId())
-				.name(updateInventoryEventDTORequest.getItem().getName())
-				.price(updateInventoryEventDTORequest.getItem().getPrice())
-				.quantity(updateInventoryEventDTORequest.getItem().getQuantity())
+		return InventoryEventRecord.builder()
+				.eventId(eventId)
+				.eventType(InventoryEventType.UPDATE)
+				.item(mapItemRecordRequestToUpdatedItem(updateInventoryEventDTORequest.getItem()))
 				.build();
-
-		return InventoryEventRecord.builder().eventId(eventId).eventType(InventoryEventType.UPDATE).item(updatedItem).build();
 	}
 
-	public static ItemRecord mapInventoryEventDTORequestToItemRecord(InventoryEventDTORequest inventoryEventDTORequest) {
+	public static ItemRecord mapItemRecordRequestToUpdatedItem(
+			ItemDTORequest itemDTORequest) {
+		
+		return ItemRecord.builder()
+				.itemId(itemDTORequest.getItemId())
+				.name(itemDTORequest.getName())
+				.price(itemDTORequest.getPrice())
+				.quantity(itemDTORequest.getQuantity())
+				.build();
+	}
+
+	public static ItemRecord mapInventoryEventDTORequestToItemRecord(
+			InventoryEventDTORequest inventoryEventDTORequest) {
 
 		return ObjectUtils.isEmpty(inventoryEventDTORequest) ? ItemRecord.builder().build()
 				: ItemRecord.builder()

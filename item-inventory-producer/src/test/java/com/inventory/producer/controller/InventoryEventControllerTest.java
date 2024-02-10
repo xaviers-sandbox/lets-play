@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -335,7 +336,7 @@ public class InventoryEventControllerTest {
 		ResponseDTO responseDTO = InventoryEventMapper
 				.buildResponseDTO(Collections.singletonList(inventoryEventDTOMock));
 
-		when(inventoryEventService.updateItemInventory(any(String.class), any(InventoryEventDTORequest.class)))
+		when(inventoryEventService.updateItemInventory(anyString(), any(InventoryEventDTORequest.class)))
 				.thenReturn(ResponseEntity.status(HttpStatus.CREATED).body(responseDTO));
 
 		SandboxUtils.prettyPrintObjectToJson(inventoryEventDTORequest);
@@ -372,7 +373,7 @@ public class InventoryEventControllerTest {
 				})
 				.value(SandboxUtils::prettyPrintObjectToJson);
 
-		verify(inventoryEventService).updateItemInventory(any(String.class), any(InventoryEventDTORequest.class));
+		verify(inventoryEventService).updateItemInventory(anyString(), any(InventoryEventDTORequest.class));
 	}
 
 	@Test

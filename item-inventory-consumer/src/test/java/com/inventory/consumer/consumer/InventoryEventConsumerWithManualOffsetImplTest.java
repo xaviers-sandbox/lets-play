@@ -1,4 +1,4 @@
-package com.inventory.consumer;
+package com.inventory.consumer.consumer;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
@@ -13,9 +13,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.kafka.support.Acknowledgment;
 import org.springframework.test.context.ActiveProfiles;
 
-import com.inventory.consumer.consumer.InventoryEventConsumerWithManualOffsetImpl;
 import com.inventory.consumer.service.InventoryEventService;
-
 
 @ActiveProfiles("test")
 public class InventoryEventConsumerWithManualOffsetImplTest {
