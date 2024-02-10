@@ -3,6 +3,7 @@ package com.inventory.consumer.mapper;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -24,7 +25,10 @@ import com.inventory.consumer.entity.KafkaDetails;
 import com.inventory.producer.enums.InventoryEventType;
 import com.sandbox.util.SandboxUtils;
 
+import lombok.extern.slf4j.Slf4j;
+
 @ActiveProfiles("test")
+@Slf4j
 public class InventoryEventMapperTest {
 	private MockedStatic<InventoryEventMapper> inventoryEventMapperMock;
 
@@ -70,12 +74,13 @@ public class InventoryEventMapperTest {
 	@SuppressWarnings("unchecked")
 	@Test
 	void buildInventoryEvent_test() {
+		log.debug("buildInventoryEvent_test");
 
 		origInventoryEventMock.setEventId("testingMapper1234");
 
 		when(consumerRecordMock.value()).thenReturn("consumerRecordString");
 
-		sandboxUtilsMock.when(() -> SandboxUtils.mapStringToObject(any(String.class), any(Class.class)))
+		sandboxUtilsMock.when(() -> SandboxUtils.mapStringToObject(anyString(), any(Class.class)))
 				.thenReturn(origInventoryEventMock);
 
 		inventoryEventMapperMock.when(() -> InventoryEventMapper
@@ -91,7 +96,8 @@ public class InventoryEventMapperTest {
 		assertEquals("testingMapper1234", inventoryEvent.getEventId());
 
 		verify(consumerRecordMock).value();
-		sandboxUtilsMock.verify(() -> SandboxUtils.mapStringToObject(any(String.class), any(Class.class)));
+		
+		sandboxUtilsMock.verify(() -> SandboxUtils.mapStringToObject(anyString(), any(Class.class)));
 		
 		inventoryEventMapperMock.verify(() -> InventoryEventMapper
 				.mapKafkaDetailsToInventoryEvent(any(InventoryEvent.class), (ConsumerRecord<String, String>)any()));

@@ -3,6 +3,7 @@ package com.inventory.consumer.service;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.times;
@@ -103,7 +104,6 @@ public class InventoryEventServiceTest {
 
 		inventoryEventMapperMock
 				.verify(() -> InventoryEventMapper.buildInventoryEvent((ConsumerRecord<String, String>) any()));
-
 	}
 
 	@Test
@@ -124,14 +124,13 @@ public class InventoryEventServiceTest {
 
 		inventoryEventMapperMock
 				.verify(() -> InventoryEventMapper.buildInventoryEvent((ConsumerRecord<String, String>) any()));
-
 	}
 
 	@Test
 	void processUpdateConsumerRecord() {
 
 		when(inventoryEventMock.getEventId()).thenReturn("testEventIdString");
-		when(inventoryEventRepoMock.findById(any(String.class))).thenReturn(Optional.of(inventoryEventMock));
+		when(inventoryEventRepoMock.findById(anyString())).thenReturn(Optional.of(inventoryEventMock));
 
 		inventoryEventMapperMock.when(() -> InventoryEventMapper
 				.updateOrigItemEventWithUpdatedItemEvent(any(InventoryEvent.class), any(InventoryEvent.class)))
@@ -142,7 +141,7 @@ public class InventoryEventServiceTest {
 		inventoryEventServiceImplMock.processUpdateConsumerRecord(inventoryEventMock);
 
 		verify(inventoryEventMock).getEventId();
-		verify(inventoryEventRepoMock).findById(any(String.class));
+		verify(inventoryEventRepoMock).findById(anyString());
 
 		inventoryEventMapperMock.verify(() -> InventoryEventMapper
 				.updateOrigItemEventWithUpdatedItemEvent(any(InventoryEvent.class), any(InventoryEvent.class)));
@@ -163,16 +162,15 @@ public class InventoryEventServiceTest {
 		assertEquals("testEventIdString", inventoryEvent.getEventId());
 
 		verify(inventoryEventRepoMock).save(any(InventoryEvent.class));
-
 	}
 
 	@Test
 	public void deleteInventoryEventById() {
 
-		doNothing().when(inventoryEventRepoMock).deleteById(any(String.class));
+		doNothing().when(inventoryEventRepoMock).deleteById(anyString());
 
 		inventoryEventServiceImplMock.deleteInventoryEventById("someTestString");
 
-		verify(inventoryEventRepoMock).deleteById(any(String.class));
+		verify(inventoryEventRepoMock).deleteById(anyString());
 	}
 }

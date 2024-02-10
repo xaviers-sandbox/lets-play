@@ -43,7 +43,7 @@ public class InventoryEventServiceImpl implements InventoryEventService {
 		List<InventoryEventDTO> inventoryEventDTOList = inventoryEventRecordList.stream()
 				.map(InventoryEventMapper::mapInventoryEventRecordToInventoryEventDTO)
 				.collect(Collectors.toList());
-
+		
 		ResponseDTO responseDTO = InventoryEventMapper.buildResponseDTO(inventoryEventDTOList);
 
 		return ResponseEntity.status(HttpStatus.CREATED).body(responseDTO);
@@ -86,6 +86,5 @@ public class InventoryEventServiceImpl implements InventoryEventService {
 		ResponseDTO responseDTO = InventoryEventMapper.buildResponseDTO(Arrays.asList(updatedInventoryEventDTO));
 
 		return ResponseEntity.status(HttpStatus.CREATED).body(responseDTO);
-
 	}
 }
