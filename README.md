@@ -55,6 +55,9 @@ Lastly, there are two applications that provide shared models and common utiliti
 - Exception Handling, Retries
 - On-demand Cache and Database Management Operations
 
+# High Level Diagram of the Ecosystem
+<img width="957" alt="croppedDiagram" src="https://github.com/xaviers-sandbox/lets-play/assets/155487917/803729f3-d919-4f87-940f-fb5737df60f9">
+
 # Swagger for Item Inventory Service
 <img width="1440" alt="Screen Shot 2024-01-25 at 12 13 46 AM" src="https://github.com/xaviers-sandbox/lets-play/assets/155487917/a93e876b-516c-4fc9-9ddb-df1176cf75d1">
 
