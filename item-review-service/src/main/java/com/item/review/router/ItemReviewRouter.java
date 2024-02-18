@@ -62,6 +62,6 @@ public class ItemReviewRouter {
 					.PUT("/{id}", (serverRequest -> itemReviewHandler.handleUpdateItemReviewById(serverRequest)))
 					.DELETE("/delete/all", (serverRequest -> itemReviewHandler.handleDeleteAllItemReviews()))
 					.DELETE("/delete/{id}", (serverRequest -> itemReviewHandler.handleDeleteItemReviewById(serverRequest)));
-		}).GET("hello", (serverRequest -> ServerResponse.ok().bodyValue("testingTesting123"))).build();
+		}).GET("hello", (serverRequest -> ServerResponse.ok().bodyValue("hello-world-from-review"))).build();
 	}
 }
