@@ -36,7 +36,7 @@ Lastly, there are two applications that provide shared models and common utiliti
 ### Environment and Tools Used:
 - Intellij : My IDE
 - Mac OS : My OS
-- Docker : My Kafka Container
+- Docker : Lightweight Containers for Unblocked Testing
 - Offset Explorer 2 : Topic Debugging Tool
 - MySql Workbench : MySql Database UI Tool
 - Postman : API Testing Tool
@@ -46,11 +46,11 @@ Lastly, there are two applications that provide shared models and common utiliti
 - Integration Testing : WebClientTest, Reactor Test, Embedded MongoDB, Embedded Kafka, Wiremock, Datafaker
 
 ### Robust Software Implementations
-- API Security
+- API Security : Secure Endpoints with JWTs
 - Abstraction, Inheritance, Polymorphism 
 - Validation : Bean, Entity, RequestDTO, and ResponseDTO
-- Logging
-- Caching
+- Logging : Debugging
+- Caching : Performance Speed. Less DB workloads
 - Unit Testing and Integration Testing
 - Exception Handling, Retries
 - On-demand Cache and Database Management Operations
