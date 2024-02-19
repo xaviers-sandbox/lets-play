@@ -37,9 +37,9 @@ public class ItemInventoryController {
 		this.itemInventoryFeignProxy = itemInventoryFeignProxy;
 	}
 	
-	@GetMapping("unsecure-world")
+	@GetMapping("hello")
 	public String helloWorldNoSecurity() {
-		return "Life without security";
+		return "hello-world-from-inventory";
 	}
 
 	@PostMapping("/app")

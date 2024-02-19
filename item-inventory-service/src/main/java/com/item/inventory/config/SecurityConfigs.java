@@ -10,7 +10,7 @@ import org.springframework.security.web.server.SecurityWebFilterChain;
 //@EnableWebFluxSecurity
 public class SecurityConfigs {
 
-	private static final String[] WHITE_LIST = { "/v1/item-inventories/unsecure-world", "/webjars", "/webjars/**",
+	private static final String[] WHITE_LIST = {"/v1/item-inventories/hello", "/v1/item-inventories/hello/**", "/webjars", "/webjars/**",
 			"/actuator", "/actuator/**", "/api-docs", "/api-docs/**", "/swagger-ui.html", "/swagger-ui.html/**",
 			"/swagger-ui/**" };
 
@@ -23,28 +23,28 @@ public class SecurityConfigs {
 	@Bean
 	SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity httpSecurity) {
 		// disable api security
-//			return httpSecurity
-//					.authorizeExchange((authorize) -> authorize.anyExchange().permitAll())
-//					//.authorizeExchange((authorize) -> authorize.pathMatchers("/**").permitAll())
-//					.csrf(csrf -> csrf.disable())
-//					.cors(cors -> cors.disable())
-//					.build();
+			return httpSecurity
+					.authorizeExchange((authorize) -> authorize.anyExchange().permitAll())
+					//.authorizeExchange((authorize) -> authorize.pathMatchers("/**").permitAll())
+					.csrf(csrf -> csrf.disable())
+					.cors(cors -> cors.disable())
+					.build();
 
 // enable security
-		return httpSecurity
-				.authorizeExchange((authorize) -> authorize.pathMatchers(WHITE_LIST)
-						.permitAll()
-						.pathMatchers(BLACK_LIST)
-						.hasAnyRole(ROLES_LIST)
-						.anyExchange()
-						.authenticated())
-				.csrf(csrf -> csrf.disable())
-				.cors(cors -> cors.disable())
-				.oauth2ResourceServer(oauth2ResourceServerCustomizer -> {
-					oauth2ResourceServerCustomizer.jwt(jwtCustomizer -> {
-						jwtCustomizer.jwtAuthenticationConverter(new RoleConverter());
-					});
-				})
-				.build();
+//		return httpSecurity
+//				.authorizeExchange((authorize) -> authorize.pathMatchers(WHITE_LIST)
+//						.permitAll()
+//						.pathMatchers(BLACK_LIST)
+//						.hasAnyRole(ROLES_LIST)
+//						.anyExchange()
+//						.authenticated())
+//				.csrf(csrf -> csrf.disable())
+//				.cors(cors -> cors.disable())
+//				.oauth2ResourceServer(oauth2ResourceServerCustomizer -> {
+//					oauth2ResourceServerCustomizer.jwt(jwtCustomizer -> {
+//						jwtCustomizer.jwtAuthenticationConverter(new RoleConverter());
+//					});
+//				})
+//				.build();
 	}
 }

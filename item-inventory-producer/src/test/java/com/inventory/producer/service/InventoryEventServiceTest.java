@@ -97,7 +97,7 @@ public class InventoryEventServiceTest {
 
 		inventoryEventMapperMock.verify(() -> InventoryEventMapper.buildResponseDTO(anyList()));
 
-		System.out.println("Successful postItemEventsTest");
+		System.out.println("Successful addNewMockItems_test");
 	}
 
 	@Test
@@ -162,9 +162,6 @@ public class InventoryEventServiceTest {
 		itemInventoryTestUtilsMock.verify(() -> ItemInventoryTestUtils.buildMockInventoryEventDTO(), times(2));
 
 		itemInventoryTestUtilsMock.verify(() -> ItemInventoryTestUtils.buildMockInventoryEventDTOResponse());
-
-		inventoryEventMapperMock.verify(() -> InventoryEventMapper
-				.mapInventoryEventDTORequestToInventoryEventRecord(any(InventoryEventDTORequest.class)));
 
 		inventoryEventMapperMock.verify(() -> InventoryEventMapper
 				.mapInventoryEventDTORequestToInventoryEventRecord(any(InventoryEventDTORequest.class)));

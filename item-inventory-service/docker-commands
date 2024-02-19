@@ -1,0 +1,28 @@
+cd /Users/craps/git/lets-play/item-inventory-service
+
+docker build -t item-inventory-image .
+
+docker network ls
+
+docker network create nat
+
+docker run --rm  --name docker-mysql -p 3306:3306 \
+--net nat -v /Users/craps/opt/docker-storage/mysql:/var/lib/mysql \
+-e MYSQL_ALLOW_EMPTY_PASSWORD=yes -d mysql 
+
+docker run --rm  --name docker-mongodb -p 27017:27017 \
+--net nat -v /Users/craps/opt/docker-storage/mongoDb:/data/db \
+-d mongo 		  the -v saves the DB data to the dir
+
+docker run --rm --name docker-redis -p 6379:6379 \
+--net nat -v /Users/craps/opt/docker-storage/redis:/data \
+-d redis
+
+docker run --rm --name docker-item-inventory -p 1111:1111 \
+--net nat -e SPRING_DATA_MONGODB_HOST=docker-mongodb \
+-e SPRING_DATA_REDIS_HOST=docker-redis -d item-inventory-image
+
+docker ps
+docker ps -a
+
+http://localhost:1111/v1/item-inventories/hello
