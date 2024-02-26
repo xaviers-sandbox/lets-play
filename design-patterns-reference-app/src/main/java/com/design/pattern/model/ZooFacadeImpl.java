@@ -11,7 +11,6 @@ public class ZooFacadeImpl implements Zoo {
 	List<AquaticMammal> aquaticMammalList;
 	List<LandMammal> landMammalList;
 	
-
 	@Override
 	public void displayTheZoosAquaticMammals() {
 		aquaticMammalList.forEach(System.out::println);
