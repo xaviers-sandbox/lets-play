@@ -5,6 +5,9 @@ import org.junit.jupiter.api.Test;
 import com.design.pattern.model.ClothesItemImpl;
 import com.design.pattern.model.ClothesSizeType;
 
+/*
+ * Creational pattern that creates new objects by copying an existing object.
+ */
 public class PrototypePatternDemo {
 
 	@Test

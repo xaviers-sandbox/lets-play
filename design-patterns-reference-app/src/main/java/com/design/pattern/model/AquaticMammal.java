@@ -5,7 +5,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @Data
-@EqualsAndHashCode(callSuper=false)
+@EqualsAndHashCode(callSuper = false)
 public class AquaticMammal extends Mammal {
 	private int numberOfFins;
 
@@ -15,8 +15,12 @@ public class AquaticMammal extends Mammal {
 		this.numberOfFins = numberOfFins;
 	}
 
+	public String swim() {
+		return "The " + getName() + " is swimming.";
+	}
+
 	@Override
 	public String toString() {
-		return "AquaticMammal [numberOfFins=" + numberOfFins + ", name=" + getName() + "]";
+		return "AquaticMammal [name=" + getName() + ", numberOfFins=" + numberOfFins + ", " + swim() + "]";
 	}
 }

@@ -7,7 +7,6 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper=false)
 public class LandMammal extends Mammal{
-
 	private int numberOfLegs;
 
 	@Builder
@@ -15,11 +14,13 @@ public class LandMammal extends Mammal{
 		super(name);
 		this.numberOfLegs = numberOfLegs;
 	}
+	
+	public String walk() {
+		return"The " + getName() + " is walking." ;
+	}
 
 	@Override
 	public String toString() {
-		return "LandMammal [numberOfLegs=" + numberOfLegs + ", name=" + getName() + "]";
+		return "LandMammal [name=" + getName() + ", numberOfLegs=" + numberOfLegs + ", " + walk() +"]";
 	}
-	
-	
 }
