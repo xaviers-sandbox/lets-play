@@ -23,18 +23,16 @@
 		<maven.test.skip>true</maven.test.skip>
 	</properties>
 	<dependencies>
-
+		<dependency>
+			<groupId>com.aws.lambda</groupId>
+			<artifactId>aws-lambda-app</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
 		<dependency>
 			<groupId>com.amazonaws</groupId>
 			<artifactId>aws-java-sdk-lambda</artifactId>
 			<version>1.12.661</version>
 		</dependency>
-
-		<!--	<dependency>
-			<groupId>com.aws.lambda</groupId>
-			<artifactId>aws-lambda</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency> -->
 		<dependency>
 			<groupId>com.amazonaws</groupId>
 			<artifactId>aws-lambda-java-core</artifactId>
@@ -57,7 +55,6 @@
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
-			<!--<version>3.14.0</version>-->
 		</dependency>
 		<dependency>
 			<groupId>net.datafaker</groupId>
